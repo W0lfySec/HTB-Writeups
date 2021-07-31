@@ -230,7 +230,7 @@ $ cat shell.ps1
 	# type user.txt
 	3e7b1..............
 
-------------------------------Privileges Escalation---------------------------------------
+## ------------------------------Privileges Escalation---------------------------------------
 
 Digging in our user(sql_svc), didnt find much, try 'dir /a' (show hidden) didnt work, entering powershell by writhing 'powershell' command
 
