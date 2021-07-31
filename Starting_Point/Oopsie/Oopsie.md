@@ -24,7 +24,7 @@
     Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
     Nmap done: 1 IP address (1 host up) scanned in 795.95 seconds
     
-// quick directory search with FeroxBuster reveals me 'upload' directory
+// quick directory search with FeroxBuster reveals me 'upload' directory, we will save that for later
 
     $ ./feroxbuster -u http://10.10.10.28/ -t 200
 
@@ -65,7 +65,7 @@
     
 // we found the admin mail - admin@megacorp.com
 
-// Nvigating to to http://10.10.10.28/ present me with some automobile site, searching in the page source reveals me some login directory
+// Navigating to to http://10.10.10.28/ present me with some automobile site, searching in the page source reveals me some login directory
 
 ![Image 1](https://github.com/W0lfySec/HTB/blob/main/Images/Oopsie/Screenshot_2021-07-31_09_50_13.png)
 
@@ -74,5 +74,20 @@
     # cat ConsoleHost_history.txt 
     net.exe use T: \\Archetype\backups /user:administrator MEGACORP_4dm1n!!
     
-// lets try them input them in the login page
+// Lets try input them in the login page
+// And it Works !!!
 
+![Image 2](https://github.com/W0lfySec/HTB/blob/main/Images/Oopsie/Screenshot_2021-07-31_10_45_27.png)
+
+// in the account directory(http://10.10.10.28/cdn-cgi/login/admin.php?content=accounts&id=1) we see
+Access ID | Name | Email
+----------|------|-------
+34322 | admin | admin@megacorp.com
+
+// When navigating to uploads (http://10.10.10.28/cdn-cgi/login/admin.php?content=uploads) we get error due privilleges
+
+    Repair Management System
+
+    This action require super admin rights.
+    
+// 
