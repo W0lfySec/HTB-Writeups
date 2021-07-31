@@ -23,7 +23,56 @@
 
     Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
     Nmap done: 1 IP address (1 host up) scanned in 795.95 seconds
+    
+// quick directory search with FeroxBuster reveals me 'upload' directory
+
+    $ ./feroxbuster -u http://10.10.10.28/ -t 200
+
+     ___  ___  __   __     __      __         __   ___
+    |__  |__  |__) |__) | /  `    /  \ \_/ | |  \ |__
+    |    |___ |  \ |  \ | \__,    \__/ / \ | |__/ |___
+    by Ben "epi" Risher 🤓                 ver: 2.3.1
+    ───────────────────────────┬──────────────────────
+     🎯  Target Url            │ http://10.10.10.28/
+     🚀  Threads               │ 200
+     📖  Wordlist              │ /usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt
+     👌  Status Codes          │ [200, 204, 301, 302, 307, 308, 401, 403, 405]
+     💥  Timeout (secs)        │ 7
+     🦡  User-Agent            │ feroxbuster/2.3.1
+     🔃  Recursion Depth       │ 4
+    ───────────────────────────┴──────────────────────
+     🏁  Press [ENTER] to use the Scan Cancel Menu™
+    ──────────────────────────────────────────────────
+    301        9l       28w      311c http://10.10.10.28/images
+    301        9l       28w      307c http://10.10.10.28/js
+    301        9l       28w      308c http://10.10.10.28/css
+    301        9l       28w      311c http://10.10.10.28/themes
+    301        9l       28w      312c http://10.10.10.28/uploads
+
+// since its a web server we can use 'curl' command to gain more information
+
+    $ curl http://10.10.10.28/
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    ...
+    <div class="col-6">
+    <p><i class="fa fa-phone" aria-hidden="true"></i> +44 (0)123 456 789</p>
+    <p><i class="fa fa-envelope" aria-hidden="true"></i> admin@megacorp.com</p>
+    </div>
+    ...
+    
+// we found the admin mail - admin@megacorp.com
 
 // Nvigating to to http://10.10.10.28/ present me with some automobile site, searching in the page source reveals me some login directory
 
 ![Image 1](https://github.com/W0lfySec/HTB/blob/main/Images/Oopsie/Screenshot_2021-07-31_09_50_13.png)
+
+// Since we have Administrative credentials that assosiate wit MegaCorp from last challenge(ArcheType) 
+
+    # cat ConsoleHost_history.txt 
+    net.exe use T: \\Archetype\backups /user:administrator MEGACORP_4dm1n!!
+    
+// lets try them input them in the login page
+
