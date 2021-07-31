@@ -67,8 +67,8 @@ $ nmap -sV -A -Pn 10.10.10.27 -p-
 	|_  start_date: N/A
 
 
-// We can see there is smb service open (usually ports 139 and 445)\n
-// When there is a smb service open usually the anonymous connection allowed by default\n
+// We can see there is smb service open (usually ports 139 and 445)/n
+// When there is a smb service open usually the anonymous connection allowed by default/n
 // we can check that with 'smbclient' command
 
 $ smbclient -N -L \\\\10.10.10.27\\
