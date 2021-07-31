@@ -86,4 +86,9 @@ Access ID | Name | Email
 
 // When navigating to uploads (http://10.10.10.28/cdn-cgi/login/admin.php?content=uploads) we get error due privilleges
 
-![Image 2](https://github.com/W0lfySec/HTB/blob/main/Images/Oopsie/Screenshot_2021-07-31_10_45_27.png)
+![Image 2](https://github.com/W0lfySec/HTB/blob/main/Images/Oopsie/Screenshot_2021-07-31_11_02_28.png)
+
+// it seems we need super admin privilleges to upload files.  we know from account page that our id is 1 (http://10.10.10.28/cdn-cgi/login/admin.php?content=accounts&id=1) and Access ID is 34322 , since we know we need super admin id we can Brute Force the id section using BurpSuite intruder
+ just get to account page and refresh using BurpSuite and then right click >> send to Intruder
+ 
+ ![Image 2](https://github.com/W0lfySec/HTB/blob/main/Images/Oopsie/Screenshot_2021-07-31_11_32_47.png)
