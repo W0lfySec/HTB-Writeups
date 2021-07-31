@@ -3,67 +3,67 @@
 ###### // We will start with nmap scan on all ports
 
 $ nmap -sV -A -Pn 10.10.10.27 -p-
-Nmap scan report for 10.10.10.27
-Host is up (0.26s latency).
-Not shown: 65523 closed ports
-PORT      STATE SERVICE      VERSION
-135/tcp   open  msrpc        Microsoft Windows RPC
-139/tcp   open  netbios-ssn  Microsoft Windows netbios-ssn
-445/tcp   open  microsoft-ds Windows Server 2019 Standard 17763 microsoft-ds
-1433/tcp  open  ms-sql-s     Microsoft SQL Server 2017 14.00.1000.00; RTM
-| ms-sql-ntlm-info: 
-|   Target_Name: ARCHETYPE
-|   NetBIOS_Domain_Name: ARCHETYPE
-|   NetBIOS_Computer_Name: ARCHETYPE
-|   DNS_Domain_Name: Archetype
-|   DNS_Computer_Name: Archetype
-|_  Product_Version: 10.0.17763
-| ssl-cert: Subject: commonName=SSL_Self_Signed_Fallback
-| Not valid before: 2021-06-09T04:29:24
-|_Not valid after:  2051-06-09T04:29:24
-|_ssl-date: 2021-06-09T05:08:13+00:00; +18m19s from scanner time.
-5985/tcp  open  http         Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
-|_http-server-header: Microsoft-HTTPAPI/2.0
-|_http-title: Not Found
-47001/tcp open  http         Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
-|_http-server-header: Microsoft-HTTPAPI/2.0
-|_http-title: Not Found
-49664/tcp open  msrpc        Microsoft Windows RPC
-49665/tcp open  msrpc        Microsoft Windows RPC
-49666/tcp open  msrpc        Microsoft Windows RPC
-49667/tcp open  msrpc        Microsoft Windows RPC
-49668/tcp open  msrpc        Microsoft Windows RPC
-49669/tcp open  msrpc        Microsoft Windows RPC
-Service Info: OSs: Windows, Windows Server 2008 R2 - 2012; CPE: cpe:/o:microsoft:windows
+	Nmap scan report for 10.10.10.27
+	Host is up (0.26s latency).
+	Not shown: 65523 closed ports
+	PORT      STATE SERVICE      VERSION
+	135/tcp   open  msrpc        Microsoft Windows RPC
+	139/tcp   open  netbios-ssn  Microsoft Windows netbios-ssn
+	445/tcp   open  microsoft-ds Windows Server 2019 Standard 17763 microsoft-ds
+	1433/tcp  open  ms-sql-s     Microsoft SQL Server 2017 14.00.1000.00; RTM
+	| ms-sql-ntlm-info: 
+	|   Target_Name: ARCHETYPE
+	|   NetBIOS_Domain_Name: ARCHETYPE
+	|   NetBIOS_Computer_Name: ARCHETYPE
+	|   DNS_Domain_Name: Archetype
+	|   DNS_Computer_Name: Archetype
+	|_  Product_Version: 10.0.17763
+	| ssl-cert: Subject: commonName=SSL_Self_Signed_Fallback
+	| Not valid before: 2021-06-09T04:29:24
+	|_Not valid after:  2051-06-09T04:29:24
+	|_ssl-date: 2021-06-09T05:08:13+00:00; +18m19s from scanner time.
+	5985/tcp  open  http         Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+	|_http-server-header: Microsoft-HTTPAPI/2.0
+	|_http-title: Not Found
+	47001/tcp open  http         Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+	|_http-server-header: Microsoft-HTTPAPI/2.0
+	|_http-title: Not Found
+	49664/tcp open  msrpc        Microsoft Windows RPC
+	49665/tcp open  msrpc        Microsoft Windows RPC
+	49666/tcp open  msrpc        Microsoft Windows RPC
+	49667/tcp open  msrpc        Microsoft Windows RPC
+	49668/tcp open  msrpc        Microsoft Windows RPC
+	49669/tcp open  msrpc        Microsoft Windows RPC
+	Service Info: OSs: Windows, Windows Server 2008 R2 - 2012; CPE: cpe:/o:microsoft:windows
 
-Host script results:
-|_clock-skew: mean: 1h42m19s, deviation: 3h07m51s, median: 18m18s
-| ms-sql-info: 
-|   10.10.10.27:1433: 
-|     Version: 
-|       name: Microsoft SQL Server 2017 RTM
-|       number: 14.00.1000.00
-|       Product: Microsoft SQL Server 2017
-|       Service pack level: RTM
-|       Post-SP patches applied: false
-|_    TCP port: 1433
-| smb-os-discovery: 
-|   OS: Windows Server 2019 Standard 17763 (Windows Server 2019 Standard 6.3)
-|   Computer name: Archetype
-|   NetBIOS computer name: ARCHETYPE\x00
-|   Workgroup: WORKGROUP\x00
-|_  System time: 2021-06-08T22:08:02-07:00
-| smb-security-mode: 
-|   account_used: guest
-|   authentication_level: user
-|   challenge_response: supported
-|_  message_signing: disabled (dangerous, but default)
-| smb2-security-mode: 
-|   2.02: 
-|_    Message signing enabled but not required
-| smb2-time: 
-|   date: 2021-06-09T05:08:00
-|_  start_date: N/A
+	Host script results:
+	|_clock-skew: mean: 1h42m19s, deviation: 3h07m51s, median: 18m18s
+	| ms-sql-info: 
+	|   10.10.10.27:1433: 
+	|     Version: 
+	|       name: Microsoft SQL Server 2017 RTM
+	|       number: 14.00.1000.00
+	|       Product: Microsoft SQL Server 2017
+	|       Service pack level: RTM
+	|       Post-SP patches applied: false
+	|_    TCP port: 1433
+	| smb-os-discovery: 
+	|   OS: Windows Server 2019 Standard 17763 (Windows Server 2019 Standard 6.3)
+	|   Computer name: Archetype
+	|   NetBIOS computer name: ARCHETYPE\x00
+	|   Workgroup: WORKGROUP\x00
+	|_  System time: 2021-06-08T22:08:02-07:00
+	| smb-security-mode: 
+	|   account_used: guest
+	|   authentication_level: user
+	|   challenge_response: supported
+	|_  message_signing: disabled (dangerous, but default)
+	| smb2-security-mode: 
+	|   2.02: 
+	|_    Message signing enabled but not required
+	| smb2-time: 
+	|   date: 2021-06-09T05:08:00
+	|_  start_date: N/A
 
 
 // We can see there is smb service open (usually ports 139 and 445)
