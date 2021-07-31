@@ -86,8 +86,4 @@ Access ID | Name | Email
 
 // When navigating to uploads (http://10.10.10.28/cdn-cgi/login/admin.php?content=uploads) we get error due privilleges
 
-    Repair Management System
-
-    This action require super admin rights.
-    
-// 
+![Image 2](https://github.com/W0lfySec/HTB/blob/main/Images/Oopsie/Screenshot_2021-07-31_10_45_27.png)
