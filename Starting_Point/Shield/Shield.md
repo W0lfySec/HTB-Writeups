@@ -130,9 +130,8 @@
     meterpreter > exit -y
     [*] Shutting down Meterpreter...
 
-// for some reason metasploit didnt get me a stable shell to work ...
-// miving on!, Navigating to http://10.10.10.29/wordpress/wp-login.php
-// we ebale to connect with credentials admin:P@s5w0rd!
+// for some reason metasploit didnt get me a stable shell to work, Navigating to http://10.10.10.29/wordpress/wp-login.php
+ we ebale to connect with credentials admin:P@s5w0rd! , after login we will click: >> Appearance >> Themes >> Add New
 
 ![Image 2](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Shield/1.png)
 
