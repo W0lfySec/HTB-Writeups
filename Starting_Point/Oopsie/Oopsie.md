@@ -24,4 +24,4 @@
     Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
     Nmap done: 1 IP address (1 host up) scanned in 795.95 seconds
 
-![Test Image 1](/Screenshot_2021-07-31_09_50_13.png)
+![Test Image 1](Images/Oopsie/Screenshot_2021-07-31_09_50_13.png)
