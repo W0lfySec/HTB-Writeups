@@ -40,7 +40,10 @@
     $ john hash --fork=4 -w=/wordlist.txt
     backup.zip password : 741852963
 
-index.php -> login admin password_md5 : "2cb42f8734ea607eefed3b70af13bbd3"
+// we got file called index.php
+
+	index.php -> login admin password_md5 : "2cb42f8734ea607eefed3b70af13bbd3"
+// decode the hash using online md5 decoder https://www.md5online.org/
 
 "2cb42f8734ea607eefed3b70af13bbd3" -> qwerty789
 
