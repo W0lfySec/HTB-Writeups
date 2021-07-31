@@ -1,6 +1,6 @@
-### -------->> Archetype <<--------
+## -------->> Archetype <<--------
 
-# // We will start with nmap scan on all ports
+###### // We will start with nmap scan on all ports
 
 $ nmap -sV -A -Pn 10.10.10.27 -p-
 Nmap scan report for 10.10.10.27
