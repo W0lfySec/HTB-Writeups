@@ -67,9 +67,7 @@ $ nmap -sV -A -Pn 10.10.10.27 -p-
 	|_  start_date: N/A
 
 
-// We can see there is smb service open (usually ports 139 and 445)/n
-// When there is a smb service open usually the anonymous connection allowed by default/n
-// we can check that with 'smbclient' command
+// We can see there is smb service open (usually ports 139 and 445), When there is a smb service open usually the anonymous connection allowed by default, we can check that with 'smbclient' command
 
 $ smbclient -N -L \\\\10.10.10.27\\
 
@@ -79,21 +77,21 @@ $ smbclient -N -L \\\\10.10.10.27\\
 	backups         Disk      
 	C$              Disk      Default share
 	IPC$            IPC       Remote IPC
-SMB1 disabled -- no workgroup available
+	SMB1 disabled -- no workgroup available
 
-// we can see shared directory called backups 
-// inside backups directory there is a file called prod.dtsConfig 
+// we can see shared directory called backups, inside backups directory there is a file called prod.dtsConfig 
 
 $ smbclient -N \\\\10.10.10.27\\backups
-Try "help" to get a list of possible commands.
-smb: \> dir
-  .                                   D        0  Mon Jan 20 12:20:57 2020
-  ..                                  D        0  Mon Jan 20 12:20:57 2020
-  prod.dtsConfig                     AR      609  Mon Jan 20 12:23:02 2020
 
-		10328063 blocks of size 4096. 8254480 blocks available
-smb: \> get prod.dtsConfig
-getting file \prod.dtsConfig of size 609 as prod.dtsConfig (0.6 KiloBytes/sec) (average 0.6 KiloBytes/sec)
+	Try "help" to get a list of possible commands.
+	smb: \> dir
+	  .                                   D        0  Mon Jan 20 12:20:57 2020
+	  ..                                  D        0  Mon Jan 20 12:20:57 2020
+	  prod.dtsConfig                     AR      609  Mon Jan 20 12:23:02 2020
+
+			10328063 blocks of size 4096. 8254480 blocks available
+	smb: \> get prod.dtsConfig
+	getting file \prod.dtsConfig of size 609 as prod.dtsConfig (0.6 KiloBytes/sec) (average 0.6 KiloBytes/sec)
 
 // lets grab him
 
