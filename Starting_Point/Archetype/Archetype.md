@@ -3,6 +3,7 @@
 ###### // We will start with nmap scan on all ports
 
 $ nmap -sV -A -Pn 10.10.10.27 -p-
+
 	Nmap scan report for 10.10.10.27
 	Host is up (0.26s latency).
 	Not shown: 65523 closed ports
