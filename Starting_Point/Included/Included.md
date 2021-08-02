@@ -126,11 +126,8 @@
     $debug = 0;
     ...
 --------------------------------------------------------------------
-
-Access ID | Name | Email
-----------|------|-------
-34322 | admin | admin@megacorp.com
-
-// When navigating to uploads (http://10.10.10.28/cdn-cgi/login/admin.php?content=uploads) we get error due privilleges
-
+---ERROR---
+TFTP put 
+TIMED OUT
+// will come back later
 
