@@ -43,7 +43,7 @@
 ![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/MarkUp/2.png)
 // we take a look with burpsuite on the request
 
-this is link[xxe](https://owasp.org/www-community/vulnerabilities/XML_External_Entity_(XXE)_Processing)
+You can read about [xxe](https://owasp.org/www-community/vulnerabilities/XML_External_Entity_(XXE)_Processing) here.
 
 
 
