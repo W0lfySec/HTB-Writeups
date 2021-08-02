@@ -86,12 +86,54 @@
     [+] Password found: 62def4866937f08cc13bab43bb14e6f7
 
 
-// somehow i have decrypted the hash woithout the salt in ![here](https://hashtoolkit.com/generate-hash/?text=salt)
+// somehow i have decrypted the hash woithout the salt at https://hashtoolkit.com/generate-hash/?text=salt
 
 ![Image 5](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/WriteUp/5.png)
 
-// save the salted hash
 
-    $ echo '62def4866937f08cc13bab43bb14e6f7:5a599ef579066807' > hash
+// Or, we could use python library 'hashlib' to help us with small script(the script file added)
+
+    $ cat hash_dec.py 
+----
+
+    import hashlib
+
+
+    def crack_password():
+
+        password = "62def4866937f08cc13bab43bb14e6f7"
+        wordlist = "/usr/share/wordlists/rockyou.txt"
+        salt = "5a599ef579066807"
+        cracked = ''
+
+        # open /usr/share/wordlists/rockyou.txt
+        dictionary = open(wordlist)
+
+        # Loop for compare hash to hash from rockyou.txt
+        for line in dictionary.readlines():
+        # drop down line to next passowrd
+            line = line.replace("\n", "")
+        # if "5a599ef579066807" + "somepassowrd" == "62def4866937f08cc13bab43bb14e6f7"
+            if hashlib.md5(str(salt) + line).hexdigest() == password:
+            # print cracked passowrd
+                cracked += "\n[+] Password cracked: " + line
+            # exit
+                break
+        print(cracked)
+
+
+    crack_password()
+    
+
+!!! The script work only for that hash !!!
+
+// run script (python2)
+
+    $ python hash_dec.py 
+-----
+
+    [+] Password cracked: raykayjay9
+
+
 
     
