@@ -20,6 +20,7 @@
     |_  256 c0:5b:13:0f:d6:e6:d1:71:2d:55:e2:4a:e2:27:0e:c2 (ED25519)
     Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
+
 // Since we know all the machines in starting point are "Chained-Up", and we have ssh private key for user daniel from last machine 
 we can try to connect with him
 
@@ -29,11 +30,13 @@ we can try to connect with him
     daniel@guard:~$ id
     uid=1000(daniel) gid=1000(picasso) groups=1000(picasso),27(sudo)
 
+
 // cat not work but less yes
 
     daniel@guard:~$ less user.txt
     209333....................
     user.txt (END)
+    
     
 // cat /etc/passwd we can see that daniel do not have regolar shell but have rbash
 
@@ -47,12 +50,14 @@ we can try to connect with him
 // and shrink the window to small as possible then you can add ur on syntax
 
 // and execute other shell (our case we want /bin/bash so locate !bash)
+![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Guard/1.png)
+![Image 2](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Guard/2.png)
+![Image 3](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Guard/3.png)
+
+
+
 
 
 Access ID | Name | Email
 ----------|------|-------
 34322 | admin | admin@megacorp.com
-
-// When navigating to uploads (http://10.10.10.28/cdn-cgi/login/admin.php?content=uploads) we get error due privilleges
-
-![Image 2](https://github.com/W0lfySec/HTB/blob/main/Images/Oopsie/Screenshot_2021-07-31_11_02_28.png)
