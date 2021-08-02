@@ -42,6 +42,7 @@
 // Connect with cradentials Daniel : >SNDv*2wzLWf .  We can see in order tab that we can get query request from server
 ![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/MarkUp/2.png)
 // we take a look with burpsuite on the request
+![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/MarkUp/3.png)
 
 You can read about [xxe](https://owasp.org/www-community/vulnerabilities/XML_External_Entity_(XXE)_Processing) here.
 
