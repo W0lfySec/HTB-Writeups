@@ -43,6 +43,12 @@
 ![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/MarkUp/2.png)
 // we take a look with burpsuite on the request
 
+this is link[xxe](https://owasp.org/www-community/vulnerabilities/XML_External_Entity_(XXE)_Processing)
+
+
+
+
+
 Access ID | Name | Email
 ----------|------|-------
 34322 | admin | admin@megacorp.com
