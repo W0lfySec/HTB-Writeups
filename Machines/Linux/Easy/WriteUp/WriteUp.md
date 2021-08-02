@@ -25,6 +25,42 @@
 
 ![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/WriteUp/1.png)
 
-// When tried to search for any directories in http://10.10.10.138/
+// When tried to search for any directories in http://10.10.10.138/ with gobuster and dirsearch
 
 // I had Errors, what means this site is protected as written in the site
+
+// So, i tried to approach other way and navigate http://10.10.10.138/robots.txt 
+
+![Image 2](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/WriteUp/2.png)
+
+// There is mention of another directory '/writeup/'
+
+// Navigating to http://10.10.10.138/writeup/
+
+// Its seems like some writeups for HTB
+
+![Image 3](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/WriteUp/3.png)
+
+// Nothing special in the directories inside
+
+// But, somthing Strange that cougth my eye waz the strange COOKIE (usually PESSID and here CMSSESSID)
+
+    CMSSESSID9d372ef93962:"1nreh2bl6g859iaq65c12iqjb1"
+
+// Lets use Tool wappalyzer - CMS finder
+
+// for download the tool first need npm installer
+
+    $ apt install npm
+
+// then install wappalyzer tool
+
+    $ npm i -g wappalyzer
+
+// Now lets scan the CMS
+
+    $ wappalyzer http://10.10.10.138/writeup/ | jq
+    
+// 
+    
+    
