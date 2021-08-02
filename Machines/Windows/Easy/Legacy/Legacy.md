@@ -1,6 +1,6 @@
 ## ---------->> Legacy <<-----------
 
-----
+-------
 
 // We will start with nmap scan
 
