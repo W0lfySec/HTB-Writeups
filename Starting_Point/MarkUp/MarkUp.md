@@ -37,13 +37,24 @@
     |_ssl-date: TLS randomness does not represent time
     | tls-alpn: 
     |_  http/1.1
+    
+### --Exploit--
+
 // There is a loging website 
+
 ![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/MarkUp/1.png)
+
 // Connect with cradentials Daniel : >SNDv*2wzLWf .  We can see in order tab that we can get query request from server
+
 ![Image 2](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/MarkUp/2.png)
+
 // we take a look with burpsuite on the request, sent to reapter to furter edit the request
+
 ![Image 3](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/MarkUp/3.png)
-// lets check if wep app vulnerable to XXE. (You can read about [xxe](https://owasp.org/www-community/vulnerabilities/XML_External_Entity_(XXE)_Processing) here.)
+
+// lets check if the site is vulnerable to XXE. (Read about [xxe](https://owasp.org/www-community/vulnerabilities
+/XML_External_Entity_(XXE)_Processing) here)
+
 ![Image 4](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/MarkUp/4.png)
 
 
