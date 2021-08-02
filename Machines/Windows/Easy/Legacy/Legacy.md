@@ -122,6 +122,27 @@
 ![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Legacy/1.png)
 
 
+// We got NT/SYSTEM !
 
+    meterpreter > sysinfo
+    Computer        : LEGACY
+    OS              : Windows XP (5.1 Build 2600, Service Pack 3).
+    Architecture    : x86
+    System Language : en_US
+    Domain          : HTB
+    Logged On Users : 1
+    Meterpreter     : x86/windows
+
+----
+
+// We got the root and user flags!
+
+    C:\Documents and Settings\john\Desktop>type user.txt
+    type user.txt
+    e69af0e.......................
+
+    C:\Documents and Settings\Administrator\Desktop>type root.txt
+    type root.txt
+    993442d2.....................
 
 
