@@ -48,7 +48,7 @@
 
 // its seems to be some encrypted data
 
-// we will decrypt it using online tool ![CyberChef](https://gchq.github.io/CyberChef/)
+// we will decrypt it using online tool CyberChef https://gchq.github.io/CyberChef/
 
 // // >> cybercheff recipe >> from Base64 >> from Base64 >> ROT13 (Amount:14)
 
