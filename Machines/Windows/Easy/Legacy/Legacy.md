@@ -1,5 +1,7 @@
 ## ---------->> Legacy <<-----------
 
+----
+
 // We will start with nmap scan
 
     $ nmap -sV -A -Pn 10.10.10.4 -p-
