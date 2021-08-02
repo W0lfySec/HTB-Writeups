@@ -23,15 +23,58 @@
     |_http-title: Site doesn't have a title (text/html).
     Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
+
+// Nvigatin to http://10.10.10.48/ we got some website that have a login page
+
+
 ![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Base/1.png)
 
+
+// Due to miscunfigiration of the develepo we could access the directory from http://10.10.10.48/login/  
+
+// There we can see file login.pgp.swp
 
 
 ![Image 2](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Base/2.png)
 
 
+// In the file we can see block of code
 
 
+    $ cat login.php.sw
+-----
+
+    </html></body><script src="assets/js/main.js"></script><script src="assets/js/util.js"></script><script src="assets/js/breakpoints.min.js"></script><script src="assets/js/browser.min.js"></script><script src="assets/js/jquery.poptrox.min.js"></script><script src="assets/js/jquery.min.js"></script><!-- Scripts --></div>    </div>        </div>            </form>                </ul>                    </li>                        <button class="button" type="submit" value="Submit">Login</button>                    <li>                <ul>                </ul>                    <li><input type="password" name="password" id="password"></li>                    <li><input type="text" name="username" id="username"></li>                <ul>            <form id="login-form" method="POST" action="" onsubmit="">        <div id="menu">        </div>            <h1><a href="index.php">Base</a></h1>        <div id="logo">    <div id="header" class="container"><div id="header-wrapper"><!-- Main --><!-- Wrapper --><body></head>    <link href="default_ie6.css" rel="stylesheet" type="text/css"/><![endif]-->    <!--[if IE 6]>    <link href="fonts.css" rel="stylesheet" type="text/css" media="all"/>    <link href="default.css" rel="stylesheet" type="text/css" media="all"/>    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet"/>    <meta name="description" content=""/>    <meta name="keywords" content=""/>    <title>Base Login</title>    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><head><html xmlns="http://www.w3.org/1999/xhtml"><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">?>}    }        print("<script>alert('Wrong Username or Password')</script>");    } else {        }            print("<script>alert('Wrong Username or Password')</script>");        } else {            header("Location: upload.php");            $_SESSION['user_id'] = 1;        if (strcmp($password, $_POST['password']) == 0) {    if (strcmp($username , $_POST['username']) == 0) {    require('config.php');if (!empty($_POST['username']) && !empty($_P
+
+
+// it seems that its the authentication mehod for the login
+
+
+    if (strcmp($password, $_POST['password']) == 0) 
+    if (strcmp($username , $_POST['username']) == 0)
+
+
+// Developer uses strcmp to check username and password, whitch its insecure and can be easilly bypass
+
+// due to the fact that if strcmp is given an empty array to compare againts the stored password, it retuens null.
+
+// in PHP the == operator only checks the value of a viriable for equality and the value of null is equal to 0.
+
+// the correct way to write this its using === which checks both the value and type.
+
+// lets open burp and catch the login packet
+
+
+![Image 3](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Base/3.png)
+
+
+// Now lets send another login but this time we will edit the request in BurpSuite proxy
+
+
+![Image 4](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Base/4.png)
+
+
+//
 
 
 
