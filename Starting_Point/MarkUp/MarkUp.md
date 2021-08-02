@@ -52,8 +52,7 @@
 
 ![Image 3](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/MarkUp/3.png)
 
-// lets check if the site is vulnerable to XXE. (Read about [xxe](https://owasp.org/www-community/vulnerabilities
-/XML_External_Entity_(XXE)_Processing) here)
+// lets check if the site is vulnerable to XXE. (Read about [xxe](https://owasp.org/www-community/vulnerabilities/XML_External_Entity_(XXE)_Processing) here)
 
 ![Image 4](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/MarkUp/4.png)
 
