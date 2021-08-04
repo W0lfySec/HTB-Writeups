@@ -10,10 +10,10 @@ HackTheBox
         │   │       └── WriteUp
         │   └── Windows
         │       └── Easy
+        │           ├── Blue
+        │           ├── Legacy
         │           ├── Love
-        │           ├── blue
-        │           └── legacy
-        │
+        │           └── Optimum
         │
         ├── Starting_Point
         │   ├── Archetype
@@ -35,6 +35,7 @@ HackTheBox
 ToDo: PathFinder
       Included
       WriteUp
+      Optimum
       
       
 Python Scripts: WriteUp   Eternal_Loop
