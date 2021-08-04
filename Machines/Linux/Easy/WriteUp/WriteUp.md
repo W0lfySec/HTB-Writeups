@@ -1,6 +1,7 @@
 ## --------->> WriteUp <<-----------
 
 (Attached file -> hash_dec.py)
+
 // We start with nmap scan
 
     $ nmap -sV -A -Pn 10.10.10.138 -p-
