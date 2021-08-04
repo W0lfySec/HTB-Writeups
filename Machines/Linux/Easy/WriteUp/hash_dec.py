@@ -1,18 +1,28 @@
 import hashlib
 
 
-def ck_password():
+def crack_password():
+
     password = "62def4866937f08cc13bab43bb14e6f7"
-    output = ""
     wordlist = "/usr/share/wordlists/rockyou.txt"
     salt = "5a599ef579066807"
-    dictionar = open(wordlist)
-    for line in dictionar.readlines():
+    cracked = ''
+
+    # open /usr/share/wordlists/rockyou.txt
+    dictionary = open(wordlist)
+
+    # Loop for compare hash to hash from rockyou.txt
+    for line in dictionary.readlines():
+    # drop down line to next passowrd
         line = line.replace("\n", "")
+    # if "5a599ef579066807" + "somepassowrd" == "62def4866937f08cc13bab43bb14e6f7"
         if hashlib.md5(str(salt) + line).hexdigest() == password:
-            output += "\n[+] Password cracked: " + line
+        # print cracked passowrd
+            cracked += "\n[+] Password cracked: " + line
+        # exit
             break
-    print(output)
+    print(cracked)
 
 
-ck_password()
+crack_password()
+
