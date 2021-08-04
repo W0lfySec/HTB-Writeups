@@ -1,6 +1,6 @@
 ## --------->> WriteUp <<-----------
 
-(Attached file -> hash_dec.py)
+(Attached file -> decryptor.py)
 
 // We start with nmap scan
 
@@ -95,7 +95,7 @@
 
 // Or, we could use python library 'hashlib' to help us with small script(the script file added)
 
-    $ cat hash_dec.py 
+    $ cat decryptor.py 
 ----
 
     import hashlib
@@ -131,7 +131,7 @@
 
 // run script (python2)
 
-    $ python hash_dec.py 
+    $ python decryptor.py 
 -----
 
     [+] Password cracked: raykayjay9
