@@ -198,7 +198,7 @@
 
 ![Image 9](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Love/9.png)
 
-// Download a PHP reverse shell from https://www.revshells.com with recipe 'PHP Ivan Sincek'(for Windows)
+// Download a PHP reverse shell from [here](https://www.revshells.com) with recipe 'PHP Ivan Sincek'(for Windows)
 
 ![Image 10](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Love/10.png)
 
