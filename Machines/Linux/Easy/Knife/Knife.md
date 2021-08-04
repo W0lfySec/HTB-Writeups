@@ -22,7 +22,7 @@
 
 // Nvigating to website http://10.10.10.242/
 
-![Image 1]()
+![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Knife/1.png)
 
 // Tried some directories searchs(gobuster, dirsearch, feroxbuster) but didnt get much...
 // So i tried other approach let see the head of request
@@ -42,7 +42,7 @@
 
 // Searching in ExploitDB result me interesting python script for RCE (Remote Code Execution)
 
-![Image 2]()
+![Image 2](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Knife/2.png)
     
 // Lets download that script and run him
 
