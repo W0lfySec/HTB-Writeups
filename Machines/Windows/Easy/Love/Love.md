@@ -246,10 +246,53 @@
     -ar---          8/3/2021   4:16 PM             34 user.txt                                                             
     -a----          8/3/2021  11:55 PM        1919488 winPEASx64.exe                                                       
 
+// Running .\WinPEASx64.exe And the most relevant thing we see its [AlwaysInstallElevated](https://book.hacktricks.xyz/windows/windows-local-privilege-escalation#alwaysinstallelevated)
+
+    C:\Users\Phoebe\Desktop>.\winPEASx64.exe
+    ANSI color bit for Windows is not set. If you are execcuting this from a Windows terminal inside the host you should run 'REG ADD HKCU\Console /v VirtualTerminalLevel /t REG_DWORD /d 1' and then start a new CMD
+
+                 *((,.,/((((((((((((((((((((/,  */               
+          ,/*,..*((((((((((((((((((((((((((((((((((,           
+        ,*/((((((((((((((((((/,  .*//((//**, .*(((((((*       
+        ((((((((((((((((**********/########## .(* ,(((((((   
+        (((((((((((/********************/####### .(. (((((((
+        ((((((..******************/@@@@@/***/###### ./(((((((
+        ,,....********************@@@@@@@@@@(***,#### .//((((((
+        , ,..********************/@@@@@%@@@@/********##((/ /((((
+        ..((###########*********/%@@@@@@@@@/************,,..((((
+        .(##################(/******/@@@@@/***************.. /((
+        .(#########################(/**********************..*((
+        .(##############################(/*****************.,(((
+        .(###################################(/************..(((
+        .(#######################################(*********..(((
+        .(#######(,.***.,(###################(..***.*******..(((
+        .(#######*(#####((##################((######/(*****..(((
+        .(###################(/***********(##############(...(((
+        .((#####################/*******(################.((((((
+        .(((############################################(..((((
+        ..(((##########################################(..(((((
+        ....((########################################( .(((((
+        ......((####################################( .((((((
+        (((((((((#################################(../((((((
+            (((((((((/##########################(/..((((((
+                  (((((((((/,.  ,*//////*,. ./(((((((((((((((.
+                     (((((((((((((((((((((((((((((/
+
+    ADVISORY: winpeas should be used for authorized penetration testing and/or educational purposes only.Any misuse of this software will not be the responsibility of the author or of any other collaborator. Use it at your own networks and/or with the network owner's permission.
+
+        .......
+
+    ����������͹ Checking AlwaysInstallElevated
+    �  https://book.hacktricks.xyz/windows/windows-local-privilege-escalation#alwaysinstallelevated
+        AlwaysInstallElevated set to 1 in HKLM!
+        AlwaysInstallElevated set to 1 in HKCU!
+
+        .......
 
 
+// So. 
 
-[AlwaysInstallElevated](https://book.hacktricks.xyz/windows/windows-local-privilege-escalation#alwaysinstallelevated)
+
 
 
 
