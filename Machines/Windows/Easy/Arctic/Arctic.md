@@ -16,23 +16,23 @@
 
 // navigate to http://10.10.10.11:8500 gets us to 2 directories
 
-![Image 1]()
+![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Arctic/1.png)
 
 // after digging, we navigate to login page of Adobe ColdFusion==> http://10.10.10.11:8500/CFIDE/administrator/
 
-![Image 2]()
+![Image 2](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Arctic/2.png)
 
 // searching in exploit-db we found CVE-2010-2861 Adobe ColdFusion - Directory Traversal 
 
-![Image 3]()
+![Image 3](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Arctic/3.png)
 
 // Also there is some exloits i found with searsploit(We will save that for later)
 
-![Image 12]()
+![Image 12](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Arctic/12.png)
 
 // in the CVE what cougth my eye:
 
-![Image 4]()
+![Image 4](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Arctic/4.png)
 
     .............................................
     # Working GET request courtesy of carnal0wnage:
@@ -45,7 +45,7 @@
 
 // gets us output on the web page
 
-![Image 5]()
+![Image 5](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Arctic/5.png)
 
     #Wed Mar 22 20:53:51 EET 2017 rdspassword=0IA/F[[E>[$_6& \\Q>[K\=XP \n password=2F635F6D20E3FDE0C53075A84B68FB07DCEC9B03 encrypted=true
 
@@ -88,7 +88,7 @@
 // log into http://10.10.10.11:8500/CFIDE/administrator/
 // redirects us to http://10.10.10.11:8500/CFIDE/administrator/index.cfm
 
-![Image 6]()
+![Image 6](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Arctic/6.png)
 
 // JSP stands for Java Server Pages. and seens CloudFusion is java program .jsp its the file format we can upload.
 
@@ -102,7 +102,7 @@
 
 // When we was searching for exploits with searsploit i notice ColdFusion 8.0.1 - Arbitrary File Upload / Execution (Metasploit)
 
-![Image 13]()
+![Image 13](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Arctic/13.png)
 
 // In the description we can see the values and method for upload the file 
 
@@ -158,11 +158,11 @@
 
 // Digging the administrator dashboed we see option called Scheduled Tasks there we can upload a New Tasks in the Schedule Tasks
 
-![Image 8]()
+![Image 8](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Arctic/8.png)
 
 // We can check directories mapping by navigate ==> Server Settings > Mappings 
 
-![Image 7]()
+![Image 7](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Arctic/7.png)
 
 // Now we can fill the New Task, Click again on 'Sheduled Tasks' >> 'Shedule New Task'
 
@@ -190,11 +190,11 @@
 
 // Navigatin to http:10.10.10.11:8500/ , we can see a new directory called /userfiles
 
-![Image 10]()
+![Image 10](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Arctic/10.png)
 
 // There we could find the file we uploaded (with strange name) -> click on that file
 
-![Image 11]()
+![Image 11](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Arctic/11.png)
 
 // And, We got a shell !!!
 
