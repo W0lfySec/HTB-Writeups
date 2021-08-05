@@ -11,11 +11,11 @@ HackTheBox
         │   ├── MarkUp                  │      
         │   ├── Oopsie                  └── Windows
         │   ├── PathFinder                  └── Easy
-        │   ├── Shield                      ├── Arctic
-        │   └── Vaccine                     ├── Blue
-        │                                   ├── Legacy
-        │                                   ├── Love
-        │                                   └── Optimum
+        │   ├── Shield                           ├── Arctic
+        │   └── Vaccine                          ├── Blue
+        │                                        ├── Legacy
+        │                                        ├── Love
+        │                                        └── Optimum
         │                               
         │          
         │
