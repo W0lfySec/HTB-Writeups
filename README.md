@@ -3,6 +3,17 @@ HackTheBox
 
     HTB_WriteUps
         │
+        ├── Starting_Point
+        │   ├── Archetype
+        │   ├── Base
+        │   ├── Guard
+        │   ├── MarkUp
+        │   ├── Oopsie
+        │   ├── PathFinder
+        │   ├── Shield
+        │   └── Vaccine
+        │
+        │
         ├── Machines
         │   ├── Linux
         │   │   └── Easy
@@ -14,16 +25,6 @@ HackTheBox
         │           ├── Legacy
         │           ├── Love
         │           └── Optimum
-        │
-        ├── Starting_Point
-        │   ├── Archetype
-        │   ├── Base
-        │   ├── Guard
-        │   ├── MarkUp
-        │   ├── Oopsie
-        │   ├── PathFinder
-        │   ├── Shield
-        │   └── Vaccine
         │
         └────────────────────── Challenges
                                 └── Misc
