@@ -36,7 +36,7 @@ HackTheBox
 ToDo: PathFinder
       Included
       WriteUp
-      Optimum
+
       
       
 Python Scripts: WriteUp   Eternal_Loop
