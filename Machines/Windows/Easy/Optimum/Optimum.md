@@ -12,6 +12,9 @@
     Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
 
 // Only port 80 open (web) and the service running its HFS(Http File System)
+
+![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Optimum/1.png)
+
 // lets search in MetaSploit for some exploits
 
     msf6 > search hfs
