@@ -3,35 +3,27 @@ HackTheBox
 
     HTB_WriteUps
         │
-        ├── Starting_Point
-        │   ├── Archetype
-        │   ├── Base
-        │   ├── Guard
-        │   ├── MarkUp
-        │   ├── Oopsie
-        │   ├── PathFinder
-        │   ├── Shield
-        │   └── Vaccine
+        ├───────────────────────────── Machines
+        ├── Starting_Point              ├── Linux
+        │   ├── Archetype               │   └── Easy
+        │   ├── Base                    │       ├── Knife
+        │   ├── Guard                   │       └── WriteUp
+        │   ├── MarkUp                  │      
+        │   ├── Oopsie                  └── Windows
+        │   ├── PathFinder                  └── Easy
+        │   ├── Shield                      ├── Arctic
+        │   └── Vaccine                     ├── Blue
+        │                                   ├── Legacy
+        │                                   ├── Love
+        │                                   └── Optimum
+        │                               
+        │          
         │
-        │
-        ├── Machines
-        │   ├── Linux
-        │   │   └── Easy
-        │   │       ├── Knife
-        │   │       └── WriteUp
-        │   └── Windows
-        │       └── Easy
-        │           ├── Arctic
-        │           ├── Blue
-        │           ├── Legacy
-        │           ├── Love
-        │           └── Optimum
-        │
-        └────────────────────── Challenges
-                                └── Misc
-                                    ├── BlackHole
-                                    ├── The_Secret_Of_The_Queen
-                                    └── Eternal_Loop
+        └──────────── Challenges
+                      └── Misc
+                          ├── BlackHole
+                          ├── The_Secret_Of_The_Queen
+                          └── Eternal_Loop
 
 
 ToDo: PathFinder
