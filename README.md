@@ -21,6 +21,7 @@ HackTheBox
         │   │       └── WriteUp
         │   └── Windows
         │       └── Easy
+        │           ├── Arctic
         │           ├── Blue
         │           ├── Legacy
         │           ├── Love
