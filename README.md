@@ -1,25 +1,28 @@
 # HTB_WriteUps
 HackTheBox
 
-    HTB_WriteUps
+    -=[HTB_WriteUps]=-
         │
-        ├───────────────────────────── Machines
-        ├── Starting_Point              ├── Linux
-        │   ├── Archetype               │   └── Easy
-        │   ├── Base                    │       ├── Knife
-        │   ├── Guard                   │       └── WriteUp
-        │   ├── MarkUp                  │      
-        │   ├── Oopsie                  └── Windows
-        │   ├── PathFinder                  └── Easy
-        │   ├── Shield                           ├── Arctic
-        │   └── Vaccine                          ├── Blue
-        │                                        ├── Legacy
-        │                                        ├── Love
-        │                                        └── Optimum
+        ├─────────────────────────────[Machines]
+        ├────[Starting_Point]             │   
+        │     │                           ├─────── Linux
+        │     ├── Archetype               │         ├── Easy
+        │     ├── Base                    │         │   ├── Knife
+        │     ├── Guard                   │         │   └── WriteUp
+        │     ├── MarkUp                  │         │      
+        │     ├── MarkUp                  │         └────────────── Medium
+        │     ├── Oopsie                  │   
+        │     ├── Oopsie                  └── Windows
+        │     ├── PathFinder                  └── Easy
+        │     ├── Shield                           ├── Arctic
+        │     └── Vaccine                          ├── Blue
+        │                                          ├── Legacy
+        │                                          ├── Love
+        │                                          └── Optimum
         │                               
         │          
         │
-        └──────────── Challenges
+        └────────────[Challenges]
                       └── Misc
                           ├── BlackHole
                           ├── The_Secret_Of_The_Queen
