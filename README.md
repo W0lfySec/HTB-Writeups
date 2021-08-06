@@ -7,7 +7,7 @@ HackTheBox
          ├────[Starting_Point]             │   
          │     │                           ├─────── Linux
          │     ├── Archetype               │         ├── Easy
-         │     ├── Base                    │         │   ├── [Knife](http://1.prw)
+         │     ├── Base                    │         │   ├── Knife
          │     ├── Guard                   │         │   ├── Valentine
          │     ├── Included                │         │   └── WriteUp 
          │     ├── MarkUp                  │         │
