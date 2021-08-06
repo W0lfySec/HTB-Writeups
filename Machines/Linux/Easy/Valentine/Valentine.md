@@ -117,23 +117,23 @@
 
 // Navigating to http://10.10.10.70/ we represent with image, nothing interesting there.
 
-![Image 1]()
+![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Valentine/1.png)
 
 // Lets search some interesting directories or files with dirbuster tool
 
-![Image 2]()
+![Image 2](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Valentine/2.png)
 
 // We fet Interesting Results:
 
-![Image 3]()
+![Image 3](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Valentine/3.png)
 
 // Navigate to http://10.10.10.79/decode and http://10.10.10.79/encode , resulting us with base64 encode/decode web engine
-![Image 8]()
-![Image 9]()
+![Image 8](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Valentine/8.png)
+![Image 9](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Valentine/9.png)
 
 // Navigate to http://10.10.10.79/dev/notes.txt
 
-![Image 4]()
+![Image 4](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Valentine/4.png)
 
     To do:
 
@@ -147,7 +147,7 @@
 
 // Navigate to http://10.10.10.79/dev/hype_key , we get hex code
 
-![Image 5]()
+![Image 5](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Valentine/5.png)
 
 // We can decode hax with save the hex code to file and 
 
@@ -155,7 +155,7 @@
     
 // Or use online tool [CyberChef](https://gchq.github.io/CyberChef/)
 
-![Image 6]()
+![Image 6](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Valentine/6.png)
 
     -----BEGIN RSA PRIVATE KEY-----
     Proc-Type: 4,ENCRYPTED
@@ -239,7 +239,7 @@
 
 // we got encoded text , lets  decode him with [CyberChef](https://gchq.github.io/CyberChef/)
 
-![Image 7]()
+![Image 7](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Valentine/7.png)
 
         Output: heartbleedbelievethehype 
 
