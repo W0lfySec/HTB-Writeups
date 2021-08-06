@@ -8,17 +8,18 @@ HackTheBox
         │     │                           ├─────── Linux
         │     ├── Archetype               │         ├── Easy
         │     ├── Base                    │         │   ├── Knife
-        │     ├── Guard                   │         │   └── WriteUp
-        │     ├── MarkUp                  │         │      
-        │     ├── MarkUp                  │         └────────────── Medium
-        │     ├── Oopsie                  │   
-        │     ├── Oopsie                  └── Windows
-        │     ├── PathFinder                  └── Easy
-        │     ├── Shield                           ├── Arctic
-        │     └── Vaccine                          ├── Blue
-        │                                          ├── Legacy
-        │                                          ├── Love
-        │                                          └── Optimum
+        │     ├── Guard                   │         │   ├── Valentine
+        │     ├── Included                │         │   └── WriteUp 
+        │     ├── MarkUp                  │         │
+        │     ├── Oopsie                  │         └────────────── Medium
+        │     ├── PathFinder              │
+        │     ├── Shield                  └── Windows
+        │     └── Vaccine                      └── Easy
+        │                                           ├── Arctic
+        │                                           ├── Blue
+        │                                           ├── Legacy
+        │                                           ├── Love
+        │                                           └── Optimum
         │                               
         │          
         │
