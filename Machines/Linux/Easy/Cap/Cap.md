@@ -92,7 +92,7 @@
 
 // Nvigatin to http://10.10.10.245/ , we presented with security deshboard that possibly monitor the network (kind of SIEM)
 
-![Image 1]()
+![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Cap/1.png)
 
 // Lets search some directories with [FeroxBuster](https://github.com/epi052/feroxbuster) tool by epi052.
 
@@ -128,7 +128,7 @@
 
 // As written that options enables to capture packages on the network for 5sec.
 
-![Image 2]()
+![Image 2](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Cap/2.png)
 
 // Lets try to Brute Force the directories with BurpSuite Intruder
 
@@ -136,18 +136,18 @@
 
     $ crunch 1 3 0123456789 > 100.txt
 -----
-![Image 3]()
-![Image 4]()
+![Image 3](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Cap/3.png)
+![Image 4](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Cap/4.png)
 
 // Focus on 200 status we get from the attack our result: 0, 1, 2, 4, 5, 11, 12, 14, 15
 
 // Navigate to all camptures, the one waz exluded lead me to http://10.10.10.245/data/0 , and download the capture
 
-![Image 5]()
+![Image 5](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Cap/5.png)
 
 // Since the file is .pcap we can open it with WireShark , Filter (Ctrl+f , search: 'strigs' : "pass" )
 
-![Image 6]()
+![Image 6](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Cap/6.png)
 
 // We found FTP packet with Password !
 
@@ -168,9 +168,9 @@ nathan@cap:~$ cat user.txt
 
 ### ---------Privilleges Escalation----------
 
-// First lets run LinPEAS to enumerate the options.
+// First lets run [LinPEAS](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS)(By carlospolop) PrivEsc Tool for linux to enumerate our options.
 
-// Upload file via python http server
+// Upload LinPEAS via python http server
 
     $ python3 -m http.server 1445
     
