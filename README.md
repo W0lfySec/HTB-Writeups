@@ -7,20 +7,21 @@ HackTheBox
          ├────[Starting_Point]              │   
          │        │                         ├─────── Linux
          │        ├── Archetype             │           ├── Easy
-         │        ├── Base                  │           │   ├── Knife
-         │        ├── Guard                 │           │   ├── Valentine
-         │        ├── Included              │           │   └── WriteUp 
-         │        ├── MarkUp                │           │
-         │        ├── Oopsie                │           └────────────── Medium
-         │        ├── PathFinder            │
-         │        ├── Shield                └── Windows
-         │        └── Vaccine                      └── Easy
-         │                                           ├── Arctic
-         │                                           ├── Blue
-         │                                           ├── Legacy
-         │                                           ├── Love
-         │                                           └── Optimum
-         │                               
+         │        ├── Base                  │           │   ├── Cap
+         │        ├── Guard                 │           │   ├── Knife
+         │        ├── Included              │           │   ├── Valentine
+         │        ├── MarkUp                │           │   └── WriteUp 
+         │        ├── Oopsie                │           │
+         │        ├── PathFinder            │           └────────────── Medium
+         │        ├── Shield                │
+         │        └── Vaccine               └────── Windows
+         │                                            └── Easy
+         │                                                 ├── Arctic
+         │                                                 ├── Blue
+         │                                                 ├── Legacy
+         │                                                 ├── Love
+         │                                                 └── Optimum
+         │                                 
          │          
          │
          └────────────[Challenges]
