@@ -22,13 +22,17 @@ HackTheBox
          │                                                 ├── Legacy
          │                                                 ├── Love
          │                                                 └── Optimum
-         │          
-         │
          └────────────[Challenges]
-                       └── Misc
-                           ├── BlackHole
-                           ├── The_Secret_Of_The_Queen
-                           └── Eternal_Loop
+                       │
+                       ├── Misc
+                       │   ├── BlackHole
+                       │   ├── The_Secret_Of_The_Queen
+                       │   └── Eternal_Loop
+                       │
+                       │
+                       └── Crack Passwords
+                           └──  Old_is_gold
+
 
 
 ToDo: PathFinder
