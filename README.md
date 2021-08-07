@@ -18,10 +18,10 @@ HackTheBox
          │                                            └── Easy
          │                                                 ├── Arctic
          │                                                 ├── Blue
+         │                                                 ├── Devel
          │                                                 ├── Legacy
-         │                                                 ├── Love
+         │                                                 ├── Love
          │                                                 └── Optimum
-         │                                 
          │          
          │
          └────────────[Challenges]
