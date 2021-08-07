@@ -145,7 +145,7 @@
 
 ![Image 5](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Cap/5.png)
 
-// Since the file is .pcap we can open it with WireShark , Filter (Ctrl+f , search: 'strigs' : "pass" )
+// Since the file is .pcap we can open it with WireShark , Filter (Ctrl+f , search: 'String' : "pass" )
 
 ![Image 6](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Cap/6.png)
 
@@ -162,8 +162,8 @@
 
 // And we got user flag!
 
-nathan@cap:~$ cat user.txt
-793451.........................
+    nathan@cap:~$ cat user.txt
+    793451.........................
 
 
 ### ---------Privilleges Escalation----------
