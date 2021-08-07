@@ -27,7 +27,7 @@
 
 ![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Devel/1.png)
 
-// nothing much there, lets check ig the ftp have anonymous connection
+// nothing much there, lets check if the ftp have anonymous connection
 
     $ ftp -p 10.10.10.5
 -----
