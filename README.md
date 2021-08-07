@@ -3,18 +3,18 @@ HackTheBox
 
     -=[HTB_WriteUps]=-
          │
-         ├─────────────────────────────[Machines]
-         ├────[Starting_Point]             │   
-         │     │                           ├─────── Linux
-         │     ├── Archetype               │         ├── Easy
-         │     ├── Base                    │         │   ├── Knife
-         │     ├── Guard                   │         │   ├── Valentine
-         │     ├── Included                │         │   └── WriteUp 
-         │     ├── MarkUp                  │         │
-         │     ├── Oopsie                  │         └────────────── Medium
-         │     ├── PathFinder              │
-         │     ├── Shield                  └── Windows
-         │     └── Vaccine                      └── Easy
+         ├──────────────────────────────[Machines]
+         ├────[Starting_Point]              │   
+         │        │                         ├─────── Linux
+         │        ├── Archetype             │           ├── Easy
+         │        ├── Base                  │           │   ├── Knife
+         │        ├── Guard                 │           │   ├── Valentine
+         │        ├── Included              │           │   └── WriteUp 
+         │        ├── MarkUp                │           │
+         │        ├── Oopsie                │           └────────────── Medium
+         │        ├── PathFinder            │
+         │        ├── Shield                └── Windows
+         │        └── Vaccine                      └── Easy
          │                                           ├── Arctic
          │                                           ├── Blue
          │                                           ├── Legacy
