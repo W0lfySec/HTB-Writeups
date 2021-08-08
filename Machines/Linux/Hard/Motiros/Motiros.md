@@ -73,3 +73,50 @@
 // The output tells us that the server CMS is WordPress
 
 // We can check for vulnerabilities for Wordpress with [wpscan](https://wpscan.com/) tool
+
+    $ wpscan --url http://monitors.htb/ --api-token VAoJp6hTtEvYbvkCE4URq7GrJFGyOdNkA4tMfQ2MeFE --plugins-detection mixed -e
+-------
+
+        _______________________________________________________________
+                 __          _______   _____
+                 \ \        / /  __ \ / ____|
+                  \ \  /\  / /| |__) | (___   ___  __ _ _ __ ®
+                   \ \/  \/ / |  ___/ \___ \ / __|/ _` | '_ \
+                    \  /\  /  | |     ____) | (__| (_| | | | |
+                     \/  \/   |_|    |_____/ \___|\__,_|_| |_|
+
+                 WordPress Security Scanner by the WPScan Team
+                                 Version 3.8.18
+               Sponsored by Automattic - https://automattic.com/
+               @_WPScan_, @ethicalhack3r, @erwan_lr, @firefart
+        _______________________________________________________________
+
+        ......
+
+        [+] wp-with-spritz
+         | Location: http://monitors.htb/wp-content/plugins/wp-with-spritz/
+         | Latest Version: 1.0 (up to date)
+         | Last Updated: 2015-08-20T20:15:00.000Z
+         | Readme: http://monitors.htb/wp-content/plugins/wp-with-spritz/readme.txt
+         | [!] Directory listing is enabled
+         |
+         | Found By: Urls In Homepage (Passive Detection)
+         | Confirmed By: Known Locations (Aggressive Detection)
+         |  - http://monitors.htb/wp-content/plugins/wp-with-spritz/, status: 200
+         |
+         | [!] 1 vulnerability identified:
+         |
+         | [!] Title: WP with Spritz 1.0 - Unauthenticated File Inclusion
+         |     References:
+         |      - https://wpscan.com/vulnerability/cdd8b32a-b424-4548-a801-bbacbaad23f8
+         |      - https://www.exploit-db.com/exploits/44544/
+         |
+         | Version: 4.2.4 (80% confidence)
+         | Found By: Readme - Stable Tag (Aggressive Detection)
+         |  - http://monitors.htb/wp-content/plugins/wp-with-spritz/readme.txt
+
+        ......
+
+// The output of wpscan shows us there is vulnerability of Unauthenticated File Inclusion
+
+// Lets exploit that
