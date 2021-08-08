@@ -145,3 +145,34 @@
 
 // First we need linux directories list, found amazing [lfi-linux-list](https://github.com/carlospolop/hacktricks/blob/a140aa95ee5b53aa4c367cd6d8c5cb96d50dc381/pentesting-web/file-inclusion/lfi-linux-list.md
 )(By carlospolop)
+
+// Next we will proceed with the LFI and BurpSuite Intruder and Brute Force the directories to see the responses
+
+![Image 6]()
+
+// We found interesting document in /etc/apache2/sites-enabled/000-default.conf
+
+// Its the apache2 configuration file and he contains a sub domain we need to add to /etc/hosts
+
+    $ cat /etc/hosts
+
+    10.10.10.238	monitors.htb cacti-admin.monitors.htb
+    
+// Navigating to http://cacti-admin.monitors.htb we represented with login page 
+
+![Image 7]()
+
+// success login with credentials:  admin : BestAdministrator@2020!
+
+// on dashboard page we can see the version is 1.2.12
+
+![Image 8]()
+
+// Lets search for vulnerabilities in [ExploiDB](https://www.exploit-db.com/)
+
+![Image 9]()
+
+// Found a python script for Remote Code Execution(By Leonardo paiva)
+
+// Lets download the Exploit and try him 
+
