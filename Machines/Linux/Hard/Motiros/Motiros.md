@@ -70,4 +70,6 @@
     301        9l       28w      320c http://monitors.htb/wp-admin/user
 
 
-// on the 
+// The output tells us that the server CMS is WordPress
+
+// We can check for vulnerabilities for Wordpress with [wpscan](https://wpscan.com/) tool
