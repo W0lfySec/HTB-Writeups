@@ -27,13 +27,17 @@
 
 // the mail have the domain after the '@' 
 
-![Image 1]()
+![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Monitors/1.png)
 
 // So lets had him to /etc/hosts
 
     $ cat /etc/hosts
 
     10.10.10.238	monitors.htb
+
+// Navigate to http://monitors.htb present us with some monitor site
+
+![Image 2](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Monitors/2.png)
 
 // [Feroxbuster](https://github.com/epi052/feroxbuster)(By epi052) Tool will help us to search for directories in the webssite
 
@@ -121,13 +125,13 @@
 
 // Navigating to https://www.exploit-db.com/exploits/44544/ will help us to understant 
 
-![Image 3]()
+![Image 3](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Monitors/3.png)
 
 // Lets try that
 
     http://monitors.htb/wp-content/plugins/wp-with-spritz/wp.spritz.content.filter.php?url=/../../../../etc/passwd
     
-![Image 4]()
+![Image 4](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Monitors/4.png)
 
 // It worked !
 
@@ -135,7 +139,7 @@
 
     http://monitors.htb/wp-content/plugins/wp-with-spritz/wp.spritz.content.filter.php?url=../../../wp-config.php
 
-![Image 5]()
+![Image 5](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Monitors/5.png)
 
 // We got Credentials !  wpadmin : BestAdministrator@2020!
 
@@ -148,7 +152,7 @@
 
 // Next we will proceed with the LFI and BurpSuite Intruder and Brute Force the directories to see the responses
 
-![Image 6]()
+![Image 6](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Monitors/6.png)
 
 // We found interesting document in /etc/apache2/sites-enabled/000-default.conf
 
@@ -160,17 +164,17 @@
     
 // Navigating to http://cacti-admin.monitors.htb we represented with login page 
 
-![Image 7]()
+![Image 7](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Monitors/7.png)
 
 // success login with credentials:  admin : BestAdministrator@2020!
 
 // on dashboard page we can see the version is 1.2.12
 
-![Image 8]()
+![Image 8](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Monitors/8.png)
 
 // Lets search for vulnerabilities in [ExploiDB](https://www.exploit-db.com/)
 
-![Image 9]()
+![Image 9](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Monitors/9.png)
 
 // Found a python script for Remote Code Execution(By Leonardo paiva)
 
