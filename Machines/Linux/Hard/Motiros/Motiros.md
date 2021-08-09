@@ -201,7 +201,7 @@
         
 // What happends Behind the sins with BurpSuite
 
-![Image 11]((https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Monitors/11.png))
+![Image 11](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Monitors/11.png)
 
 // We got a shell !!
 
