@@ -201,7 +201,7 @@
         
 // What happends Behind the sins with BurpSuite
 
-![Image 11]()
+![Image 11]((https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Monitors/11.png))
 
 // We got a shell !!
 
@@ -237,7 +237,7 @@
     www-data@monitors:$ cat /home/marcus/.backup/backup.sh
 -----
 
-#!/bin/bash
+    #!/bin/bash
 
     backup_name="cacti_backup"
     config_pass="VerticalEdge2020"
@@ -303,7 +303,7 @@
 
 // Navigating to https://127.0.0.1:8443
 
-![Image 10]()
+![Image 10]((https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Monitors/10.png))
 
 // We can see Tomcat version, searching for vulnerabilities ther is [one](https://www.rapid7.com/db/modules/exploit/linux/http/apache_ofbiz_deserialiation/) match to the version
 
