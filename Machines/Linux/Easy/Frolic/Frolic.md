@@ -78,11 +78,11 @@
 
 // Navigate to http://10.10.10.111:1880/
 
-![Image 1]()
+![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Frolic/1.png)
 
 // Navigate to http://10.10.10.111:9999
 
-![Image 2]()
+![Image 2](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Frolic/2.png)
 
 // So, we got a Node-RED login page and nginX welcome page
 
@@ -121,29 +121,29 @@
 
 // Navigate to http://10.10.10.111:9999/backup/ , we can see 3 files
 
-![Image 3]()
+![Image 3](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Frolic/3.png)
 
 // Navigate to http://10.10.10.111:9999/backup/password.txt
 
-![Image 4]()
+![Image 4](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Frolic/4.png)
 
 // Navigate to http://10.10.10.111:9999/backup/user.txt
 
-![Image 5]()
+![Image 5](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Frolic/5.png)
 
 // Navigate to http://10.10.10.111:9999/backup/loop/ , (Forbidden)
 
-![Image 6]()
+![Image 6](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Frolic/6.png)
 
 ------
 // Navigate to http://10.10.10.111:9999/test/ , showing us 'phpinfo()' output
 
-![Image 7]()
+![Image 7](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Frolic/7.png)
 
 ------
 // Navigate to http://10.10.10.111:9999/dev/ , (Forbidden)
 
-![Image 8]()
+![Image 8](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Frolic/8.png)
 
 // Searching for more directories and files in http://10.10.10.111:9999/dev/
 
@@ -168,48 +168,48 @@
 
 // found http://10.10.10.111:9999/dev/backup/ , Navigate to that directory
 
-![Image 9]()
+![Image 9](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Frolic/9.png)
 
 // Navigate to http://10.10.10.111:9999/playsms , we see a PlaySMS application login page
 
-![Image 10]()
+![Image 10](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Frolic/10.png)
 
 ------
 // Navigate to http://10.10.10.111:9999/admin/ , we see a 'hackable' login
 
-![Image 11]()
+![Image 11](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Frolic/11.png)
 
 // Checking on the source code we can see a mention of login.js file
 
-![Image 12]()
+![Image 12](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Frolic/12.png)
 
 // Navigate to that page we can see admin credentials !
 
 // And we can see that after success login , the page redirects you to 'success.html'
 
-![Image 13]()
+![Image 13](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Frolic/13.png)
 
     admin : superduperlooperpassword_lol
 
 // After login we get the 'success.html' page
 
-![Image 14]()
+![Image 14](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Frolic/14.png)
 
 // After some search , what we see its called [Ook!](https://esolangs.org/wiki/ook!) Programming language(Similar to BrainFuck)
 
 // We can decode that [here](https://www.dcode.fr/ook-language)
 
-![Image 15]()
+![Image 15](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Frolic/15.png)
 
     Nothing here check /asdiSIAJJ0QWE9JAS
 
 // Navigating to http://10.10.10.111:9999/asdiSIAJJ0QWE9JAS/ , we see and encrypted string
 
-![Image 16]()
+![Image 16](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Frolic/16.png)
 
 // Checking the file of the string in [Cyberchef](https://gchq.github.io/) , Resulting me that its a base64 decoded zip file
 
-![Image 17]()
+![Image 17](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Frolic/17.png)
 
 // So i first save the string to file called 'sstring'
 
@@ -239,13 +239,13 @@
 
 // We can Decode that again in [Cyberchef](https://gchq.github.io/) (Recipe: From Hex >> From Base64)
 
-![Image 18]()
+![Image 18](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Frolic/18.png)
 
 // Then we get something that looks like BrainFuck Proggraming language
 
 // Lets try to Decode that in another [online decoder exellent tool](https://www.dcode.fr/brainfuck-language)
 
-![Image 19]()
+![Image 19](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Frolic/19.png)
 
     idkwhatispass
 
@@ -262,11 +262,11 @@
 
 // Navigate to 'My Account' >> 'Send from file'
 
-![Image 20]()
+![Image 20](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Frolic/20.png)
 
 // Upload the file and its work !
 
-![Image 21]()
+![Image 21](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Frolic/21.png)
 
 // Now we can make a reverse shell
 
