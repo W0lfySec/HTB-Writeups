@@ -1,6 +1,6 @@
-## ------------->> Shocker <<----------------
-
 ![Image LOGO](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Shocker/shocker.png)
+
+## ------------->> Shocker <<----------------
 
 // We will start with nmap scan
 
@@ -23,7 +23,7 @@
 
 // Navigating to http://10.10.10.56/ , present us with a website with only photo
 
-![Image 1]()
+![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Shocker/1.png)
 
 // Lets search for interesting directories with [gobuster](https://github.com/OJ/gobuster)(By OJ)
 
@@ -122,7 +122,7 @@
 
 // Lets check the answer in BurpSuite Reapeter
 
-![Image 2]()
+![Image 2](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Shocker/2.png)
 
 // we needed to download the file becouse the gap between Content-Length and Content-Type
 
