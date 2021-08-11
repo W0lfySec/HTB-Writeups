@@ -8,13 +8,14 @@ HackTheBox
          │        │                         ├─────── Linux
          │        ├── Archetype             │           ├── Easy
          │        ├── Base                  │           │   ├── Cap
-         │        ├── Guard                 │           │   ├── Shocker
-         │        ├── Included              │           │   ├── Valentine
-         │        ├── MarkUp                │           │   ├── WriteUp 
-         │        ├── Oopsie                │           │   └── Knife
-         │        ├── PathFinder            │           │
-         │        ├── Shield                │           └────────────── Medium
-         │        └── Vaccine               │
+         │        ├── Guard                 │           │   ├── Mirai
+         │        ├── Included              │           │   ├── Shocker
+         │        ├── MarkUp                │           │   ├── Valentine
+         │        ├── Oopsie                │           │   ├── WriteUp 
+         │        ├── PathFinder            │           │   └── Knife
+         │        ├── Shield                │           │
+         │        └── Vaccine               │           └────────────── Medium
+         │                                  │
          │                                  └────── Windows
          │                                            └── Easy
          │                                                 ├── Arctic
@@ -39,6 +40,7 @@ HackTheBox
 ToDo: PathFinder
       Included
       WriteUp
+      Monitors
 
       
       
