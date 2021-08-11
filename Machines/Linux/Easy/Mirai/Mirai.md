@@ -99,7 +99,7 @@
 // And user flag !
 
     pi@raspberrypi:~/Desktop $ cat user.txt
-    ff837707441b257a20e32199d7c8838d
+    ff83770..........................
 
 
 
@@ -189,7 +189,7 @@
     root.txt
     damnit.txt
     >r &
-    3d3e483143ff12ec505d026fa13e020b
+    3d3e483143.................
     Damnit! Sorry man I accidentally deleted your files off the USB stick.
     Do you know if there is any way to get them back?
     -James
@@ -198,4 +198,4 @@
 
 // We found root flag !
 
-    3d3e483143ff12ec505d026fa13e020b
+    3d3e483143................
