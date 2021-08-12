@@ -221,17 +221,17 @@
 
 // Now save the file as zip file
 
-    $ mv index.php.dec index.php.dec.zip
+    $ mv string.dec string.dec.zip
 
 // When try to unzip that file he require a password
 
-    $ unzip index.php.dec.zip 
-    Archive:  index.php.dec.zip
-    [index.php.dec.zip] index.php password: 
+    $ unzip string.dec.zip
+    Archive:  string.dec.zip
+    [string.dec.zip] index.php password: 
 
 // We can easily crack that password with list rockyou.txt and [Fcrackzip](https://github.com/hyc/fcrackzip) Tool.
 
-    $ fcrackzip -u -D -p /usr/share/wordlists/rockyou.txt index.php.dec.zip 
+    $ fcrackzip -u -D -p /usr/share/wordlists/rockyou.txt string.dec.zip 
 
     PASSWORD FOUND!!!!: pw == password
 
