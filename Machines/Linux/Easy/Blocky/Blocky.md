@@ -189,7 +189,7 @@
 // We connected !!! And have user flag
 
     notch@Blocky:~$ cat user.txt 
-    59fee0977fb60b8a0bc6e41e751f3cd5
+    59fee097........................
 
 ### -----Privilleges Escalation-----
 
@@ -210,4 +210,4 @@
 // And the flag !
 
     root@Blocky:~# cat root.txt 
-    0a9694a5b4d272c694679f7860f1cd5f
+    0a9694a5b4......................
