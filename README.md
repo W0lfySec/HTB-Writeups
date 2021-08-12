@@ -7,14 +7,15 @@ HackTheBox
          ├────[Starting_Point]              │   
          │        │                         ├─────── Linux
          │        ├── Archetype             │           ├── Easy
-         │        ├── Base                  │           │   ├── Cap
-         │        ├── Guard                 │           │   ├── Frolic
-         │        ├── Included              │           │   ├── Mirai
-         │        ├── MarkUp                │           │   ├── Shocker
-         │        ├── Oopsie                │           │   ├── Valentine
-         │        ├── PathFinder            │           │   ├── WriteUp 
-         │        ├── Shield                │           │   └── Knife
-         │        └── Vaccine               │           │
+         │        ├── Base                  │           │   ├── Blocky
+         │        ├── Guard                 │           │   ├── Cap
+         │        ├── Included              │           │   ├── Frolic
+         │        ├── MarkUp                │           │   ├── Mirai
+         │        ├── Oopsie                │           │   ├── Shocker
+         │        ├── PathFinder            │           │   ├── Valentine
+         │        ├── Shield                │           │   ├── WriteUp 
+         │        └── Vaccine               │           │   └── Knife
+         │                                  │           │
          │                                  │           └────────────── Medium
          │                                  │
          │                                  └────── Windows
