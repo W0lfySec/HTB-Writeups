@@ -130,7 +130,7 @@
         }
     }
 
-// We have sql root credentials ! 
+// We have credentials ! 
 
         this.sqlUser = "root";
         this.sqlPass = "8YsqfCTnvxAUeduzjNSXe22";
