@@ -299,4 +299,36 @@
     www-data@frolic:/home/ayush$ cat user.txt
     2ab95909cf509f85a6f476b59a0c2fe0
 
-//
+
+### -----Privilleges Escalation------
+
+// After some search for some interesting files i found hidden directory at ayush user called '.binary'
+
+// Inside the folder was a executable file called rop
+
+    www-data@frolic:/home/ayush/.binary$ file rop
+    rop: setuid ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=59da91c100d138c662b77627b65efbbc9f797394, not stripped
+
+// Launch this file output:
+
+    www-data@frolic:/home/ayush/.binary$ rop
+    [*] Usage: program <message>
+
+// Its seems that its request to input some massage
+
+// Lets try to check if its vulnerable to [Buffer Overflow Attack](https://www.veracode.com/security/buffer-overflow)(Segmentation fault)
+
+    www-data@frolic:/home/ayush/.binary$ rop aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa                    
+    [+] Message sent: rop aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    www-data@frolic:/home/ayush/.binary$ rop aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa                
+    [+] Message sent: rop aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    www-data@frolic:/home/ayush/.binary$ rop aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa               
+    [+] Message sent: rop aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    www-data@frolic:/home/ayush/.binary$ rop aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    bash: [1638: 2 (255)] tcsetattr: Inappropriate ioctl for device
+
+// After some checks we can see that this file is vulnerable to [Buffer Overflow](https://www.veracode.com/security/buffer-overflow)
+    
+    
+    
+    
