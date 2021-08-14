@@ -17,7 +17,7 @@
     
 // Navigating to http://10.10.10.95:8080/ 
 
-![Image 1]()
+![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Jerry/1.png)
 
 // Searching for interesting directories with [dirsearch](https://github.com/maurosoria/dirsearch)(By maurosoria)
 
@@ -61,11 +61,11 @@
 
 // Navigating to http://10.10.10.95:8080/manager/ gets us a login pop up lets try admin : admin
 
-![Image 2]()
+![Image 2](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Jerry/2.png)
 
 // Its redirect us to http://10.10.10.95:8080/manager/html 'ACCESS DENIED' html page
 
-![Image 3]()
+![Image 3](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Jerry/3.png)
 
 // Found a tomcat [list](https://github.com/danielmiessler/SecLists/blob/master/Passwords/Default-Credentials/tomcat-betterdefaultpasslist.txt) 
 
@@ -90,15 +90,15 @@
 
 // Navigate to http-get://10.10.10.95:8080/ and click on 'Server Status' and default login credentials
 
-![Image 4]()
+![Image 4](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Jerry/4.png)
 
 // Then click on 'List applications'
 
-![Image 5]()
+![Image 5](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Jerry/5.png)
 
 // Rolling down we can see that we can upload .war files
 
-![Image 7]()
+![Image 6](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Jerry/6.png)
 
 // Lets first make .war payload with msfvenom
 
@@ -151,7 +151,7 @@
 
 // now opload the war file 
 
-![Image 7]()
+![Image 7](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Jerry/7.png)
 
 // And navigate to http://10.10.10.95:8080/jerry_war/biemviiajpvn.jspv
 
