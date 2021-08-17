@@ -59,5 +59,9 @@
     Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
     Nmap done: 1 IP address (1 host up) scanned in 1631.55 seconds
 
+// Navigating to http://10.10.10.7/ redirect us to HTTPS(port 443) https://10.10.10.7/ , its a login page of elastix(private branch exchange software)
 
+![Image 1]()
+
+// 
 
