@@ -69,11 +69,11 @@
 
 // Searching for exploit to elastix service in [ExploitDB](https://www.exploit-db.com/) found me a 'Local file inclusion vulnerability'
 
-![Image 6](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Beep/6.png)
+![Image 5](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Beep/5.png)
 
 // Looking at the vulnerabillity help to understand the picture
 
-![Image 5](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Beep/5.png)
+![Image 6](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Beep/6.png)
 
 // Lets try that !
 
