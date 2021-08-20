@@ -69,7 +69,7 @@
 
 // Searching for exploit to elastix service in [ExploitDB](https://www.exploit-db.com/) found me a 'Local file inclusion vulnerability'
 
-![Image 4](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Beep/4.png)
+![Image 6](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Beep/6.png)
 
 // Looking at the vulnerabillity help to understand the picture
 
@@ -88,7 +88,7 @@
 
 // Lets try to get passwd file
 
-![Image 6](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Beep/6.png)
+![Image 4](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Beep/4.png)
 
 // Also worked !, So we got users 
 
