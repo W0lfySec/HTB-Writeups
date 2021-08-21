@@ -22,7 +22,7 @@
 
 ![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Bashed/1.png)
 
-// Lets search for some directories or files with [dirsearch]()
+// Lets search for some directories or files with [dirsearch](https://github.com/maurosoria/dirsearch)
 
     $ python3 dirsearch.py -u http://10.10.10.68/ -t 150
 ------
