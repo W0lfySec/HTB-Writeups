@@ -150,7 +150,7 @@
 
 // Lets try to modify the test.py file to give us a shell as root
 
-// first we will make reverse shell file with python(found one [here]())
+// first we will make reverse shell file with python(found one [here](http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet))
 
     $ cat exploit.py
 
