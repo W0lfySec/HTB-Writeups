@@ -22,6 +22,7 @@ HackTheBox
          │                                  │
          │                                  └────── Windows
          │                                            └── Easy
+         │                                                 ├── Active
          │                                                 ├── Arctic
          │                                                 ├── Blue
          │                                                 ├── Devel
