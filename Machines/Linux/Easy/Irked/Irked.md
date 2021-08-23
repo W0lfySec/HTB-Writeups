@@ -72,15 +72,11 @@
     8067/tcp  open  irc     UnrealIRCd
     65534/tcp open  irc     UnrealIRCd
 
-// Lets search for exploit for that service with 'searchsploit'
+// Lets search for exploit for UnrealIRCd service on [ExploitDB](https://www.exploit-db.com)
 
-    $ searchsploit UnrealIRCd
-------------
+// We see that this service vulnerable to remote code execution
 
-    UnrealIRCd 3.2.8.1 - Backdoor Command Execution (Metasploit)                                                | linux/remote/16922.rb
-    UnrealIRCd 3.2.8.1 - Local Configuration Stack Overflow                                                     | windows/dos/18011.txt
-    UnrealIRCd 3.2.8.1 - Remote Downloader/Execute                                                              | linux/remote/13853.pl
-    UnrealIRCd 3.x - Remote Denial of Service                                                                   | windows/dos/27407.pl
+![Image 3]()
 
 // We can see there is a Metasploit module for exploit this service, lets try this 
 
