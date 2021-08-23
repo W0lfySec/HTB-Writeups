@@ -35,7 +35,11 @@
     65534/tcp open  irc     UnrealIRCd
     Service Info: Host: irked.htb; OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
-// 
+// Navigating to http://10.10.10.117/ , represent us with a picture
+
+![Image 1]()
+
+// Lets search for some directories or files with [dirsearch](https://github.com/maurosoria/dirsearch) Tool (By maurosoria)
 
     $ python3 dirsearch.py -u http://10.10.10.117/ -i 100-400 -t 100
 --------
@@ -56,6 +60,28 @@
     [21:10:17] 200 -  626B  - /manual/index.html
     [21:10:17] 301 -  313B  - /manual  ->  http://10.10.10.117/manual/
 
-// 
+// Navigating to http://10.10.10.117/manual/ , represent us with apache 2.4 manual
 
+![Image 2]()
 
+// Nothing much there, lets move on.
+
+// We notice also we have service called UnrealIRCd on ports 6697,8067,65534
+
+    6697/tcp  open  irc     UnrealIRCd
+    8067/tcp  open  irc     UnrealIRCd
+    65534/tcp open  irc     UnrealIRCd
+
+// Lets search for exploit for that service with 'searchsploit'
+
+    $ searchsploit UnrealIRCd
+------------
+
+    UnrealIRCd 3.2.8.1 - Backdoor Command Execution (Metasploit)                                                | linux/remote/16922.rb
+    UnrealIRCd 3.2.8.1 - Local Configuration Stack Overflow                                                     | windows/dos/18011.txt
+    UnrealIRCd 3.2.8.1 - Remote Downloader/Execute                                                              | linux/remote/13853.pl
+    UnrealIRCd 3.x - Remote Denial of Service                                                                   | windows/dos/27407.pl
+
+// We can see there is a Metasploit module for exploit this service, lets try this 
+
+https://www.exploit-db.com/exploits/13853
