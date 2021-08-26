@@ -18,7 +18,7 @@
 
 // We can see only port 80(http) open, Lets check it out
 
-![Image 1]()
+![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Proper/1.png)
 
 // Its seems like some company products website,
 
@@ -46,7 +46,7 @@
 
 // We found two directories /assets/ its Forbbiden but /licenses/ get us to login page
 
-![Image 4]()
+![Image 4](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Proper/4.png)
 
 // guessing and sql injection syntaxes didnt work...
 
@@ -54,29 +54,29 @@
 
 // The response shows us that there another directory that load with the /index.html
 
-![Image 2]()
+![Image 2](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Proper/2.png)
 
     /products-ajax.php?order=id+desc&h=a1b30d31d344a5a4e41e8496ccbdd26b
     
 // Navigating to there, shows us all the company products
 
-![Image 3]()
+![Image 3](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Proper/3.png)
 
 // Also 'order=id+desc' looks like SQL query i will change desc to asc(read more abot [desc&asc](https://www.guru99.com/order-by-desc-and-asc.html))
 
-![Image 5]()
+![Image 5](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Proper/5.png)
 
 // We got Forbidden page, Moving on...
 
 // When removing the md5 hash from the browser we got error for parameter missing
 
-![Image 6]()
+![Image 6](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Proper/6.png)
 
 // Lets try to remove 'h' parameter
 
 // Now we get the same error but this time we get also crash details
 
-![Image 7]()
+![Image 7](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Proper/7.png)
 
 // We got the secure-salt !
 
@@ -84,7 +84,7 @@
 
 // Lets check the hash with online hash-analyzer [tool](https://www.tunnelsup.com/hash-analyzer/)
 
-![Image 8]()
+![Image 8](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Proper/8.png)
 
 // its md5 hash, we need to encrypt the salt now, we can do that with md5sum tool or online [tool](https://www.md5online.org/md5-encrypt.html)
 
@@ -125,9 +125,9 @@
 
 // Now that we know the salt worked we can proceed to [sqlmap](https://github.com/sqlmapproject/sqlmap)tool with [this](https://securitypadawan.blogspot.com/2014/01/using-sqlmaps-eval-functionality-for.html) help to understand.
 
-$sqlmap -u http://10.10.10.231/products-ajax.php?order=id+asc&h=181345bd7fce37aad011ea65a41b60c8 -p order --eval="import hashlib ; h=hashlib.md5(('hie0shah6ooNoim'+order).encode('utf-8')).hexdigest()" -v 5 --dbs
+$sqlmap -u http://10.10.10.231/products-ajax.php?order=id+asc&h=181345bd7fce37aad011ea65a41b60c8 -p order --eval="import hashlib ; h=hashlib.md5(('hie0shah6ooNoim'+order).encode('utf-8')).hexdigest()" --batch --level=3 --risk=3 --skip-urlencode -v 5 --dbs
 
-
+sqlmap -u "http://10.10.10.231/products-ajax.php?order=1" --batch --tamper=proper --level=3 --risk=3 --skip-urlencode
 
 https://github.com/evyatar9/Writeups/tree/master/HackTheBox/Proper
 
