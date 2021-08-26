@@ -48,6 +48,8 @@ ToDo: PathFinder
       WriteUp
       Monitors
       Frolic
+      Proper
+      Irked
 
       
       
