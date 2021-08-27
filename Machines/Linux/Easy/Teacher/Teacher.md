@@ -157,7 +157,11 @@
 
 // Basically what the exploit does is:
 
-    Login >> Identify id(course number) >> Enable Edit mode >> Add Quiz >> Add malicious questions 
+    Login >> Identify id(course number) >> Enable Edit mode(ON) >> Add Quiz
+    >> Add questions type Calculated >> Add 'malicious' Answer Formula 
+-----
+
+    --- Then we will get a URL '0' parameter that will communicate with system ---
 
 // Lets try this
 
@@ -185,7 +189,7 @@
 
 ![Image 9.6](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.6.png)
 
-// Hit the 'Add' scrolldown and clicl '+ a new question'
+// Hit the 'Add' scrolldown and click '+ a new question'
 
 ![Image 9.7](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.7.png)
 
@@ -233,7 +237,7 @@
     python -c 'import pty; pty.spawn("/bin/bash")'
     www-data@teacher:/var/www/html/moodle/question$ 
 
-// Tring to get the flag i got blocked to enter giovanni user directory due to permissions
+// Trying to get the flag i got blocked to enter giovanni user directory due to permissions
 
     www-data@teacher:/var/www/html/moodle/question$ cd /home/
     www-data@teacher:/home$ ls
