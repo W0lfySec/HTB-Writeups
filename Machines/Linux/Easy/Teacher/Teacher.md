@@ -71,3 +71,41 @@
     Giovanni
 
 // Great!, we have partly password
+
+// Next part its to complete the missing part of the password([Dictionary Attack](https://searchsecurity.techtarget.com/definition/dictionary-attack)), since we dont know what it is
+
+// I come up with idea to combine [Crunch](https://tools.kali.org/password-attacks/crunch) password list maker tool and Python
+
+// First we will make an password extention txt file with crunch(i limited from 1 to 3 characters)
+
+    $ crunch 1 3 'abcdefghijklmnopqrstuvwxyz1234567890ls%^&*()_+-=@{}[]\/.,`~|#' -o pass_extention.txt
+
+// Next i will make a little python script till 100000 passwords that will 
+
+// add the extention from the extantion file to the existing pass (Th4C00lTheacha)
+
+// !! NOTE !! the script work only for Teacher machine
+
+    f2 = open("combined_pass.txt", "x")
+    f = open("pass_extention.txt", "r")
+
+    x = 1
+    d = 100000
+
+    while d > x:
+       x +=1
+       line1 = f.readline(x)
+       pass1 = 'Th4C00lTheacha'
+       combined = pass1 + line1
+
+       f2.write(combined)
+
+
+    f.close()
+    f2.close()
+
+// Now we got 'combined_pass.txt' passwords file
+
+
+
+
