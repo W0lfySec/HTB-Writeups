@@ -167,41 +167,41 @@
 
 // Next we can see the course 'ALG', click it
 
-![Image 9.2](![Image 9.1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.2.png)
+![Image 9.2](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.2.png)
 
 // Now we click on the gear scrolldown and click on 'Turn editing ON'
 
-![Image 9.3](![Image 9.1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.3.png)
+![Image 9.3](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.3.png)
 
 // Now we click on 'Add an activity or resource' and select 'Quiz' and click 'Add'
 
-![Image 9.4](![Image 9.1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.4.png)
+![Image 9.4](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.4.png)
 
 // Add a name (i added 'shell') and click 'Save and Display'
 
-![Image 9.5](![Image 9.1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.5.png)
+(![Image 9.5](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.5.png)
 
 // Click 'Edit quiz'
 
-![Image 9.6](![Image 9.1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.6.png)
+![Image 9.6](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.6.png)
 
 // Hit the 'Add' scrolldown and clicl '+ a new question'
 
-![Image 9.7](![Image 9.1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.7.png)
+![Image 9.7](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.7.png)
 
 // Select 'Calculated' option and click 'Add'
 
-![Image 9.8](![Image 9.1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.8.png)
+![Image 9.8](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.8.png)
 
 // Now we need the 'Answer Formula' found in the exploit
 
-![Image 9.9](![Image 9.1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.9.png)
+![Image 9.9](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.9.png)
 
 // Add the formula and change grade to 100% (coz we good students[;)
 
 // This will allow us to pass system commands through a url parameter called 0 
 
-![Image 9.10](![Image 9.1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.10.png)
+![Image 9.10](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.10.png)
 
 // Click 'Save changes' and now we can open a listiner
 
@@ -216,7 +216,7 @@
 
 // the browser will automatclly encode the code
 
-![Image 9.11](![Image 9.1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.11.png)
+![Image 9.11](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.11.png)
 
 // And we got www-data shell !!
 
