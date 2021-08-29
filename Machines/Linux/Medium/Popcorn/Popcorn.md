@@ -118,7 +118,11 @@
 
 ![Image 10]()
 
+// Its seems that the website will accept onlt .torrent extention files.
 
+// So we need to make one
+
+https://www.wikihow.com/Create-a-Torrent
 
 
 
