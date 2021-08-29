@@ -264,4 +264,4 @@
 // And root flag !!!!
 
     root@Delivery:~# cat /root/root.txt 
-    0a37d20cfd8ea1f611377419902ebdea
+    0a37d20....................
