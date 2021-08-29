@@ -11,10 +11,11 @@ HackTheBox
          │        ├── Guard                 │           │   ├── Beep       
          │        ├── Included              │           │   ├── Blocky
          │        ├── MarkUp                │           │   ├── Cap
-         │        ├── Oopsie                │           │   ├── Frolic
-         │        ├── PathFinder            │           │   ├── Mirai
-         │        ├── Shield                │           │   ├── Shocker
-         │        └── Vaccine               │           │   ├── Valentine
+         │        ├── Oopsie                │           │   ├── Delivery         
+         │        ├── PathFinder            │           │   ├── Frolic
+         │        ├── Shield                │           │   ├── Mirai
+         │        └── Vaccine               │           │   ├── Shocker
+         │                                  │           │   ├── Valentine
          │                                  │           │   ├── WriteUp 
          │                                  │           │   └── Knife
          │                                  │           │
