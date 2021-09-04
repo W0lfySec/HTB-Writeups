@@ -133,7 +133,121 @@
 
 // I will start with 'unobtainium_1.0.0_amd64.deb'
 
-// We can check the archieve files with ['ar'](https://www.computerhope.com/unix/uar.htm) command
+// We can extract the archieve files with ['ar'](https://www.computerhope.com/unix/uar.htm) command
+
+    $ ar vx unobtainium_1.0.0_amd64.deb
+---------
+
+    x - debian-binary
+    x - control.tar.gz
+    x - data.tar.xz
+
+// We see 3 files, first lets check the files from 'control.tar.gz'
+
+    $ tar xfvz control.tar.gz 
+------
+
+    ./
+    ./postinst
+    ./postrm
+    ./control
+    ./md5sums
+
+// Now we can see the 'control' file contant
+
+    $ cat control
+------
+
+    Package: unobtainium
+    Version: 1.0.0
+    License: ISC
+    Vendor: felamos <felamos@unobtainium.htb>
+    Architecture: amd64
+    Maintainer: felamos <felamos@unobtainium.htb>
+    Installed-Size: 185617
+    Depends: libgtk-3-0, libnotify4, libnss3, libxss1, libxtst6, xdg-utils, libatspi2.0-0, libuuid1, libappindicator3-1, libsecret-1-0
+    Section: default
+    Priority: extra
+    Homepage: http://unobtainium.htb
+    Description: 
+      client
+
+// There is potential email 'felamos@unobtainium.htb' and the domain 'http://unobtainium.htb' , Lets move on...
+
+// Also we got 'data.tar.xz' file, its compressed .tar archieve, first we need to decompress the archieve
+
+    $ xz --decompress data.tar.xz 
+
+// Now we can extract files from the new decompressed 'data.tar'
+
+    $ tar -xvf data.tar 
+------
+
+    ./
+    ./usr/
+    ./usr/share/
+    ./usr/share/icons/
+    ...
+    ./opt/unobtainium/unobtainium       
+    ...
+
+// Check the 'unobtainium' file we can see its a elf file (executable).
+
+    $ file unobtainium 
+
+    unobtainium: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=eba93a10160aedf096f5289e37ab5d3fcdff1bcf, not stripped
+
+// When try to execute that app, i get an error that 'unobtainium.htb' unreachable.
+
+![Image 2]()
+
+// So lets add unobtainium.htb to /etc/hosts
+
+    $ cat /etc/hosts
+
+    # Host addresses
+    10.10.10.235 unobtainium.htb
+
+// Running the app again didnt shows an error and there is a todo section
+
+![Image 3]()
+
+    {"ok":true,"content":
+    "1. Create administrator zone.
+    2. Update node JS API Server.
+    3. Add Login functionality.
+    4. Complete Get Messages feature.
+    5. Complete ToDo feature.
+    6. Implement Google Cloud Storage function: https://cloud.google.com/storage/docs/json_api/v1
+    7. Improve security"}
+
+// Since the application working fine we can [configure variable envoronment](https://www.phoenixnap.com/kb/linux-set-environment-variable) to BurpSuite for intersept the communication
+
+    $ set env variable http_proxy=127.0.0.1:8080
+
+// It didnt work for me... so we remove the variable and move on....
+
+    $ unset http_proxy
+
+// When searching the directory of the app, there is another directory called 'resources' and there is a .asar file called 'app.asar'
+
+    /opt/unobtainium/resources $ ls
+
+    app.asar
+
+// Found a [tool](https://github.com/electron/asar)(By MarshallOfSound) to extract files from .asar files.
+
+
+
+
+// We could also use another way to search strings that contain the word 'password'
+
+    $ strings app.asar | grep "password"
+-----
+
+        data: JSON.stringify({"auth": {"name": "felamos", "password": "Winter2021"}, "message": {"text": message}}),
+
+// 
 
 
     $ python3 dirsearch.py -u https://10.10.10.235:8443/ -t 100 -w /usr/share/dirb/wordlists/big.txt 
