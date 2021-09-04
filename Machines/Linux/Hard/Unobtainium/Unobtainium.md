@@ -103,8 +103,11 @@
     |_http-title: Site doesn't have a title (application/json; charset=utf-8).
 
 
-// 
+// Navigatin to http://10.10.10.235/ present us with 'chat application' website with 3 files for download
 
+![Image 1]()
+
+// Lets search for interesting directories or files on the website with [dirseach](https://github.com/maurosoria/dirsearch) tool(By maurosoria).
 
     $ python3 dirsearch.py -u http://10.10.10.235/ -t 100 -w /usr/share/dirb/wordlists/big.txt 
 --------
@@ -126,7 +129,11 @@
     [06:52:02] 301 -  313B  - /images  ->  http://10.10.10.235/images/
     [06:52:12] 403 -  277B  - /server-status
 
-// 
+// Didnt found much... so lets investigate the download files
+
+// I will start with 'unobtainium_1.0.0_amd64.deb'
+
+// We can check the archieve files with ['ar'](https://www.computerhope.com/unix/uar.htm) command
 
 
     $ python3 dirsearch.py -u https://10.10.10.235:8443/ -t 100 -w /usr/share/dirb/wordlists/big.txt 
