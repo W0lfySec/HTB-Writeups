@@ -3,7 +3,7 @@
 
 // First we got ziped file called Eternal_Loop.zip , unzip file password: hackthebox
  Now we got another zip file called 37366.zip to unzip this zipped folder we need password
- the password can eazily cracked using johnnh kt hcut
+ the password can eazily cracked using [john the ripper](https://www.openwall.com/john/)
 
     $ zip2john 37366.zip > hash.txt
     Created directory: /home/kali/.john
