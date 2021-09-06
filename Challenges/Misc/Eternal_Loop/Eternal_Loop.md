@@ -106,6 +106,7 @@
     .........
     
  // it will run for a while(sorry, didnt found way to make that faster)
+ 
  // finally it stops at 6969.zip and for crack this password we will use another tool called fcrackzip
  
     $ fcrackzip -D -p ../../../../wordlists--/rockyou.txt 6969.zip -u
