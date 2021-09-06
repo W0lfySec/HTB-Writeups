@@ -1,9 +1,9 @@
 ## -->> Eternal Loop <<--
 (attach file = Unzip_htb_EternalLoop.py )
 
-// At downloaded files we get ziped file called Eternal_Loop.zip , unzip file password: hackthebox
+// First we got ziped file called Eternal_Loop.zip , unzip file password: hackthebox
  Now we got another zip file called 37366.zip to unzip this zipped folder we need password
- the password can eazily cracked using john
+ the password can eazily cracked using johnnh kt hcut
 
     $ zip2john 37366.zip > hash.txt
     Created directory: /home/kali/.john
