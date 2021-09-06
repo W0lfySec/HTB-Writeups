@@ -25,7 +25,7 @@
     Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 
-// Lets search some directories with [dirsearch]()(By)
+// Lets search some directories with [dirsearch](https://github.com/maurosoria/dirsearch)(By maurosoria)
 
 $ python3 dirsearch.py -u http://10.129.214.117/ -t 100 
 
