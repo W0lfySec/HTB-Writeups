@@ -117,9 +117,13 @@
 
     $ file DoNotTouch 
     DoNotTouch: SQLite 3.x database, last written using SQLite version 3021000
-// seems to be a sql database file
-// we can navigate to online sql viewer: https://inloop.github.io/sqlite/viewer/
+
+// Seems to be a sql database file
+
+// we can navigate to [online sql viewer](https://inloop.github.io/sqlite/viewer/)
+
 // After a lot digging in the tables i found the flag
+
 ![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Eternal_loop/1.png)
 
 
