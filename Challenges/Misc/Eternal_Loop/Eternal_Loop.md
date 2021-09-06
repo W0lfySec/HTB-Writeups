@@ -34,7 +34,8 @@
  I have follow that like 20 times till iquit and understand its not the way.
  I was thinking how to automate that and got to conclution that i need to write a little script that
  will automate the steps of get the name of the inside zipped folder and output the name to unzip password
- i found a way to that with python
+ 
+ // i found a way to that with python
  
      #!/usr/bin/env python
 
