@@ -2,7 +2,7 @@
 
 // We start with nmap scan
 
-    $ nmap -sV -A -Pn -T4 10.129.214.117
+    $ nmap -sV -A -Pn -T4 10.10.11.104
 -----
 
     Nmap scan report for 10.129.214.117
@@ -27,7 +27,7 @@
 
 // Lets search some directories with [dirsearch](https://github.com/maurosoria/dirsearch)(By maurosoria)
 
-$ python3 dirsearch.py -u http://10.129.214.117/ -t 100 
+$ python3 dirsearch.py -u http://10.10.11.104/ -t 100 
 
   _|. _ _  _  _  _ _|_    v0.4.1
  (_||| _) (/_(_|| (_| )
@@ -75,3 +75,36 @@ Target: http://10.129.214.117/
 [20:01:51] 403 -  279B  - /server-status
 [20:01:51] 403 -  279B  - /server-status/
 [20:01:53] 302 -    3KB - /status.php  ->  login.php
+
+
+
+$unzip siteBackup.zip 
+Archive:  siteBackup.zip
+  inflating: accounts.php            
+  inflating: config.php              
+  inflating: download.php            
+  inflating: file_logs.php           
+  inflating: files.php               
+  inflating: footer.php              
+  inflating: header.php              
+  inflating: index.php               
+  inflating: login.php               
+  inflating: logout.php              
+  inflating: logs.php                
+  inflating: nav.php                 
+  inflating: status.php              
+
+$cat config.php 
+<?php
+
+function connectDB(){
+    $host = 'localhost';
+    $user = 'root';
+    $passwd = 'mySQL_p@ssw0rd!:)';
+    $db = 'previse';
+    $mycon = new mysqli($host, $user, $passwd, $db);
+    return $mycon;
+}
+
+?>
+
