@@ -94,7 +94,25 @@ Archive:  siteBackup.zip
   inflating: nav.php                 
   inflating: status.php              
 
+$cd siteBackup/
+$cat status.php | grep pass
+$cat nav.php | grep pass
+$cat download.php | grep pass
+$cat login.php | grep pass
+            $password = $_POST['password'];
+            } elseif (empty(trim($_POST['password']))) {
+                    $passHash = $users['password'];
+                    if (crypt($password, '$1$🧂llol$') == $passHash) {
+                    <input type="password" name="password" class="uk-input" placeholder="Password" required>
+$cat logs.php | grep pass
+$cat config.php | grep pass
+    $passwd = 'mySQL_p@ssw0rd!:)';
+    $mycon = new mysqli($host, $user, $passwd, $db);
+
+
+
 $cat config.php 
+....
 <?php
 
 function connectDB(){
@@ -107,4 +125,4 @@ function connectDB(){
 }
 
 ?>
-
+....
