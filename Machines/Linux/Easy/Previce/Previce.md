@@ -27,54 +27,54 @@
 
 // Lets search some directories with [dirsearch](https://github.com/maurosoria/dirsearch)(By maurosoria)
 
-$ python3 dirsearch.py -u http://10.10.11.104/ -t 100 
+    $ python3 dirsearch.py -u http://10.10.11.104/ -t 100 
 
-  _|. _ _  _  _  _ _|_    v0.4.1
- (_||| _) (/_(_|| (_| )
+      _|. _ _  _  _  _ _|_    v0.4.1
+     (_||| _) (/_(_|| (_| )
 
-Extensions: php, aspx, jsp, html, js | HTTP method: GET | Threads: 100 | Wordlist size: 10903
+    Extensions: php, aspx, jsp, html, js | HTTP method: GET | Threads: 100 | Wordlist size: 10903
 
-Output File: /home/kali/Desktop/Tools/dirsearch/reports/10.129.214.117/_21-08-10_20-00-52.txt
+    Output File: /home/kali/Desktop/Tools/dirsearch/reports/10.129.214.117/_21-08-10_20-00-52.txt
 
-Error Log: /home/kali/Desktop/Tools/dirsearch/logs/errors-21-08-10_20-00-52.log
+    Error Log: /home/kali/Desktop/Tools/dirsearch/logs/errors-21-08-10_20-00-52.log
 
-Target: http://10.10.11.104/ 
+    Target: http://10.10.11.104/ 
 
-[20:00:52] Starting: 
-[20:00:59] 301 -  313B  - /js  ->  http://10.10.11.104/js/
-[20:01:00] 403 -  279B  - /.ht_wsr.txt
-[20:01:00] 403 -  279B  - /.htaccess.bak1
-[20:01:00] 403 -  279B  - /.htaccess.orig
-[20:01:00] 403 -  279B  - /.htaccess.save
-[20:01:00] 403 -  279B  - /.htaccess_orig
-[20:01:00] 403 -  279B  - /.htaccessBAK
-[20:01:00] 403 -  279B  - /.htaccess_extra
-[20:01:00] 403 -  279B  - /.htaccess.sample
-[20:01:00] 403 -  279B  - /.htaccess_sc
-[20:01:00] 403 -  279B  - /.htaccessOLD2
-[20:01:00] 403 -  279B  - /.htaccessOLD
-[20:01:00] 403 -  279B  - /.html
-[20:01:00] 403 -  279B  - /.htm
-[20:01:00] 403 -  279B  - /.htpasswd_test
-[20:01:00] 403 -  279B  - /.httr-oauth
-[20:01:00] 403 -  279B  - /.htpasswds
-[20:01:02] 403 -  279B  - /.php
-[20:01:12] 302 -    4KB - /accounts.php  ->  login.php
-[20:01:28] 200 -    0B  - /config.php
-[20:01:29] 301 -  314B  - /css  ->  http://10.10.11.104/css/
-[20:01:31] 302 -    0B  - /download.php  ->  login.php
-[20:01:34] 200 -   15KB - /favicon.ico
-[20:01:34] 302 -    5KB - /files.php  ->  login.php
-[20:01:34] 200 -  217B  - /footer.php
-[20:01:35] 200 -  980B  - /header.php
-[20:01:37] 302 -    3KB - /index.php  ->  login.php
-[20:01:37] 302 -    3KB - /index.php/login/  ->  login.php
-[20:01:38] 200 -    1KB - /js/
-[20:01:40] 200 -    2KB - /login.php
-[20:01:40] 302 -    0B  - /logout.php  ->  login.php
-[20:01:51] 403 -  279B  - /server-status
-[20:01:51] 403 -  279B  - /server-status/
-[20:01:53] 302 -    3KB - /status.php  ->  login.php
+    [20:00:52] Starting: 
+    [20:00:59] 301 -  313B  - /js  ->  http://10.10.11.104/js/
+    [20:01:00] 403 -  279B  - /.ht_wsr.txt
+    [20:01:00] 403 -  279B  - /.htaccess.bak1
+    [20:01:00] 403 -  279B  - /.htaccess.orig
+    [20:01:00] 403 -  279B  - /.htaccess.save
+    [20:01:00] 403 -  279B  - /.htaccess_orig
+    [20:01:00] 403 -  279B  - /.htaccessBAK
+    [20:01:00] 403 -  279B  - /.htaccess_extra
+    [20:01:00] 403 -  279B  - /.htaccess.sample
+    [20:01:00] 403 -  279B  - /.htaccess_sc
+    [20:01:00] 403 -  279B  - /.htaccessOLD2
+    [20:01:00] 403 -  279B  - /.htaccessOLD
+    [20:01:00] 403 -  279B  - /.html
+    [20:01:00] 403 -  279B  - /.htm
+    [20:01:00] 403 -  279B  - /.htpasswd_test
+    [20:01:00] 403 -  279B  - /.httr-oauth
+    [20:01:00] 403 -  279B  - /.htpasswds
+    [20:01:02] 403 -  279B  - /.php
+    [20:01:12] 302 -    4KB - /accounts.php  ->  login.php
+    [20:01:28] 200 -    0B  - /config.php
+    [20:01:29] 301 -  314B  - /css  ->  http://10.10.11.104/css/
+    [20:01:31] 302 -    0B  - /download.php  ->  login.php
+    [20:01:34] 200 -   15KB - /favicon.ico
+    [20:01:34] 302 -    5KB - /files.php  ->  login.php
+    [20:01:34] 200 -  217B  - /footer.php
+    [20:01:35] 200 -  980B  - /header.php
+    [20:01:37] 302 -    3KB - /index.php  ->  login.php
+    [20:01:37] 302 -    3KB - /index.php/login/  ->  login.php
+    [20:01:38] 200 -    1KB - /js/
+    [20:01:40] 200 -    2KB - /login.php
+    [20:01:40] 302 -    0B  - /logout.php  ->  login.php
+    [20:01:51] 403 -  279B  - /server-status
+    [20:01:51] 403 -  279B  - /server-status/
+    [20:01:53] 302 -    3KB - /status.php  ->  login.php
 
 // Navigating to /accounts.php redirects us to /login.php
 
