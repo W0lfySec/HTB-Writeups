@@ -242,6 +242,8 @@
 
 // Since we got mysql credentials earlier lets see what we can get 
 
+// This [website](https://dev.mysql.com/doc/mysql-getting-started/en/) helped me a lot to navigate in the mysql DataBase
+
     $ mysql -u root -p previse                         
     mysql -u root -p previse
     Enter password: mySQL_p@ssw0rd!:)
@@ -311,4 +313,20 @@
 
 // We got user 'm4lwhere' hash
 
-// we can crack it using john 
+// we can crack it using john using format: md5crypt-long 
+
+    $ john hash.txt --wordlist=../../../../../../htb/wordlists--/rockyou.txt --format=md5crypt-long 
+    Using default input encoding: UTF-8
+    Loaded 1 password hash (md5crypt-long, crypt(3) $1$ (and variants) [MD5 32/64])
+    Will run 4 OpenMP threads
+    Press 'q' or Ctrl-C to abort, almost any other key for status
+    ilovecody112235! (?)
+    1g 0:00:53:13 DONE (2021-09-09 10:38) 0.000313g/s 2321p/s 2321c/s 2321C/s ilovecodydean..ilovecody..
+    Use the "--show" option to display all of the cracked passwords reliably
+    Session completed
+
+// We got 'm4lwhere' user password !!
+
+    m4lwhere : ilovecody112235!
+    
+// 
