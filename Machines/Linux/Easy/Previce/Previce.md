@@ -78,23 +78,23 @@
 
 // Navigating to /accounts.php redirects us to /login.php
 
-![Image 1]()
+![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Previce/1.png)
 
 // So, since its the most interesting file i open BurpSuite and capture this request and send it to Reapter
 
-![Image 3]()
+![Image 3](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Previce/3.png)
 
 // Its seems that we get the wanted request in Burp, BUT, the status its 302 so its redirects us
 
 // tring to see the page accounts.php i have copied the HTML code from the response html file to see the content
 
-![Image 2]()
+![Image 2](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Previce/2.png)
 
 // So now we can see that if we get this page we're basically loged in
 
 // Also we could see that in BurpSuite reapter when change the response to render
 
-![Image 4]()
+![Image 4](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Previce/4.png)
 
 // In BurpSuite u have an option to edit the request
 
@@ -104,25 +104,25 @@
 
 // Click 'forward', and now we can edit the status from '302 to '200'(Legitimate)
 
-![Image 5]()
+![Image 5](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Previce/5.png)
 
 // And we're in !
 
-![Image 6]()
+![Image 6](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Previce/6.png)
 
 // Now we can create ourselfs an account 
 
 // In BurpSuite the request will look like this:
 
-![Image 7]()
+![Image 7](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Previce/7.png)
 
 // Go back to /login.php and login with our new account
 
-![Image 8]()
+![Image 8](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Previce/8.png)
 
 // When searching for juicy information in the tabs, we can see in files tab zipped file called 'SITEBACKUP.zip'
 
-![Image 9]()
+![Image 9](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Previce/9.png)
 
 // Lets download it and see what we can get out of it
 
@@ -185,23 +185,23 @@
 
 // Lets move on, in the website that we login there is another tab called 'MANAGMENT DATA' -> 'LOG DATA'
 
-![Image 10]()
+![Image 10](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Previce/10.png)
 
 // its seems that its some kind of communicating way with the server
 
 // Taking the request to BurpSuite we can see the content
 
-![Image 11]()
+![Image 11](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Previce/11.png)
 
 // Lets try manipulate this with chaniging the 'delim=' param to our needs
 
 // First lets URL encode our inject syntax with [CyberChef](https://gchq.github.io/CyberChef/)
 
-![Image 12]()
+![Image 12](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Previce/12.png)
 
 // And add it to the request
 
-![Image 13]()
+![Image 13](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Previce/13.png)
 
 // The site was hang on for a minute and didnt respond 
 
@@ -209,7 +209,7 @@
 
 // And send our modified request again
 
-![Image 14]()
+![Image 14](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Previce/14.png)
 
 // It worked !! we can see that the server ping our host
 
@@ -217,7 +217,7 @@
 
 // Lets step up to a reverse shell using nc
 
-![Image 15]()
+![Image 15](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Previce/15.png)
 
 // Open a listiner on our machine and send a modified request with nc encoded command
 
