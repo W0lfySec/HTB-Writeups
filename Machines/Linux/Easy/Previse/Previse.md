@@ -1,3 +1,6 @@
+
+![Image Previse](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Previce/Previse.jpg)
+
 ## -------------->> Previce <<----------
 
 // We start with nmap scan
@@ -100,7 +103,7 @@
 
 // Right clicking on the request and select '' then ''
 
-![Image ----]()
+![Image 1.1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Previce/1.1.jpg)
 
 // Click 'forward', and now we can edit the status from '302 to '200'(Legitimate)
 
