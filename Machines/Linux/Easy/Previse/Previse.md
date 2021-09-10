@@ -1,5 +1,5 @@
 
-![Image Previse](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Previce/Previse.jpg)
+![Image Previse](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Previce/Previse.png)
 
 ## -------------->> Previce <<----------
 
