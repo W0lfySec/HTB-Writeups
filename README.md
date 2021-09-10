@@ -14,7 +14,8 @@ HackTheBox
          │        ├── Oopsie                │           │   ├── Delivery         
          │        ├── PathFinder            │           │   ├── Frolic
          │        ├── Shield                │           │   ├── Mirai
-         │        └── Vaccine               │           │   ├── Shocker
+         │        └── Vaccine               │           │   ├── Previse         
+         │                                  │           │   ├── Shocker
          │                                  │           │   ├── Valentine
          │                                  │           │   ├── WriteUp 
          │                                  │           │   └── Knife
