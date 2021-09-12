@@ -79,15 +79,15 @@
     [20:01:51] 403 -  279B  - /server-status/
     [20:01:53] 302 -    3KB - /status.php  ->  login.php
 
-// Navigating to /accounts.php redirects us to /login.php
+// Navigating to most interesting directory - /accounts.php , redirects us to /login.php
 
 ![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Previce/1.png)
 
-// So, since its the most interesting file i open BurpSuite and capture this request and send it to Reapter
+// So, since /accounts.php is the most interesting file, i open BurpSuite and capture this request and send it to Reapter
 
 ![Image 3](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Previce/3.png)
 
-// Its seems that we get the wanted request in Burp, BUT, the status its 302 so its redirects us
+// Its seems that we get the wanted request in Burp, BUT, the status is 302 so its redirects us
 
 // tring to see the page accounts.php i have copied the HTML code from the response html file to see the content
 
@@ -101,7 +101,7 @@
 
 // In BurpSuite u have an option to edit the request
 
-// Right clicking on the request and select '' then ''
+// Right clicking on the request and select 'Do intercept' then 'Response to this request'
 
 ![Image 1.1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Previce/1.1.jpg)
 
@@ -186,7 +186,7 @@
 
 // So, we found mysql credentials(in config.php) and the way that the passwords encrypted(in login.php)
 
-// Lets move on, in the website that we login there is another tab called 'MANAGMENT DATA' -> 'LOG DATA'
+// Lets move on, in the website that we login there is another tab called 'MANAGMENT MENU' -> 'LOG DATA'
 
 ![Image 10](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Previce/10.png)
 
