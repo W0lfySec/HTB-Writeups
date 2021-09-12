@@ -1,7 +1,7 @@
 
 ![Image Previse](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Previce/Previse.png)
 
-## -------------->> Previce <<----------
+## -------------->> Previse <<----------
 
 // We start with nmap scan
 
