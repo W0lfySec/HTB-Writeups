@@ -128,14 +128,14 @@
 
     ' or 1=1--+
 
-![Image 5](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Toolbox/5.png)
-
 // And we loged in to admin dashboard!
 
-![Image 6](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Toolbox/6.png)
+![Image 5](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Toolbox/5.png)
+
 
 
 ### --Reverse Shell--
+
 
 // After we loged in succesfuly using sql injection 
 
