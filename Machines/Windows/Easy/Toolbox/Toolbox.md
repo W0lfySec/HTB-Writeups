@@ -312,15 +312,15 @@
     $ cat id_rsa.pub
 
      id_rsa.pub 
-    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDzYPoH5/fslVEOpuC2XpjGTt2..TgbJz0NE= kali@kali
+    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDzYPoH5/fslVEOpuC2XpjGTt2..TgbJz0NE= root@kali
 ------
 
-    docker@box:/c/Users/Administrator/.ssh$ echo "id_rsa.pub ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDzYPoH5/fslVEOpuC2XpjGTt2..TgbJz0NE= kali@kali" > authorized_keys
+    docker@box:/c/Users/Administrator/.ssh$ echo "id_rsa.pub ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDzYPoH5/fslVEOpuC2XpjGTt2..TgbJz0NE= root@kali" > authorized_keys
 ------
 
     docker@box:/c/Users/Administrator/.ssh$ cat authorized_keys   
      id_rsa.pub 
-    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDzYPoH5/fslVEOpuC2XpjGTt2..TgbJz0NE= kali@kali
+    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDzYPoH5/fslVEOpuC2XpjGTt2..TgbJz0NE= root@kali
 
 // Alsome, we have write permissions on authorized_keys
 
