@@ -1,5 +1,5 @@
 
-![Image Toolbox](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Toolbox/Toolbox.png)
+![Image Toolbox](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Toolbox/Toolbox1.png)
 
 
 ## ----------->> Toolbox <<-------------
