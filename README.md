@@ -31,7 +31,8 @@ HackTheBox
          │                                                 ├── Jerry         
          │                                                 ├── Legacy
          │                                                 ├── Love
-         │                                                 └── Optimum
+         │                                                 ├── Optimum 
+         │                                                 └── Toolbox
          └────────────[Challenges]
                        │
                        ├── Misc
