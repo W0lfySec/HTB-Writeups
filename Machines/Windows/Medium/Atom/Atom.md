@@ -90,9 +90,9 @@
 
     Task Completed
 
-// Nothing we can further go with... Move on!
+// Nothing helping there... Move on!
 
-// Earlier with nmap we can see there SMB service open
+// Earlier with nmap we see there SMB service open
 
 // Lets check if it allows anonymous connection with smbmap
 
@@ -109,7 +109,7 @@
 
 // It worked !, We can see that we have permission(READ, WRITE) only in directory Software_Updates
 
-// Lets check him out
+// Lets check it out
 
     $ smbmap -u anonymous -r Software_Updates -H 10.10.10.237
 ------
@@ -126,7 +126,7 @@
       dr--r--r--                0 Fri Sep 10 18:49:49 2021	client3
       fr--r--r--            35202 Fri Apr  9 07:18:08 2021	UAT_Testing_Procedures.pdf
 
-// after checking client1,2,3 are empty so i downloaded 'UAT_Testing_Procedures.pdf' to see his content
+// after checking, client1,2,3 are empty so i downloaded 'UAT_Testing_Procedures.pdf' to see his content
 
     $ smbmap -u anonymous --download 'Software_Updates\UAT_Testing_Procedures.pdf' -H 10.10.10.237
 
