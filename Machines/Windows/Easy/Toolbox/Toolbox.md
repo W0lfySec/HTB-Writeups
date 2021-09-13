@@ -116,7 +116,7 @@
 
 // response us with some text above
 
-![Image 4](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Toolbox/1.png)
+![Image 4](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Toolbox/4.png)
 
     Warning: pg_query(): Query failed: ERROR: syntax error at or near ")" LINE 1: ...T * FROM users WHERE username = ''' AND password = md5('''); ^ in /var/www/admin/index.php on line 10
 
