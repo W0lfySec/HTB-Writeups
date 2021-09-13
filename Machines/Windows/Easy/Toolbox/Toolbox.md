@@ -221,6 +221,11 @@
     f0183e4.................
 
 
+
+
+## --Privilleges Escalation--
+
+
 // Reading a bit about [docker-toolbox](https://docker-docs.netlify.app/toolbox/toolbox_install_windows/#step-3-verify-your-installation)
 
 // Its seems that on windows OS that tool download a lightweight VM of linux called [Boot2Docker](https://github.com/boot2docker/boot2docker#ssh-into-vm)
@@ -250,9 +255,6 @@
     Linux box 4.14.154-boot2docker #1 SMP Thu Nov 14 19:19:08 UTC 2019 x86_64 GNU/Linux
 
 // Now we have root over docker container 
-
-
-## --Privilleges Escalation--
 
 // Searching for interesting files i came accros folder called 'c' in home directory
 
