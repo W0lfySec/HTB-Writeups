@@ -56,4 +56,56 @@
     |   date: 2021-09-12T14:26:38
     |_  start_date: N/A
 
-// 
+// Navigating to https://10.10.10.236/ got us a webpage of shipping and logistics company.
+
+![Image 1]()
+
+// View the certificate there is a mention of subdomain called 'admin.megalogistic.com'
+
+![Image 2]()
+
+// Lets add this subdomain to /etc/hosts
+
+    $ cat /etc/hosts
+    
+    # Host addresses
+    10.10.10.236 megalogistic.com admin.megalogistic.com
+
+// Navigating to https://admin.megalogistic.com get us a login page
+
+![Image 3]()
+
+// Moving on, we notice that we have also FTP service running 
+
+// We can check if we can connect anonymously
+
+    $ ftp -p 10.10.10.236
+    Connected to 10.10.10.236.
+    220-FileZilla Server 0.9.60 beta
+    220-written by Tim Kosse (tim.kosse@filezilla-project.org)
+    220 Please visit https://filezilla-project.org/
+    Name (10.10.10.236:r4r3): anonymous
+    331 Password required for anonymous
+    Password:
+    230 Logged on
+    Remote system type is UNIX.
+    ftp> 
+
+// It worked! lets see what we can get 
+
+// We can see that there only one file called 'docker-toolbox.exe'. lets download him.
+
+    ftp> dir
+    227 Entering Passive Mode (10,10,10,236,199,146)
+    150 Opening data channel for directory listing of "/"
+    -r-xr-xr-x 1 ftp ftp      242520560 Feb 18  2020 docker-toolbox.exe
+    226 Successfully transferred "/"
+    ftp> get docker-toolbox.exe
+    local: docker-toolbox.exe remote: docker-toolbox.exe
+    227 Entering Passive Mode (10,10,10,236,205,243)
+    150 Opening data channel for file download from server of "/docker-toolbox.exe"
+
+// After some digging i found that [docker-toolbox](https://docs.bitnami.com/containers/how-to/install-docker-in-windows/) is an solution for windows OS to run docker before windows had native docker support
+
+// login '
+
