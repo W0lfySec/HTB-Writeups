@@ -166,8 +166,19 @@
 
 ![Image 8](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Tenet/8.png)
 
+// Now lets search the backup file
+
+// First tried wfuzz http://10.10.10.223/
+
+$wfuzz -c -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -u http://10.10.10.223/FUZZ --hh 274
+
 // 
 
+$wfuzz -c -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -u http://10.10.10.223/sator.FUZZ --hh 274
+
+//
+
+$wfuzz -c -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -u http://10.10.10.223/sator.php.FUZZ --hh 274
 
 
 
