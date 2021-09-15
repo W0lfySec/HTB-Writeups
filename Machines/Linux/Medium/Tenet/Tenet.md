@@ -182,10 +182,78 @@ $wfuzz -c -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -u htt
 
 
 
+msf6 auxiliary(scanner/http/wordpress_login_enum) > options 
+
+Module options (auxiliary/scanner/http/wordpress_login_enum):
+
+   Name                 Current Setting                                 Required  Description
+   ----                 ---------------                                 --------  -----------
+   BLANK_PASSWORDS      false                                           no        Try blank passwords for all users
+   BRUTEFORCE           true                                            yes       Perform brute force authentication
+   BRUTEFORCE_SPEED     5                                               yes       How fast to bruteforce, from 0 to 5
+   DB_ALL_CREDS         false                                           no        Try each user/password couple stored in the current database
+   DB_ALL_PASS          false                                           no        Add all passwords in the current database to the list
+   DB_ALL_USERS         false                                           no        Add all users in the current database to the list
+   ENUMERATE_USERNAMES  true                                            yes       Enumerate usernames
+   PASSWORD                                                             no        A specific password to authenticate with
+   PASS_FILE            /home/r4r3/Desktop/HTB/wordlists--/rockyou.txt  no        File containing passwords, one per line
+   Proxies                                                              no        A proxy chain of format type:host:port[,type:host:port][...]
+   RANGE_END            10                                              no        Last user id to enumerate
+   RANGE_START          1                                               no        First user id to enumerate
+   RHOSTS               tenet.htb                                       yes       The target host(s), range CIDR identifier, or hosts file with syntax 'file:<path>'
+   RPORT                80                                              yes       The target port (TCP)
+   SSL                  false                                           no        Negotiate SSL/TLS for outgoing connections
+   STOP_ON_SUCCESS      false                                           yes       Stop guessing when a credential works for a host
+   TARGETURI            /                                               yes       The base path to the wordpress application
+   THREADS              1                                               yes       The number of concurrent threads (max one per host)
+   USERNAME             protagonist                                     no        A specific username to authenticate as
+   USERPASS_FILE                                                        no        File containing users and passwords separated by space, one pair per line
+   USER_AS_PASS         false                                           no        Try the username as the password for all users
+   USER_FILE                                                            no        File containing usernames, one per line
+   VALIDATE_USERS       true                                            yes       Validate usernames
+   VERBOSE              true                                            yes       Whether to print output for all attempts
+   VHOST                                                                no        HTTP server virtual host
 
 
 
 
+
+$wfuzz -c -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -u http://10.10.10.223/FUZZ --hh 274
+ /usr/lib/python3/dist-packages/wfuzz/__init__.py:34: UserWarning:Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzz's documentation for more information.
+********************************************************
+* Wfuzz 3.1.0 - The Web Fuzzer                         *
+********************************************************
+
+Target: http://10.10.10.223/FUZZ
+Total requests: 220560
+
+=====================================================================
+ID           Response   Lines    Word       Chars       Payload                                                                                                                                       
+=====================================================================
+
+000000001:   200        375 L    964 W      10918 Ch    "# directory-list-2.3-medium.txt"                                                                                                             
+000000007:   200        375 L    964 W      10918 Ch    "# license, visit http://creativecommons.org/licenses/by-sa/3.0/"                                                                             
+000000014:   200        375 L    964 W      10918 Ch    "http://10.10.10.223/"                                                                                                                        
+000000003:   200        375 L    964 W      10918 Ch    "# Copyright 2007 James Fisher"                                                                                                               
+000000013:   200        375 L    964 W      10918 Ch    "#"                                                                                                                                           
+000000012:   200        375 L    964 W      10918 Ch    "# on atleast 2 different hosts"                                                                                                              
+000000011:   200        375 L    964 W      10918 Ch    "# Priority ordered case sensative list, where entries were found"                                                                            
+000000010:   200        375 L    964 W      10918 Ch    "#"                                                                                                                                           
+000000008:   200        375 L    964 W      10918 Ch    "# or send a letter to Creative Commons, 171 Second Street,"                                                                                  
+000000005:   200        375 L    964 W      10918 Ch    "# This work is licensed under the Creative Commons"                                                                                          
+000000002:   200        375 L    964 W      10918 Ch    "#"                                                                                                                                           
+000000004:   200        375 L    964 W      10918 Ch    "#"                                                                                                                                           
+000000009:   200        375 L    964 W      10918 Ch    "# Suite 300, San Francisco, California, 94105, USA."                                                                                         
+000000006:   200        375 L    964 W      10918 Ch    "# Attribution-Share Alike 3.0 License. To view a copy of this"                                                                               
+000000587:   301        9 L      28 W       316 Ch      "wordpress"                                                                                                                                   
+000045240:   200        375 L    964 W      10918 Ch    "http://10.10.10.223/"                                                                                                                        
+000095524:   403        9 L      28 W       277 Ch      "server-status"                                                                                                                               
+^C /usr/lib/python3/dist-packages/wfuzz/wfuzz.py:80: UserWarning:Finishing pending requests...
+
+Total time: 0
+Processed Requests: 122369
+Filtered Requests: 122352
+Requests/sec.: 0
 
 
 
