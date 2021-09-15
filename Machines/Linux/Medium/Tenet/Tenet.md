@@ -221,10 +221,70 @@
 
 // Nothing much there so next i tried with fuzz sator. extentions
 
-$wfuzz -c -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -u http://10.10.10.223/sator.FUZZ --hh 274
+    $ wfuzz -c -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -u http://10.10.10.223/sator.FUZZ --hh 274
+--------
 
-//
+    ********************************************************
+    * Wfuzz 3.1.0 - The Web Fuzzer                         *
+    ********************************************************
 
-$wfuzz -c -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -u http://10.10.10.223/sator.php.FUZZ --hh 274
+    Target: http://10.10.10.223/sator.FUZZ
+    Total requests: 220560
+    =====================================================================
+    ID           Response   Lines    Word       Chars       Payload                                                                         
+    =====================================================================
+    000000338:   200        1 L      11 W       63 Ch       "php"     
+
+// Nothing there either.. finally i searched sator.php. extentions
+
+$ wfuzz -c -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -u http://10.10.10.223/sator.php.FUZZ --hh 274
+
+    ********************************************************
+    * Wfuzz 3.1.0 - The Web Fuzzer                         *
+    ********************************************************
+
+    Target: http://10.10.10.223/sator.php.FUZZ
+    Total requests: 220560
+    =====================================================================
+    ID           Response   Lines    Word       Chars       Payload                                                                         
+    =====================================================================
+    000008552:   200        31 L     70 W       514 Ch      "bak"   
+ 
+ // Great we found extention 'bak', lets navigate to http://10.10.10.223/sator.php.bak to see his content
+ 
+    $ cat sator.php.bak 
+
+    <?php
+
+    class DatabaseExport
+    {
+        public $user_file = 'users.txt';
+        public $data = '';
+
+        public function update_db()
+        {
+            echo '[+] Grabbing users from text file <br>';
+            $this-> data = 'Success';
+        }
 
 
+        public function __destruct()
+        {
+            file_put_contents(__DIR__ . '/' . $this ->user_file, $this->data);
+            echo '[] Database updated <br>';
+        //	echo 'Gotta get this working properly...';
+        }
+    }
+
+    $input = $_GET['arepo'] ?? '';
+    $databaseupdate = unserialize($input);
+
+    $app = new DatabaseExport;
+    $app -> update_db();
+
+
+    ?>
+
+ 
+ 
+ 
