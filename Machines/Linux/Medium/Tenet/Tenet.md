@@ -156,7 +156,7 @@
 
 // So i go back to http://tenet.htb/ to try find more clues...
 
-// Clicking on 'Migration' again we could see users 'neil' commant talking about missing file called sator.php and backup
+// Clicking on 'Migration' again we could see users 'neil' comment talking about missing file called sator.php and backup
 
 ![Image 7](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Tenet/7.png)
 
