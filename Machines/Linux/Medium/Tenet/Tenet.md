@@ -29,7 +29,7 @@
 
 // Navigating to http://10.10.10.223/ to apache2 ubunto default page
 
-![Image 1]()
+![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Tenet/1.png)
 
 // Lets search for interesting directories or files with [dirsearch](https://github.com/maurosoria/dirsearch)(By maurosoria).
 
@@ -49,20 +49,7 @@
 
     [18:17:52] Starting: 
     [18:18:01] 403 -  277B  - /.htaccess.bak1
-    [18:18:01] 403 -  277B  - /.ht_wsr.txt
-    [18:18:01] 403 -  277B  - /.htaccess.sample
-    [18:18:01] 403 -  277B  - /.htaccess_orig
-    [18:18:01] 403 -  277B  - /.htaccess.save
-    [18:18:01] 403 -  277B  - /.htaccess_sc
-    [18:18:01] 403 -  277B  - /.htaccess_extra
-    [18:18:01] 403 -  277B  - /.htaccessBAK
-    [18:18:01] 403 -  277B  - /.htaccess.orig
-    [18:18:01] 403 -  277B  - /.htaccessOLD
-    [18:18:01] 403 -  277B  - /.htaccessOLD2
-    [18:18:01] 403 -  277B  - /.htm
-    [18:18:01] 403 -  277B  - /.html
-    [18:18:01] 403 -  277B  - /.htpasswds
-    [18:18:01] 403 -  277B  - /.httr-oauth
+    ...
     [18:18:01] 403 -  277B  - /.htpasswd_test
     [18:18:01] 403 -  277B  - /.php
     [18:18:13] 200 -   11KB - /index.html
@@ -77,7 +64,7 @@
 
 // When click '<- Go to Tenet' its redirect us to http://tenet.htb/
 
-![Image 2]()
+![Image 2](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Tenet/2.png)
 
 // So lets add the domain to /etc/hosts
 
@@ -88,7 +75,7 @@
 
 // Now lets navigate to http://tenet.htb/ 
 
-![Image 6]()
+![Image 6](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Tenet/6.png)
 
 // It seems like some company software website
 
@@ -111,19 +98,7 @@
     [18:28:28] Starting: 
     [18:28:39] 403 -  274B  - /.ht_wsr.txt
     [18:28:39] 403 -  274B  - /.htaccess.sample
-    [18:28:39] 403 -  274B  - /.htaccess.orig
-    [18:28:39] 403 -  274B  - /.htaccess.save
-    [18:28:39] 403 -  274B  - /.htaccess_extra
-    [18:28:39] 403 -  274B  - /.htaccess_sc
-    [18:28:39] 403 -  274B  - /.htaccess_orig
-    [18:28:39] 403 -  274B  - /.htaccessBAK
-    [18:28:39] 403 -  274B  - /.htaccessOLD2
-    [18:28:39] 403 -  274B  - /.htaccessOLD
-    [18:28:39] 403 -  274B  - /.htm
-    [18:28:39] 403 -  274B  - /.html
-    [18:28:39] 403 -  274B  - /.htpasswd_test
-    [18:28:39] 403 -  274B  - /.htpasswds
-    [18:28:39] 403 -  274B  - /.httr-oauth
+    ...
     [18:28:40] 403 -  274B  - /.htaccess.bak1
     [18:28:40] 403 -  274B  - /.php
     [18:29:00] 301 -    0B  - /index.php  ->  http://tenet.htb/
@@ -160,20 +135,20 @@
 
 // First i tried admin and failed (notice the response)
 
-![Image 3]()
+![Image 3](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Tenet/3.png)
 
 // Now after some digging on http://tenet.htb/ , and click on 'Migration'
 
 // I see  there 2 usernames
 
-![Image 4]()
+![Image 4](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Tenet/4.png)
 
     protagonist
     neil
 
 // Now i tried to connect with them(notive the response)
 
-![Image 5]()
+![Image 5](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Tenet/5.png)
 
 // Same response to 'neil', now that we have 2 usernames we can try to use MetaSploit
 
@@ -183,13 +158,13 @@
 
 // Clicking on 'Migration' again we could see users 'neil' commant talking about missing file called sator.php and backup
 
-![Image 7]()
+![Image 7](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Tenet/7.png)
 
 // When navigating to http://tenet.htb/sator.php file indeed not found, BUT,
 
 // Navigating to http://10.10.10.223/sator.php give us page 
 
-![Image 8]()
+![Image 8](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Tenet/8.png)
 
 // 
 
