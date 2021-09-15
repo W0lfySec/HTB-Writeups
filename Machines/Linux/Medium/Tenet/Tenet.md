@@ -282,9 +282,24 @@ $ wfuzz -c -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -u ht
     $app = new DatabaseExport;
     $app -> update_db();
 
-
     ?>
 
- 
- 
- 
+// Its a PHP script, lets try to understand him 
+
+// The script has [class](https://www.zend.com/blog/what-php-class) called 'DatabaseExport'
+
+// And it takes file called 'users.txt' and return '$data' that will be a string(in our case 'Success')
+
+// Next we have function called 'update_db' that first prints string and insert string to value '$data'
+
+// Next we have another function called 'destruct' , this function output file with 'users.txt' and '$data' content
+
+// Next we can see there is a command to server get [arepo](https://en.wikipedia.org/wiki/Sator_Square)
+
+// And finally [unserialize](https://www.php.net/manual/en/function.unserialize.php) with the input command to update data base.
+
+// ---> [source](https://en.wikipedia.org/wiki/Sator_Square)(from wikipedia) <---
+
+    "" In computing, serialization (US spelling) or serialisation (UK spelling) is the process of translating a data structure or object state into a format that can 
+    be stored (for example, in a file or memory data buffer) or transmitted (for example, over a computer network) and reconstructed later (possibly in a different computer environment).[1] When the resulting series of bits is reread according to the serialization format, it can be used to create a semantically identical clone of the original object. For many complex objects, such as those that make extensive use of references, this process is not straightforward. Serialization of object-oriented objects does not include any of their associated methods with which they were previously linked.  ""
+
