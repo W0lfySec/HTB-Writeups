@@ -146,11 +146,11 @@
     protagonist
     neil
 
-// Now i tried to connect with them(notive the response)
+// Now i tried to connect with them(notice the response)
 
 ![Image 5](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Tenet/5.png)
 
-// Same response to 'neil', now that we have 2 usernames we can try to use MetaSploit
+// Same response for user 'neil', now that we have 2 usernames we can try to use MetaSploit
 
 // Tried to Brute force the password for 'protagonist' with Metasploit seems to take forever(waited 4 hours till i got frustrated)
 
