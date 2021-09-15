@@ -131,7 +131,7 @@
 
 // What i have notice when tring admin:admin and other creds
 
-// Is that when u send a correct username no matter if password correct it will respond differently
+// Is that when u send a correct username with random password, it will respond differently
 
 // First i tried admin and failed (notice the response)
 
