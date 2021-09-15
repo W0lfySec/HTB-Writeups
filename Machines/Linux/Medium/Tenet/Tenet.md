@@ -301,5 +301,9 @@ $ wfuzz -c -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -u ht
 // ---> [source](https://en.wikipedia.org/wiki/Sator_Square)(from wikipedia) <---
 
     "" In computing, serialization (US spelling) or serialisation (UK spelling) is the process of translating a data structure or object state into a format that can 
-    be stored (for example, in a file or memory data buffer) or transmitted (for example, over a computer network) and reconstructed later (possibly in a different computer environment).[1] When the resulting series of bits is reread according to the serialization format, it can be used to create a semantically identical clone of the original object. For many complex objects, such as those that make extensive use of references, this process is not straightforward. Serialization of object-oriented objects does not include any of their associated methods with which they were previously linked.  ""
+    be stored (for example, in a file or memory data buffer) or transmitted (for example, over a computer network) and reconstructed later 
+    (possibly in a different computer environment).[1] When the resulting series of bits is reread according to the serialization format,
+    it can be used to create a semantically identical clone of the original object. For many complex objects,
+    such as those that make extensive use of references, this process is not straightforward. Serialization of object-oriented 
+    objects does not include any of their associated methods with which they were previously linked.  ""
 
