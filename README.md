@@ -22,41 +22,24 @@ HackTheBox
          │                                  │           │
          │                                  │           └────────────── Medium
          │                                  │                            └── Tenet
-         │                                  │
-         │                                  └────── Windows
-         │                                            └── Easy
-         │                                                 ├── Active
-         │                                                 ├── Arctic
-         │                                                 ├── Blue
-         │                                                 ├── Devel
-         │                                                 ├── Jerry         
-         │                                                 ├── Legacy
-         │                                                 ├── Love
-         │                                                 ├── Optimum 
-         │                                                 └── Toolbox
-         └────────────[Challenges]
-                       │
-                       ├── Misc
-                       │   ├── BlackHole
-                       │   ├── The_Secret_Of_The_Queen
-                       │   └── Eternal_Loop
-                       │
-                       │
-                       └── Crack Passwords
-                           └──  Old_is_gold
+         └───[Challenges]                   │
+                │                           └────── Windows
+                ├── Misc                                └──── Easy
+                │    ├── BlackHole                              ├── Active
+                │    ├── The_Secret_Of_The_Queen                ├── Arctic
+                │    └── Eternal_Loop                           ├── Blue
+                │                                               ├── Devel
+                │                                               ├── Jerry
+                └── Crack Passwords                             ├── Legacy
+                     └──  Old_is_gold                           ├── Love
+                                                                ├── Optimum 
+                                                                └── Toolbox
 
 
 
-ToDo: PathFinder
-      Included
-      WriteUp
-      Monitors
-      Frolic
-      Proper
-      Irked
 
+ToDo: PathFinder Included WriteUp Monitors Frolic Proper Irked   
       
-      
-Python Scripts: WriteUp   Eternal_Loop
+Python Scripts: WriteUp Eternal_Loop 
       
 
