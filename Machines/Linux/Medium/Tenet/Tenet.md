@@ -547,7 +547,7 @@ $ wfuzz -c -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -u ht
 // Lets get user flag 
 
     neil@tenet:~$ cat user.txt 
-    ae2a70c2a6b3b95429c5693fd0674060
+    ae2a70c............................
 
 
 ### ----- Privilleges Escalation ------
@@ -675,4 +675,4 @@ $ wfuzz -c -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -u ht
     root@tenet:~# ls
     root.txt
     root@tenet:~# cat root.txt
-    39b353f6ea100d1250cc8077645da3e9
+    39b353f.............................
