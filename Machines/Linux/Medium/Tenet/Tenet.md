@@ -1,5 +1,5 @@
 
-![Image Tenet]()
+![Image Tenet](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Tenet/Tenet.png)
 
 
 ## ---------->> Tenet <<-------------
