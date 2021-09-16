@@ -337,8 +337,7 @@ $ wfuzz -c -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -u ht
         }
     }
 
-    $obj = new DatabaseExport;
-    echo urlencode(serialize($obj));
+    echo urlencode(serialize(new DatabaseExport));
     echo "\n";
 
     ?>
