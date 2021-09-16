@@ -21,6 +21,7 @@ HackTheBox
          │                                  │           │   └── Knife
          │                                  │           │
          │                                  │           └────────────── Medium
+         │                                  │                            └── Tenet
          │                                  │
          │                                  └────── Windows
          │                                            └── Easy
