@@ -6,22 +6,23 @@ HackTheBox
          ├──────────────────────────────[Machines]
          ├────[Starting_Point]              │   
          │        │                         ├─────── Linux
-         │        ├── Archetype             │           ├── Easy
-         │        ├── Base                  │           │   ├── Bashed      
-         │        ├── Guard                 │           │   ├── Beep       
-         │        ├── Included              │           │   ├── Blocky
-         │        ├── MarkUp                │           │   ├── Cap
-         │        ├── Oopsie                │           │   ├── Delivery         
-         │        ├── PathFinder            │           │   ├── Frolic
-         │        ├── Shield                │           │   ├── Mirai
-         │        └── Vaccine               │           │   ├── Previse         
-         │                                  │           │   ├── Shocker
-         │                                  │           │   ├── Valentine
-         │                                  │           │   ├── WriteUp 
-         │                                  │           │   └── Knife
-         │                                  │           │
-         │                                  │           └────────────── Medium
-         │                                  │                            └── Tenet
+         │        ├── Archetype             │           │     
+         │        ├── Base                  │           └── Easy ──────────────────────── Medium
+         │        ├── Guard                 │               ├── Bashed                      └── Tenet
+         │        ├── Included              │               ├── Beep       
+         │        ├── MarkUp                │               ├── Blocky
+         │        ├── Oopsie                │               ├── Cap
+         │        ├── PathFinder            │               ├── Delivery         
+         │        ├── Shield                │               ├── Frolic
+         │        └── Vaccine               │               ├── Mirai
+         │                                  │               ├── Previse         
+         │                                  │               ├── Shocker
+         │                                  │               ├── Valentine
+         │                                  │               ├── WriteUp 
+         │                                  │               └── Knife
+         │                                  │           
+         │                                  │           
+         │                                  │                            
          └───[Challenges]                   │
                 │                           └────── Windows
                 ├── Misc                                └──── Easy
