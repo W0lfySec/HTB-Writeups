@@ -7,8 +7,8 @@ HackTheBox
          ├────[Starting_Point]              │   
          │        │                         ├─────── Linux
          │        ├── Archetype             │           │     
-         │        ├── Base                  │           └── Easy ──────────────────────── Medium
-         │        ├── Guard                 │               ├── Bashed                      └── Tenet
+         │        ├── Base                  │           └── Easy ─────────────────── Medium
+         │        ├── Guard                 │               ├── Bashed                └── Tenet
          │        ├── Included              │               ├── Beep       
          │        ├── MarkUp                │               ├── Blocky
          │        ├── Oopsie                │               ├── Cap
