@@ -3,11 +3,11 @@ HackTheBox
 
     -=[HTB_WriteUps]=-
          │
-         ├──────────────────────────────[Machines]
-         ├────[Starting_Point]              │   
-         │        │                         ├─────── Linux
+         ├──────────────────────────────{[Machines]}
+         ├────{[Starting_Point]}            │   
+         │        │                         ├───────[Linux]
          │        ├── Archetype             │           │     
-         │        ├── Base                  │           └── Easy ─────────────────── Medium
+         │        ├── Base                  │           └──(Easy)───────────────────(Medium)
          │        ├── Guard                 │               ├── Bashed                └── Tenet
          │        ├── Included              │               ├── Beep       
          │        ├── MarkUp                │               ├── Blocky
@@ -23,15 +23,15 @@ HackTheBox
          │                                  │           
          │                                  │           
          │                                  │                            
-         └───[Challenges]                   │
-                │                           └────── Windows
-                ├── Misc                                └──── Easy
+         └───{[Challenges]}                 │
+                │                           └──────[Windows]
+                ├──(Misc)                                └────(Easy)
                 │    ├── BlackHole                              ├── Active
                 │    ├── The_Secret_Of_The_Queen                ├── Arctic
                 │    └── Eternal_Loop                           ├── Blue
                 │                                               ├── Devel
                 │                                               ├── Jerry
-                └── Crack Passwords                             ├── Legacy
+                └──(Crack Passwords)                            ├── Legacy
                      └──  Old_is_gold                           ├── Love
                                                                 ├── Optimum 
                                                                 └── Toolbox
