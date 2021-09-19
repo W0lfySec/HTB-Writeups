@@ -104,9 +104,9 @@
 
 // must be some missing library.... 
 
-// So i tried other ways like [kerbrute](https://github.com/TarlogicSecurity/kerbrute) and [responder](https://tools.kali.org/sniffingspoofing/responder)
+// So i tried other ways like [kerbrute](https://github.com/TarlogicSecurity/kerbrute) and [responder](https://tools.kali.org/sniffingspoofing/responder) and [linux4enum](https://tools.kali.org/information-gathering/enum4linux)
 
-// And finally get the most valuable data with [ldapsearch](https://docs.ldap.com/ldap-sdk/docs/tool-usages/ldapsearch.html)(helping [examples](https://access.redhat.com/documentation/en-us/red_hat_directory_server/10/html/administration_guide/examples-of-common-ldapsearches)) and [linux4enum](https://tools.kali.org/information-gathering/enum4linux).
+// And finally get the most valuable data with [ldapsearch](https://docs.ldap.com/ldap-sdk/docs/tool-usages/ldapsearch.html)(helping [examples](https://access.redhat.com/documentation/en-us/red_hat_directory_server/10/html/administration_guide/examples-of-common-ldapsearches)).
 
     $ ldapsearch -h 10.10.10.182 -x -b "dc=cascade,dc=local" > ldapsearch_res.txt
 
