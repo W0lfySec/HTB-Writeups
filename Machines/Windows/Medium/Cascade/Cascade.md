@@ -234,3 +234,6 @@
         print$                                            	READ ONLY	Printer Drivers
         SYSVOL                                            	READ ONLY	Logon server share 
 
+// 
+
+smbmap -u r.thompson -p rY4n5eva -H cascade.local -r Data/IT
