@@ -8,8 +8,8 @@ HackTheBox
          │        │                         ├───────[Linux]
          │        ├── Archetype             │           │     
          │        ├── Base                  │           └──(Easy)───────────────────(Medium)
-         │        ├── Guard                 │               ├── Bashed                └── Tenet
-         │        ├── Included              │               ├── Beep       
+         │        ├── Guard                 │               ├── Bashed                ├── Tenet
+         │        ├── Included              │               ├── Beep                  └── Cascade    
          │        ├── MarkUp                │               ├── Blocky
          │        ├── Oopsie                │               ├── Cap
          │        ├── PathFinder            │               ├── Delivery         
