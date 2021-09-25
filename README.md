@@ -8,8 +8,8 @@ HackTheBox
          │        │                         ├───────[Linux]
          │        ├── Archetype             │           │     
          │        ├── Base                  │           └──(Easy)───────────────────(Medium)
-         │        ├── Guard                 │               ├── Bashed                ├── Tenet
-         │        ├── Included              │               ├── Beep                  └── Cascade    
+         │        ├── Guard                 │               ├── Bashed                └── Tenet
+         │        ├── Included              │               ├── Beep                 
          │        ├── MarkUp                │               ├── Blocky
          │        ├── Oopsie                │               ├── Cap
          │        ├── PathFinder            │               ├── Delivery         
@@ -25,8 +25,8 @@ HackTheBox
          │                                  │                            
          └───{[Challenges]}                 │
                 │                           └──────[Windows]
-                ├──(Misc)                                └────(Easy)
-                │    ├── BlackHole                              ├── Active
+                ├──(Misc)                                └────(Easy)───────────────────(Medium)
+                │    ├── BlackHole                              ├── Active               └── Cascade
                 │    ├── The_Secret_Of_The_Queen                ├── Arctic
                 │    └── Eternal_Loop                           ├── Blue
                 │                                               ├── Devel
