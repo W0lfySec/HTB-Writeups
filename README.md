@@ -17,11 +17,10 @@ HackTheBox
          │        └── Vaccine               │               ├── Mirai
          │                                  │               ├── Previse         
          │                                  │               ├── Shocker
+         │                                  │               ├── Spectra 
          │                                  │               ├── Valentine
          │                                  │               ├── WriteUp 
          │                                  │               └── Knife
-         │                                  │           
-         │                                  │           
          │                                  │                            
          └───{[Challenges]}                 │
                 │                           └──────[Windows]
