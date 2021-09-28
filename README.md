@@ -15,7 +15,8 @@ HackTheBox
          │        ├── PathFinder            │               ├── Delivery         
          │        ├── Shield                │               ├── Frolic
          │        └── Vaccine               │               ├── Mirai
-         │                                  │               ├── Previse         
+         │                                  │               ├── Previse   
+         │                                  │               ├── ScriptKiddie
          │                                  │               ├── Shocker
          │                                  │               ├── Spectra 
          │                                  │               ├── Valentine
