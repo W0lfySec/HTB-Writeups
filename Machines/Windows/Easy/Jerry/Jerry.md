@@ -29,10 +29,6 @@
 
     Extensions: php, aspx, jsp, html, js | HTTP method: GET | Threads: 100 | Wordlist size: 10903
 
-    Output File: /home/kali/Desktop/Tools/dirsearch/reports/10.10.10.95/_21-08-13_13-30-26.txt
-
-    Error Log: /home/kali/Desktop/Tools/dirsearch/logs/errors-21-08-13_13-30-26.log
-
     Target: http://10.10.10.95:8080/
 
     [13:30:27] Starting: 
