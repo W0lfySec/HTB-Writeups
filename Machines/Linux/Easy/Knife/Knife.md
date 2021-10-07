@@ -25,6 +25,7 @@
 ![Image 1](https://github.com/W0lfySec/HTB-Writeups/blob/main/Images/Knife/1.png)
 
 // Tried some directories searchs(gobuster, dirsearch, feroxbuster) but didnt get much...
+
 // So i tried other approach let see the head of request
 
     $ curl -i http://10.10.10.242/
