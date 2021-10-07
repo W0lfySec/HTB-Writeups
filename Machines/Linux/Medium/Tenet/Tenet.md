@@ -41,10 +41,6 @@
 
     Extensions: php, aspx, jsp, html, js | HTTP method: GET | Threads: 100 | Wordlist size: 10903
 
-    Output File: /home/r4r3/Desktop/HTB/main-Tools/web/directories_scanners/dirsearch/reports/10.10.10.223/_21-09-14_18-17-51.txt
-
-    Error Log: /home/r4r3/Desktop/HTB/main-Tools/web/directories_scanners/dirsearch/logs/errors-21-09-14_18-17-51.log
-
     Target: http://10.10.10.223/
 
     [18:17:52] Starting: 
