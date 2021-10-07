@@ -36,11 +36,7 @@
      (_||| _) (/_(_|| (_| )
 
     Extensions: php, aspx, jsp, html, js | HTTP method: GET | Threads: 100 | Wordlist size: 10903
-
-    Output File: /home/kali/Desktop/Tools/dirsearch/reports/10.129.214.117/_21-08-10_20-00-52.txt
-
-    Error Log: /home/kali/Desktop/Tools/dirsearch/logs/errors-21-08-10_20-00-52.log
-
+    
     Target: http://10.10.11.104/ 
 
     [20:00:52] Starting: 
