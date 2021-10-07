@@ -46,10 +46,6 @@
 
     Extensions: php, aspx, jsp, html, js | HTTP method: GET | Threads: 100 | Wordlist size: 10903
 
-    Output File: /home/kali/Desktop/Tools/dirsearch/reports/10.10.10.37/_21-08-12_09-31-32.txt
-
-    Error Log: /home/kali/Desktop/Tools/dirsearch/logs/errors-21-08-12_09-31-32.log
-
     Target: http://10.10.10.37/
 
     ...
